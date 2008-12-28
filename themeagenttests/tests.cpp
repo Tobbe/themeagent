@@ -1,17 +1,17 @@
 #include <UnitTest++.h>
-#include "Module.h"
 #include "Module.cpp"
+#include "ModuleList.cpp"
 #include <windows.h>
 #include <cassert>
 #include <string>
 
 using std::string;
 
-class SetupFixture {
+class SetupFixtureModule {
 public:
 	string programPath;
 
-	SetupFixture()
+	SetupFixtureModule()
 	{
 		char buffer[MAX_PATH];
 
@@ -20,7 +20,7 @@ public:
 			assert(false);
 		}
 
-		string programPath = buffer;
+		programPath = buffer;
 		int index = programPath.find_last_of('\\');
 
 		if (index == string::npos)
@@ -32,7 +32,7 @@ public:
 	}
 };
 
-TEST_FIXTURE(SetupFixture, TestModuleConstructorName)
+TEST_FIXTURE(SetupFixtureModule, TestModuleConstructorName)
 {
 	string fileName = "testModule-0.1.dll";
 
@@ -42,10 +42,10 @@ TEST_FIXTURE(SetupFixture, TestModuleConstructorName)
 
 	Module m2(programPath + "\\" + fileName);
 
-	CHECK(m1.getName() == "testModule-0.1");
+	CHECK(m2.getName() == "testModule-0.1");
 }
 
-TEST(TestEqual)
+TEST_FIXTURE(SetupFixtureModule, TestEqual)
 {
 	string fileName = "testModule-0.1.dll";
 
@@ -53,6 +53,31 @@ TEST(TestEqual)
 	Module m2(fileName);
 
 	CHECK(m1 == m2);
+
+	Module m3(programPath + "\\" + fileName);
+	Module m4(programPath + "\\" + fileName);
+
+	CHECK(m3 == m4);
+	CHECK(m1 == m4);
+}
+
+TEST_FIXTURE(SetupFixtureModule, TestModuleListAddSize)
+{
+	string fileName1 = "testModule-0.1.dll";
+	string fileName2 = "testModule-0.2.dll";
+	ModuleList ml;
+
+	Module m1(programPath + "\\" + fileName1);	
+
+	ml.add(m1);
+	CHECK(ml.size() == 1);
+
+	ml.add(m1);
+	CHECK(ml.size() == 1);
+
+	Module m2(programPath + "\\" + fileName2);
+	ml.add(m2);
+	CHECK(ml.size() == 2);
 }
 
 int main()

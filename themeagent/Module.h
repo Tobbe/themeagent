@@ -10,6 +10,7 @@ public:
 	Module(const std::string path);
 	std::string getName() const;
 	bool operator==(const Module &rhs) const;
+	bool operator<(const Module &rhs) const;
 };
 
 #endif
