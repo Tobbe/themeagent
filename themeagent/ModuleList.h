@@ -9,8 +9,7 @@ private:
 	std::set<Module> list;
 public:
 	bool add(Module module);
-	bool contains(Module module) const;
-	Module operator[](int index) const;
+	bool contains(const Module &module) const;
 	int size() const;
 };
 

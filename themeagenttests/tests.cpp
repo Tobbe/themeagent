@@ -78,6 +78,26 @@ TEST_FIXTURE(SetupFixtureModule, TestModuleListAddSize)
 	Module m2(programPath + "\\" + fileName2);
 	ml.add(m2);
 	CHECK(ml.size() == 2);
+
+	Module m3(fileName2);
+	ml.add(m3);
+	CHECK(ml.size() == 2);
+}
+
+TEST_FIXTURE(SetupFixtureModule, TestModuleListContains)
+{
+	string fileName1 = "testModule-0.1.dll";
+	string fileName2 = "testModule-0.2.dll";
+	ModuleList ml;
+
+	Module m1(programPath + "\\" + fileName1);	
+	Module m2(programPath + "\\" + fileName2);	
+	ml.add(m1);
+	ml.add(m2);
+
+	CHECK(ml.contains(m1));
+	CHECK(ml.contains(m2));
+	CHECK(ml.contains(Module(fileName1)));
 }
 
 int main()

@@ -2,7 +2,7 @@
 
 bool ModuleList::add(Module m)
 {
-	if (list.find(m) != list.end())
+	if (contains(m))
 	{
 		// Return false if the module already is in the list
 		return false;
@@ -16,4 +16,9 @@ bool ModuleList::add(Module m)
 int ModuleList::size() const
 {
 	return list.size();
+}
+
+bool ModuleList::contains(const Module &module) const
+{
+	return list.find(module) != list.end();
 }
