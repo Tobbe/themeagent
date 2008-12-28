@@ -5,7 +5,7 @@
 #include <cassert>
 #include <string>
 
-using std::string;
+using namespace std;
 
 class SetupFixtureModule {
 public:
