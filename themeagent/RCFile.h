@@ -15,6 +15,7 @@ private:
 public:
 	RCFile(const std::string &path);
 	std::string get(const std::string &key) const;
+	bool isSet(const std::string &key) const;
 	int lines() const;
 };
 

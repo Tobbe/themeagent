@@ -1,6 +1,9 @@
 #include "RCFile.h"
 #include <fstream>
 #include <algorithm>
+#include <map>
+#include <string>
+#include <windows.h>
 
 using namespace std;
 
@@ -30,14 +33,16 @@ RCFile::RCFile(const std::string &path)
 string RCFile::trim(string str) const
 {
 	str.erase(str.begin(), find_if(str.begin(), str.end(), not1(ptr_fun(&::isspace))));
-	str.erase(str.rbegin().base(), find_if(str.rbegin(), str.rend(), not1(ptr_fun(&::isspace))).base());
+	str.erase(find_if(str.rbegin(), str.rend(), not1(ptr_fun(&::isspace))).base(), str.end());
 
 	return str;
 }
 
 string RCFile::getSetting(const string &line) const
 {
-	return line.substr(0, distance(line.begin(), find_if(line.begin(), line.end(), isspace)));
+	string setting = line.substr(0, distance(line.begin(), find_if(line.begin(), line.end(), isspace)));
+	transform(setting.begin(), setting.end(), setting.begin(), tolower);
+	return setting;
 }
 
 string RCFile::getValue(const string &line) const
@@ -49,4 +54,31 @@ string RCFile::getValue(const string &line) const
 int RCFile::lines() const
 {
 	return lineCount;
+}
+
+string RCFile::get(const string &key) const
+{
+	string k = key; //to get the right size for k so it can be used in the transform algorithm
+	transform(key.begin(), key.end(), k.begin(), tolower);
+
+	multimap<string, string>::const_iterator it = rc.find(k);
+
+	if (it == rc.end())
+	{
+		return "";
+	}
+	else
+	{
+		return it->second;
+	}
+}
+
+bool RCFile::isSet(const string &key) const
+{
+	string k = key; //to get the right size for k so it can be used in the transform algorithm
+	transform(key.begin(), key.end(), k.begin(), tolower);
+
+	multimap<string, string>::const_iterator it = rc.find(k);
+
+	return it != rc.end();
 }
