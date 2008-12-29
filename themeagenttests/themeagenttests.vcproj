@@ -189,6 +189,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\rcfiletests.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\tests.cpp"
 				>
 			</File>

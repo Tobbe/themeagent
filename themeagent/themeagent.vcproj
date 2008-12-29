@@ -185,6 +185,10 @@
 				RelativePath=".\ModuleList.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\RCFile.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -197,6 +201,10 @@
 			</File>
 			<File
 				RelativePath=".\ModuleList.h"
+				>
+			</File>
+			<File
+				RelativePath=".\RCFile.h"
 				>
 			</File>
 		</Filter>
