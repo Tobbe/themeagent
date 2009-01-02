@@ -1,5 +1,5 @@
-#ifndef _RC_FILE_H_
-#define _RC_FILE_H_
+#ifndef RC_FILE_H_
+#define RC_FILE_H_
 
 #include <map>
 #include <string>

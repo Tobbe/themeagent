@@ -1,5 +1,5 @@
-#ifndef _MODULE_LIST_H_
-#define _MODULE_LIST_H_
+#ifndef MODULE_LIST_H_
+#define MODULE_LIST_H_
 
 #include "Module.h"
 #include <set>
