@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <map>
 #include <string>
-#include <windows.h>
+#include <iostream>
 
 using namespace std;
 
@@ -13,6 +13,7 @@ RCFile::RCFile(const std::string &path)
 	string line;
 
 	lineCount = 0;
+	lastValue = rc.end();
 
 	if (fin.is_open())
 	{
@@ -81,4 +82,32 @@ bool RCFile::isSet(const string &key) const
 	multimap<string, string>::const_iterator it = rc.find(k);
 
 	return it != rc.end();
+}
+
+string RCFile::getMultiple(const string &key)
+{
+	string k = key; //to get the right size for k so it can be used in the transform algorithm
+	transform(key.begin(), key.end(), k.begin(), ::tolower);
+
+	multimap<string, string>::const_iterator it = rc.end();
+
+	if (lastValue != rc.end() && lastValue->first == k)
+	{
+		lastValue++;
+		it = lastValue;
+	}
+	else
+	{
+		it = lastValue = rc.lower_bound(k);
+	}
+
+	if (it != rc.end() && it->first == k)
+	{
+		return it->second;
+	}
+	else
+	{
+		lastValue = rc.end();
+		return "";
+	}
 }
