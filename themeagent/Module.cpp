@@ -21,7 +21,7 @@ Module::Module(const string path)
 
 	transform (s.begin(), s.end(), s.begin(), tolower);
 
-	if (s.substr(s.length() - 4) == ".dll")
+	if (s.length() > 4 && s.substr(s.length() - 4) == ".dll")
 	{
 		name = name.substr(0, name.length() - 4);
 	}
