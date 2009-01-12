@@ -35,15 +35,19 @@ SUITE(Module)
 {
 	TEST_FIXTURE(SetupFixtureModule, TestConstructorName)
 	{
+		Module m1("");
+
+		CHECK(m1.getName() == "");
+
 		string fileName = "testModule-0.1.dll";
 
-		Module m1(fileName);
-
-		CHECK(m1.getName() == "testModule-0.1");
-
-		Module m2(programPath + "\\" + fileName);
+		Module m2(fileName);
 
 		CHECK(m2.getName() == "testModule-0.1");
+
+		Module m3(programPath + "\\" + fileName);
+
+		CHECK(m3.getName() == "testModule-0.1");
 	}
 
 	TEST_FIXTURE(SetupFixtureModule, TestEqual)
