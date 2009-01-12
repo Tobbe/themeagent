@@ -7,11 +7,15 @@
 
 using namespace std;
 
-class SetupFixtureModule {
+class SetupFixtureModules {
 public:
 	string programPath;
+	string fileName1;
+	string fileName2;
+	Module m1;
+	Module m2;
 
-	SetupFixtureModule()
+	SetupFixtureModules() : fileName1("testModule-0.1.dll"), fileName2("testModule-0.2.dll"), m1(""), m2("")
 	{
 		char buffer[MAX_PATH];
 
@@ -29,15 +33,16 @@ public:
 		}
 
 		programPath = programPath.substr(0, index);
+
+		m1 = Module(programPath + "\\" + fileName1);
+		m2 = Module(programPath + "\\" + fileName2);
 	}
 };
 
 SUITE(ModuleList)
 {
-	TEST_FIXTURE(SetupFixtureModule, TestAddSize)
+	TEST_FIXTURE(SetupFixtureModules, TestAddSize)
 	{
-		string fileName1 = "testModule-0.1.dll";
-		string fileName2 = "testModule-0.2.dll";
 		ModuleList ml;
 
 		Module m1(programPath + "\\" + fileName1);	
@@ -57,14 +62,10 @@ SUITE(ModuleList)
 		CHECK(ml.size() == 2);
 	}
 
-	TEST_FIXTURE(SetupFixtureModule, TestContains)
+	TEST_FIXTURE(SetupFixtureModules, TestContains)
 	{
-		string fileName1 = "testModule-0.1.dll";
-		string fileName2 = "testModule-0.2.dll";
 		ModuleList ml;
 
-		Module m1(programPath + "\\" + fileName1);	
-		Module m2(programPath + "\\" + fileName2);	
 		ml.add(m1);
 		ml.add(m2);
 
