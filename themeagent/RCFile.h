@@ -20,6 +20,7 @@ public:
 	bool isSet(const std::string &key) const;
 	int lines() const;
 	std::string getMultiple(const std::string &key);
+	bool isTrue(const std::string &key) const;
 };
 
 #endif

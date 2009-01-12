@@ -111,3 +111,16 @@ string RCFile::getMultiple(const string &key)
 		return "";
 	}
 }
+
+bool RCFile::isTrue(const std::string &key) const
+{
+	if (!isSet(key))
+	{
+		return false;
+	}
+
+	string value = get(key);
+	transform(value.begin(), value.end(), value.begin(), ::tolower);
+
+	return value == "" || value == "true" || value == "on" || value == "yes";
+}

@@ -11,13 +11,13 @@ using namespace std;
 class SetupFixtureRCFile
 {
 public:
-	string rc10;
+	string rc12;
 
 	SetupFixtureRCFile()
 	{
 		ofstream rcfile;
-		rc10 = "rc10.rc";
-		rcfile.open(rc10.c_str(), ios::out | ios::trunc);
+		rc12 = "rc12.rc";
+		rcfile.open(rc12.c_str(), ios::out | ios::trunc);
 
 		if (!rcfile.is_open())
 		{
@@ -39,6 +39,8 @@ public:
 			rcfile << endl;
 			rcfile << "settingFive   cuatro" << endl;
 			rcfile << "settingSix" << endl;
+			rcfile << "settingTrue true" << endl;
+			rcfile << "settingFalse no" << endl;
 
 			rcfile.close();
 		}
@@ -46,7 +48,7 @@ public:
 
 	~SetupFixtureRCFile()
 	{
-		DeleteFile(rc10.c_str());
+		DeleteFile(rc12.c_str());
 	}
 
 };
@@ -56,13 +58,13 @@ SUITE(RCFile)
 {
 	TEST_FIXTURE(SetupFixtureRCFile, Constructor)
 	{
-		RCFile rc(rc10);
-		CHECK(rc.lines() == 10);
+		RCFile rc(rc12);
+		CHECK(rc.lines() == 12);
 	}
 
 	TEST_FIXTURE(SetupFixtureRCFile, Get)
 	{
-		RCFile rc(rc10);
+		RCFile rc(rc12);
 
 		CHECK(rc.get("settingone") == "uno");
 		CHECK(rc.get("doesntexist") == "");
@@ -71,7 +73,7 @@ SUITE(RCFile)
 
 	TEST_FIXTURE(SetupFixtureRCFile, IsSet)
 	{
-		RCFile rc(rc10);
+		RCFile rc(rc12);
 
 		CHECK(rc.isSet("doesntexist") == false);
 		CHECK(rc.isSet("settingone") == true);
@@ -80,7 +82,7 @@ SUITE(RCFile)
 
 	TEST_FIXTURE(SetupFixtureRCFile, GetMultiple)
 	{
-		RCFile rc(rc10);
+		RCFile rc(rc12);
 
 		CHECK(rc.getMultiple("settingOne") == "uno");
 
@@ -100,5 +102,14 @@ SUITE(RCFile)
 		CHECK(rc.getMultiple("*test") == "fstream(\"Twelve: %d, Three and three quaters: %f, Fifty six: %X\", 12, 15/4.0, 56)");
 		CHECK(rc.getMultiple("*test") == "");
 		CHECK(rc.getMultiple("*test") == "MessageBox(NULL, \"message box text\", \"caption\", MB_OK);");
+	}
+
+	TEST_FIXTURE(SetupFixtureRCFile, isTrue)
+	{
+		RCFile rc(rc12);
+
+		CHECK(rc.isTrue("settingSix"));
+		CHECK(rc.isTrue("settingTrue"));
+		CHECK(rc.isTrue("settingFalse") == false);
 	}
 }
