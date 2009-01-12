@@ -73,4 +73,30 @@ SUITE(ModuleList)
 		CHECK(ml.contains(m2));
 		CHECK(ml.contains(Module(fileName1)));
 	}
+
+	TEST_FIXTURE(SetupFixtureModules, TestBegin)
+	{
+		ModuleList ml;
+		ml.add(m1);
+
+		CHECK(*ml.begin() == m1);
+	}
+
+	TEST_FIXTURE(SetupFixtureModules, TestPlusPlus)
+	{
+		ModuleList ml;
+		ml.add(m1);
+		ml.add(m2);
+		ml.add(Module("module1"));
+		ml.add(Module("module2"));
+		ml.add(Module("module3"));
+
+		int count = 0;
+		for (ModuleList::const_iterator it = ml.begin(); it != ml.end(); ++it)
+		{
+			count++;
+		}
+
+		CHECK(count == 5);
+	}
 }

@@ -1,5 +1,7 @@
 #include "ModuleList.h"
 
+using namespace std;
+
 bool ModuleList::add(Module m)
 {
 	if (contains(m))
@@ -21,4 +23,14 @@ int ModuleList::size() const
 bool ModuleList::contains(const Module &module) const
 {
 	return list.find(module) != list.end();
+}
+
+ModuleList::const_iterator ModuleList::begin() const
+{
+	return list.begin();
+}
+
+ModuleList::const_iterator ModuleList::end() const
+{
+	return list.end();
 }
