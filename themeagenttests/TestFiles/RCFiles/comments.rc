@@ -1,0 +1,11 @@
+Setting Value
+Setting2 Value2
+; This is a comment
+; So is this
+SettingSet ; Providing neither true or false should count as "true"
+SettingTrue true ; eol comment
+SettingFalse no ; Both "no" and "false" works
+SettingQuote "all of this is the value"
+SettingQuoteComment "this is the value" ; This is a comment
+
+;EOF

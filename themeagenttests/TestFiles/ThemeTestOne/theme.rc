@@ -1,0 +1,22 @@
+ThemeName "ThemeTestOne"
+ThemeAuthor "Test Author"
+ThemeVersion "One.5"
+
+OtsMajorVersion 2
+OtsMinorVersion 0
+
+*NetLoadModule jdesk-0.711
+*NetLoadModule xtaskbar-1.1.5
+*NetLoadModule vtray-1.10
+*NetLoadModule popup2-2.1.7
+*NetLoadModule lsxcommand-1.9.3
+*NetLoadModule icondesk-0.68
+
+CommandX            0
+CommandY            -40
+CommandWidth        $ResolutionX-199$
+CommandHeight       21
+CommandBorderSize   1
+CommandBGColor      $ColorLight$
+CommandBorderColor  $ColorBorder$
+CommandTextColor    $ColorText$

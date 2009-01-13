@@ -209,6 +209,50 @@
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
 		</Filter>
+		<Filter
+			Name="Test Files"
+			>
+			<Filter
+				Name="ThemeTestOne"
+				>
+				<File
+					RelativePath=".\TestFiles\ThemeTestOne\theme.rc"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Turtle Soup II"
+				>
+				<File
+					RelativePath=".\TestFiles\Turtle Soup II\theme.rc"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="ThemeMissingModule"
+				>
+			</Filter>
+			<Filter
+				Name="ThemePreviewOne"
+				>
+			</Filter>
+			<Filter
+				Name="ThemePreviewTwo"
+				>
+			</Filter>
+			<Filter
+				Name="RCFiles"
+				>
+				<File
+					RelativePath=".\TestFiles\RCFiles\basic.rc"
+					>
+				</File>
+				<File
+					RelativePath=".\TestFiles\RCFiles\comments.rc"
+					>
+				</File>
+			</Filter>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>

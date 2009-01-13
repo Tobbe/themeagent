@@ -1,0 +1,82 @@
+;*********************************************************************
+;*              turtle soup II - By doodle aka riddlah               *
+;*	      riddlah@softhome.net - doodle.quadrent.net             *
+;*********************************************************************
+
+;You should only have to configure within the [Settings] section for this theme to work correctly.
+;You MIGHT need to edit the [System] section. But I REALLY REALLY REALLY doubt it.
+;Read the Comments for each line to understand what that line does.
+;Good Luck
+;Peace
+
+;[Settings]
+
+Density         normal      ;toggle "light" for less RAM usage, toggle "normal" for increased image quality (more RAM usage)
+
+TopAliasColour      00      ;This defines the general colour of the top of your background. For AliasColour enter a number from 1-9 inclusive. 1 being the brightest (white) and 9 being darkest (black). 00 is the default value for the included wallpaper
+BottomAliasColour   00      ;This defines the general colour of the bottom of your background. For AliasColour enter a number from 1-9 inclusive. 1 being the brightest (white) and 9 being darkest (black). 00 is the default value for the included wallpaper
+TasksWrapCount      36      ;(800x600: 6) (1024x768: 17) (1152x864: 26) (1280x1024: 36) (1600x1200: 44)
+SystrayWrapCount    12      ;(800x600: 6) (1024x768 and up: 12)
+
+Audio               "C:\Program Files\Winamp\Winamp.exe"					;location for your audio program... defaults to winamp. Make sure directory is correct
+Netscape            "C:\Program Files\Netscape\Communicator\Program\Netscape.exe"		;location for netscape. make sure location is right
+WP                  "C:\Program Files\Corel\WordPerfect Office 2000\programs\WPWin9.exe"	;location for your word processor. again, make sure location is correct
+FTP                 "C:\Program Files\GlobalSCAPE\CuteFTP\CutFTP32.exe"			;location for your ftp client/terminal. make sure location is correct
+NotePad             "Notepad.exe"								;location for notepad/editor... make sure location is correct
+Photo               "C:\Program Files\Paint Shop Pro 6\Psp.exe"				;photo editing program... defaults to paint shop pro.. make sure location is correct
+MailClient          "C:\Program Files\Eudora Mail\Eudora.exe"				;e-mail program... check to make sure location is correct
+IE                  "iexplore.exe"								;internet explorer... make sur elocation is correct
+
+WindowsDir          "c:\Windows\"
+StartMenuDir        "$WindowsDir$start menu\"
+LSDir               "c:\Litestep\"
+
+
+;[System]
+ThemeDir            "$LSDir$themes\Turtle Soup II\"
+ModDir              "$ThemeDir$"
+PixmapPath          "$ThemeDir$image\$Density$\"
+ImageDirectory      "$ThemeDir$image\"
+TopAliasdir         "$ImageDirectory$alias\$TopAliasColour$\"
+BottomAliasdir      "$ImageDirectory$alias\$BottomAliasColour$\"
+
+
+;[Rest]
+NoSplashScreen
+NoShowBeta
+NoTaskBar
+HideApplication
+ColorRGB
+ExplorerNoWarn
+jDeskWorkArea        "0,0,0,-53"
+*jDeskMButton2       [.none;!None;!Popup;!None]
+jDeskDoubleClickTime "0"
+
+;[Modules]
+
+LoadModule "$ModDir$systray.dll"
+LoadModule "$ModDir$tasks.dll"
+LoadModule "$ModDir$lstransparent.dll"
+LoadModule "$ModDir$lsxcommand.dll"
+LoadModule "$ModDir$shortcut.dll"
+LoadModule "$ModDir$sysvwm.dll"
+LoadModule "$ModDir$geekamp.dll"
+LoadModule "$ModDir$chronos.dll"
+LoadModule "$ModDir$hotkey.dll"
+LoadModule "$ModDir$popup.dll"
+LoadModule "$ModDir$jdesk.dll"
+
+;[Virtual Window Manager (VWM)]
+VWMNoAuto
+VWMNoMove
+VWMbackbmp vwm.bmp
+VWMForeColor 6DAC72
+VWMSelBackColor 1C321E
+VWMDesksX 2
+VWMDesksY 2
+VWMx 249
+VWMy 40
+VWMwidth 72
+VWMheight 56
+VWMInitialDesk 3
+VWMUseInitialDesk
