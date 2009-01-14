@@ -196,6 +196,10 @@
 				RelativePath=".\tests.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\themetests.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -211,21 +215,42 @@
 		</Filter>
 		<Filter
 			Name="Test Files"
+			ParseFiles="false"
 			>
 			<Filter
 				Name="ThemeTestOne"
+				ParseFiles="false"
 				>
 				<File
 					RelativePath=".\TestFiles\ThemeTestOne\theme.rc"
+					FileType="5"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCResourceCompilerTool"
+						/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
 				Name="Turtle Soup II"
+				ParseFiles="false"
 				>
 				<File
 					RelativePath=".\TestFiles\Turtle Soup II\theme.rc"
+					FileType="5"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCResourceCompilerTool"
+						/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -242,14 +267,33 @@
 			</Filter>
 			<Filter
 				Name="RCFiles"
+				ParseFiles="false"
 				>
 				<File
 					RelativePath=".\TestFiles\RCFiles\basic.rc"
+					FileType="5"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCResourceCompilerTool"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\TestFiles\RCFiles\comments.rc"
+					FileType="5"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCResourceCompilerTool"
+						/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 		</Filter>
