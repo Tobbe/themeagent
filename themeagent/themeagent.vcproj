@@ -189,6 +189,10 @@
 				RelativePath=".\RCFile.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\Theme.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -205,6 +209,10 @@
 			</File>
 			<File
 				RelativePath=".\RCFile.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Theme.h"
 				>
 			</File>
 		</Filter>

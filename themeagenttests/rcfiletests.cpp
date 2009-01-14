@@ -29,13 +29,13 @@ public:
 			rcfile << "\t\t settingTwo    dos" << endl;
 			rcfile << "     settingThree  tres" << endl;
 			rcfile << endl;
-			rcfile << "\t   settingFour   red green blue  \t  " << endl;
+			rcfile << "\t   settingFour   \"red green blue\"  \t  " << endl;
 			rcfile << endl;
-			rcfile << "*test MessageBox(NULL, \"message box text\", \"caption\", MB_OK);" << endl;
-			rcfile << "*test cout << \"text to standard output\" << endl;" << endl;
-			rcfile << "*test fstream(\"Twelve: %d, Three and three quaters: %f, Fifty six: %X\", 12, 15/4.0, 56)" << endl;
+			rcfile << "*test 'MessageBox(NULL, \"message box text\", \"caption\", MB_OK);'" << endl;
+			rcfile << "*test 'cout << \"text to standard output\" << endl;'" << endl;
+			rcfile << "*test 'fstream(\"Twelve: %d, Three and three quaters: %f, Fifty six: %X\", 12, 15/4.0, 56)'" << endl;
 			rcfile << endl;
-			rcfile << "*single this is the only \"*single\"" << endl;
+			rcfile << "*single 'this is the only \"*single\"'" << endl;
 			rcfile << endl;
 			rcfile << "settingFive   cuatro" << endl;
 			rcfile << "settingSix" << endl;

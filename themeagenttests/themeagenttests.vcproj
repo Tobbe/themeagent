@@ -196,6 +196,10 @@
 				RelativePath=".\tests.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\themetests.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
