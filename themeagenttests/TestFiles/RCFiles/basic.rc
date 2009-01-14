@@ -2,15 +2,17 @@
 		 settingTwo    dos
      settingThree  tres
 
-	   settingFour   red green blue  	  
+	   settingFour   "red green blue"  	  
 
-*test MessageBox(NULL, "message box text", "caption", MB_OK);
-*test cout << "text to standard output" << endl;
-*test fstream("Twelve: %d, Three and three quaters: %f, Fifty six: %X", 12, 15/4.0, 56)
+*test 'MessageBox(NULL, "message box text", "caption", MB_OK);'
+*test 'cout << "text to standard output" << endl;'
+*test 'fstream("Twelve: %d, Three and three quaters: %f, Fifty six: %X", 12, 15/4.0, 56)'
 
-*single this is the only "*single"
+*single 'this is the only "*single"'
 
 settingFive   cuatro
 settingSix
 settingTrue true
 settingFalse no
+
+settingQuote "
