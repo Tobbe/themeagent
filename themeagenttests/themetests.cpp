@@ -9,11 +9,19 @@ using namespace std;
 
 SUITE(Theme)
 {
-	TEST(TestGetName)
+	TEST(GetName)
 	{
 		RCFile rc("TestFiles\\ThemeTestOne\\theme.rc");
 		Theme t("TestFiles\\ThemeTestOne", rc);
 
 		CHECK(t.getName() == "ThemeTestOne");
+	}
+
+	TEST(GetAuthor)
+	{
+		RCFile rc("TestFiles\\ThemeTestOne\\theme.rc");
+		Theme t("TestFiles\\ThemeTestOne", rc);
+
+		CHECK(t.getAuthor() == "Test Author");
 	}
 }
