@@ -23,6 +23,7 @@ SUITE(RCFile)
 		CHECK(rc.get("settingone") == "uno");
 		CHECK(rc.get("doesntexist") == "");
 		CHECK(rc.get("settingFour") == "red green blue");
+		CHECK(rc.get("settingQuote") == "\"");
 	}
 
 	TEST(IsSet)
@@ -65,5 +66,15 @@ SUITE(RCFile)
 		CHECK(rc.isTrue("settingSix"));
 		CHECK(rc.isTrue("settingTrue"));
 		CHECK(rc.isTrue("settingFalse") == false);
+	}
+
+	TEST(CommentsInFile)
+	{
+		RCFile rc("TestFiles//RCFiles//comments.rc");
+
+		CHECK(rc.lines() == 7);
+		CHECK(rc.get("settingSet") == "");
+		CHECK(rc.isTrue("settingTrue"));
+		CHECK(rc.isSet(";EOF") == false);
 	}
 }

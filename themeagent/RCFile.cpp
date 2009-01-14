@@ -21,7 +21,7 @@ RCFile::RCFile(const std::string &path)
 		{
 			getline(fin, line);
 			line = trim(line);
-			if (line.length() > 0)
+			if (line.length() > 0 && line[0] != ';')
 			{
 				++lineCount;
 				rc.insert(pair<string, string>(getSetting(line), getValue(line)));
@@ -71,7 +71,12 @@ string RCFile::getValue(const string &line) const
 
 	val = val.substr(indexBegin, indexEnd - indexBegin);
 
-	return val; //.substr(indexBegin, indexEnd - indexBegin);
+	if (val[0] == ';')
+	{
+		val = "";
+	}
+
+	return val;
 }
 
 int RCFile::lines() const
