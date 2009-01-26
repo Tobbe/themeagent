@@ -90,4 +90,13 @@ SUITE(RCFile)
 		CHECK(rc.get("EvarValue5") == "Foo Bar Foo");
 		CHECK(rc.get("EvarValue6") == "Test testingTestEvar Test");
 	}
+
+	TEST(IncludeFiles)
+	{
+		RCFile rc("TestFiles//RCFiles//advanced.rc");
+
+		CHECK(rc.get("settingone") == "uno");
+		CHECK(rc.getMultiple("*test") == "MessageBox(NULL, \"message box text\", \"caption\", MB_OK);");
+		CHECK(rc.getMultiple("*test") == "cout << \"text to standard output\" << endl;");
+	}
 }

@@ -5,10 +5,16 @@
 #include <string>
 #include <sstream>
 #include <iostream>
+#include <windows.h>
 
 using namespace std;
 
-RCFile::RCFile(const std::string &path)
+RCFile::RCFile(const string &path)
+{
+	readFile(path);
+}
+
+void RCFile::readFile(const string &path)
 {
 	ifstream fin(path.c_str());
 	string line;
@@ -25,10 +31,35 @@ RCFile::RCFile(const std::string &path)
 			if (line.length() > 0 && line[0] != ';')
 			{
 				++lineCount;
-				rc.insert(pair<string, string>(getSetting(line), getValue(line)));
+				readLine(line, path);
 			}
 		}
 		fin.close();
+	}
+}
+
+void RCFile::readLine(const string &line, const string &path)
+{
+	string setting = getSetting(line);
+	string value = getValue(line);
+
+	if (setting == "include")
+	{
+		if (GetFileAttributes(value.c_str()) != INVALID_FILE_ATTRIBUTES)
+		{
+			readFile(value);
+		}
+		else
+		{
+			string relPath = path;
+			relPath = relPath.substr(0, relPath.find_last_of("\\/"));
+			readFile(relPath + value);
+		}
+	}
+	else if (!(setting == "if" || setting == "else" ||
+		setting == "elseif" || setting == "endif"))
+	{
+		rc.insert(pair<string, string>(setting, value));
 	}
 }
 

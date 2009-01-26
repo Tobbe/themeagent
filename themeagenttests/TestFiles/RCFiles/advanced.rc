@@ -7,3 +7,8 @@ EvarValue3 "Testing $EvarValue$"
 EvarValue4 "Foo $$Bar$$"
 EvarValue5 "Foo $Bar Foo"
 EvarValue6 "Test $TestEvar $TestEvar$ Test"
+
+Path "..\\RCFiles\\"
+
+;include "$Path$basic.rc"
+include "basic.rc"

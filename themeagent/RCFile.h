@@ -9,6 +9,8 @@ class RCFile
 private:
 	std::multimap<std::string, std::string> rc;
 	int lineCount;
+	void readFile(const std::string &path);
+	void readLine(const std::string &line, const std::string &path);
 	std::string trim(std::string str) const;
 	std::string getSetting(const std::string &line) const;
 	std::string getValue(const std::string &line) const;
