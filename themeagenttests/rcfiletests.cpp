@@ -99,4 +99,33 @@ SUITE(RCFile)
 		CHECK(rc.getMultiple("*test") == "MessageBox(NULL, \"message box text\", \"caption\", MB_OK);");
 		CHECK(rc.getMultiple("*test") == "cout << \"text to standard output\" << endl;");
 	}
+
+	TEST(CopyConstructor)
+	{
+		RCFile rc("TestFiles//RCFiles//basic.rc");
+
+		CHECK(rc.getMultiple("*test") == "MessageBox(NULL, \"message box text\", \"caption\", MB_OK);");
+		CHECK(rc.getMultiple("*test") == "cout << \"text to standard output\" << endl;");
+
+		RCFile rc2 = rc;
+
+		CHECK(rc2.getMultiple("*test") == "fstream(\"Twelve: %d, Three and three quaters: %f, Fifty six: %X\", 12, 15/4.0, 56)");
+		CHECK(rc2.getMultiple("*test") == "");
+		CHECK(rc2.getMultiple("*test") == "MessageBox(NULL, \"message box text\", \"caption\", MB_OK);");
+	}
+
+	TEST(AssignmentOperator)
+	{
+		RCFile rc("TestFiles//RCFiles//basic.rc");
+
+		CHECK(rc.getMultiple("*test") == "MessageBox(NULL, \"message box text\", \"caption\", MB_OK);");
+		CHECK(rc.getMultiple("*test") == "cout << \"text to standard output\" << endl;");
+
+		RCFile rc2("");
+		rc2 = rc;
+
+		CHECK(rc2.getMultiple("*test") == "fstream(\"Twelve: %d, Three and three quaters: %f, Fifty six: %X\", 12, 15/4.0, 56)");
+		CHECK(rc2.getMultiple("*test") == "");
+		CHECK(rc2.getMultiple("*test") == "MessageBox(NULL, \"message box text\", \"caption\", MB_OK);");
+	}
 }

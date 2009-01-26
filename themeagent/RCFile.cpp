@@ -12,6 +12,26 @@ using namespace std;
 RCFile::RCFile(const string &path)
 {
 	readFile(path);
+	lastValue = rc.end();
+}
+
+RCFile::RCFile(const RCFile &rhs)
+{
+	rc = rhs.rc;
+	lineCount = rhs.lineCount;
+	if (rhs.lastValue == rhs.rc.end())
+	{
+		lastValue = rc.end();
+	}
+	else
+	{
+		multimap<string, string>::const_iterator tmpit = rc.lower_bound(rhs.lastValue->first);
+		while (tmpit->second != rhs.lastValue->second)
+		{
+			++tmpit;
+		}
+		lastValue = tmpit;
+	}
 }
 
 void RCFile::readFile(const string &path)
@@ -225,4 +245,25 @@ bool RCFile::isTrue(const std::string &key) const
 	transform(value.begin(), value.end(), value.begin(), ::tolower);
 
 	return value == "" || value == "true" || value == "on" || value == "yes";
+}
+
+RCFile &RCFile::operator=(const RCFile &rhs)
+{
+	rc = rhs.rc;
+	lineCount = rhs.lineCount;
+	if (rhs.lastValue == rhs.rc.end())
+	{
+		lastValue = rc.end();
+	}
+	else
+	{
+		multimap<string, string>::const_iterator tmpit = rc.lower_bound(rhs.lastValue->first);
+		while (tmpit->second != rhs.lastValue->second)
+		{
+			++tmpit;
+		}
+		lastValue = tmpit;
+	}
+
+	return *this;
 }
