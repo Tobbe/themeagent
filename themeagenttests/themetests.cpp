@@ -32,6 +32,11 @@ SUITE(Theme)
 		Theme t("TestFiles\\ThemeTestOne", rc);
 
 		CHECK(t.getAuthor() == "Test Author");
+
+		RCFile rc2("TestFiles\\Turtle Soup II\\theme.rc");
+		Theme t2("TestFiles\\Turtle Soup II", rc2);
+
+		CHECK(t2.getAuthor() == "");
 	}
 
 	TEST(GetVersion)
@@ -40,5 +45,10 @@ SUITE(Theme)
 		Theme t("TestFiles\\ThemeTestOne", rc);
 
 		CHECK(t.getVersion() == "One.5");
+
+		RCFile rc2("TestFiles\\Turtle Soup II\\theme.rc");
+		Theme t2("TestFiles\\Turtle Soup II", rc2);
+
+		CHECK(t2.getVersion() == "");
 	}
 }
