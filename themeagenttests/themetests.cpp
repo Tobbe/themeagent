@@ -34,15 +34,15 @@ public:
 
 SUITE(Theme)
 {
-	TEST(GetName)
+	TEST_FIXTURE(SetupFixtureTheme, GetName)
 	{
 		RCFile rc("TestFiles\\ThemeTestOne\\theme.rc");
 		Theme t("TestFiles\\ThemeTestOne", rc);
 
 		CHECK(t.getName() == "ThemeTestOne");
 
-		RCFile rc2("TestFiles\\Turtle Soup II\\theme.rc");
-		Theme t2("TestFiles\\Turtle Soup II", rc2);
+		RCFile rc2(testFilesPath + "\\Turtle Soup II\\theme.rc");
+		Theme t2(testFilesPath + "\\Turtle Soup II", rc2);
 
 		CHECK(t2.getName() == "Turtle Soup II");
 
