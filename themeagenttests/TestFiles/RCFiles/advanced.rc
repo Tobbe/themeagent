@@ -10,5 +10,5 @@ EvarValue6 "Test $TestEvar $TestEvar$ Test"
 
 Path "..\\RCFiles\\"
 
-;include "$Path$basic.rc"
-include "basic.rc"
+include "$Path$basic.rc"
+;include "basic.rc"
