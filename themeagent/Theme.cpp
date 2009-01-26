@@ -11,6 +11,7 @@ Theme::Theme(const string &path, const RCFile &rc)
 	this->version = parseVersion(rc);
 	this->preview = lookForPreview();
 	this->otsVersion = parseOTSVersion(rc);
+	this->neededModules = parseNeededModules(rc);
 }
 
 string Theme::cleanUpPath(string path) const
@@ -93,6 +94,25 @@ string Theme::parseOTSVersion(const RCFile &rc) const
 	return majorVersion + "." + minorVersion;
 }
 
+ModuleList Theme::parseNeededModules(RCFile rc) const
+{
+	string module;
+	ModuleList mList;
+
+	do
+	{
+		module = rc.getMultiple("*NetLoadModule");
+
+		if (module != "")
+		{
+			mList.add(Module(module));
+		}
+	}
+	while (module != "");
+
+	return mList;
+}
+
 string Theme::getName() const
 {
 	return name;
@@ -121,4 +141,9 @@ string Theme::getPath() const
 string Theme::getOTSVersion() const
 {
 	return otsVersion;
+}
+
+ModuleList Theme::getNeededModules() const
+{
+	return neededModules;
 }

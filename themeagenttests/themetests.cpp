@@ -145,4 +145,20 @@ SUITE(Theme)
 
 		CHECK(t3.getOTSVersion() == "2");
 	}
+
+	TEST(GetNeededModules)
+	{
+		RCFile rc("TestFiles\\ThemeTestOne\\theme.rc");
+		Theme t("TestFiles\\ThemeTestOne", rc);
+
+		ModuleList neededModules = t.getNeededModules();
+
+		CHECK(neededModules.size() == 6);
+		CHECK(neededModules.contains(Module("jdesk-0.711")));
+		CHECK(neededModules.contains(Module("xtaskbar-1.1.5")));
+		CHECK(neededModules.contains(Module("vtray-1.10")));
+		CHECK(neededModules.contains(Module("popup2-2.1.7")));
+		CHECK(neededModules.contains(Module("lsxcommand-1.9.3")));
+		CHECK(neededModules.contains(Module("icondesk-0.68")));
+	}
 }

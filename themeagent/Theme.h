@@ -15,6 +15,7 @@ private:
 	std::string path;
 	std::string otsVersion;
 	bool enabled;
+	ModuleList neededModules;
 
 	std::string cleanUpPath(std::string path) const;
 	std::string parseName(const RCFile &rc) const;
@@ -22,7 +23,7 @@ private:
 	std::string parseVersion(const RCFile &rc) const;
 	std::string lookForPreview() const;
 	std::string parseOTSVersion(const RCFile &rc) const;
-	ModuleList parseNeededModules(const RCFile &rc) const;
+	ModuleList parseNeededModules(RCFile rc) const;
 
 public:
 	Theme(const std::string &path, const RCFile &rc);
