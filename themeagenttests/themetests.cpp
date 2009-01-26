@@ -24,4 +24,12 @@ SUITE(Theme)
 
 		CHECK(t.getAuthor() == "Test Author");
 	}
+
+	TEST(GetVersion)
+	{
+		RCFile rc("TestFiles\\ThemeTestOne\\theme.rc");
+		Theme t("TestFiles\\ThemeTestOne", rc);
+
+		CHECK(t.getVersion() == "One.5");
+	}
 }

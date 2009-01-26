@@ -7,6 +7,7 @@ Theme::Theme(string path, RCFile rc)
 	this->path = path;
 	this->name = parseName(rc);
 	this->author = parseAuthor(rc);
+	this->version = parseVersion(rc);
 }
 
 string Theme::parseName(RCFile rc) const
@@ -25,6 +26,11 @@ string Theme::parseAuthor(RCFile rc) const
 	return rc.get("ThemeAuthor");
 }
 
+string Theme::parseVersion(RCFile rc) const
+{
+	return rc.get("ThemeVersion");
+}
+
 string Theme::getName() const
 {
 	return name;
@@ -33,4 +39,9 @@ string Theme::getName() const
 string Theme::getAuthor() const
 {
 	return author;
+}
+
+string Theme::getVersion() const
+{
+	return version;
 }
