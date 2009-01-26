@@ -10,6 +10,7 @@ Theme::Theme(const string &path, const RCFile &rc)
 	this->author = parseAuthor(rc);
 	this->version = parseVersion(rc);
 	this->preview = lookForPreview();
+	this->otsVersion = parseOTSVersion(rc);
 }
 
 string Theme::cleanUpPath(string path) const
@@ -75,6 +76,23 @@ string Theme::lookForPreview() const
 	return preview;
 }
 
+string Theme::parseOTSVersion(const RCFile &rc) const
+{
+	string majorVersion = rc.get("OtsMajorVersion");
+	string minorVersion = rc.get("OtsMinorVersion");
+
+	if (majorVersion == "")
+	{
+		return "";
+	}
+	else if (minorVersion == "")
+	{
+		return majorVersion;
+	}
+
+	return majorVersion + "." + minorVersion;
+}
+
 string Theme::getName() const
 {
 	return name;
@@ -93,4 +111,14 @@ string Theme::getVersion() const
 string Theme::getPreview() const
 {
 	return preview;
+}
+
+string Theme::getPath() const
+{
+	return path;
+}
+
+string Theme::getOTSVersion() const
+{
+	return otsVersion;
 }

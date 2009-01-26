@@ -109,4 +109,40 @@ SUITE(Theme)
 
 		CHECK(t3.getPreview() == "preview.png");
 	}
+
+	TEST(GetPath)
+	{
+		RCFile rc("");
+		Theme t("Q:\\This\\is\\a\\test\\", rc);
+
+		CHECK(t.getPath() == "Q:\\This\\is\\a\\test");
+
+		Theme t2("Q:\\This\\..\\a\\..\\", rc);
+
+		CHECK(t2.getPath() == "Q:");
+
+		Theme t3("test\\", rc);
+		TCHAR buffer[MAX_PATH];
+		GetCurrentDirectory(MAX_PATH, buffer);
+
+		CHECK(t3.getPath() == string(buffer) + "\\test");
+	}
+
+	TEST(GetOTSVersion)
+	{
+		RCFile rc("TestFiles\\ThemeTestOne\\theme.rc");
+		Theme t("TestFiles\\ThemeTestOne", rc);
+
+		CHECK(t.getOTSVersion() == "2.0");
+
+		RCFile rc2("TestFiles\\Turtle Soup II\\theme.rc");
+		Theme t2("TestFiles\\Turtle Soup II", rc2);
+
+		CHECK(t2.getOTSVersion() == "");
+
+		RCFile rc3("testfiles\\themetesttwo\\theme.rc");
+		Theme t3("testfiles\\themetesttwo", rc3);
+
+		CHECK(t3.getOTSVersion() == "2");
+	}
 }

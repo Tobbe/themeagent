@@ -21,6 +21,7 @@ private:
 	std::string parseAuthor(const RCFile &rc) const;
 	std::string parseVersion(const RCFile &rc) const;
 	std::string lookForPreview() const;
+	std::string parseOTSVersion(const RCFile &rc) const;
 	ModuleList parseNeededModules(const RCFile &rc) const;
 
 public:
