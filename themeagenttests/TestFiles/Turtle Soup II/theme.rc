@@ -1,6 +1,6 @@
 ;*********************************************************************
 ;*              turtle soup II - By doodle aka riddlah               *
-;*	      riddlah@softhome.net - doodle.quadrent.net             *
+;*            riddlah@softhome.net - doodle.quadrent.net             *
 ;*********************************************************************
 
 ;You should only have to configure within the [Settings] section for this theme to work correctly.
@@ -18,14 +18,14 @@ BottomAliasColour   00      ;This defines the general colour of the bottom of yo
 TasksWrapCount      36      ;(800x600: 6) (1024x768: 17) (1152x864: 26) (1280x1024: 36) (1600x1200: 44)
 SystrayWrapCount    12      ;(800x600: 6) (1024x768 and up: 12)
 
-Audio               "C:\Program Files\Winamp\Winamp.exe"					;location for your audio program... defaults to winamp. Make sure directory is correct
-Netscape            "C:\Program Files\Netscape\Communicator\Program\Netscape.exe"		;location for netscape. make sure location is right
-WP                  "C:\Program Files\Corel\WordPerfect Office 2000\programs\WPWin9.exe"	;location for your word processor. again, make sure location is correct
-FTP                 "C:\Program Files\GlobalSCAPE\CuteFTP\CutFTP32.exe"			;location for your ftp client/terminal. make sure location is correct
-NotePad             "Notepad.exe"								;location for notepad/editor... make sure location is correct
-Photo               "C:\Program Files\Paint Shop Pro 6\Psp.exe"				;photo editing program... defaults to paint shop pro.. make sure location is correct
-MailClient          "C:\Program Files\Eudora Mail\Eudora.exe"				;e-mail program... check to make sure location is correct
-IE                  "iexplore.exe"								;internet explorer... make sur elocation is correct
+Audio               "C:\Program Files\Winamp\Winamp.exe"                                    ;location for your audio program... defaults to winamp. Make sure directory is correct
+Netscape            "C:\Program Files\Netscape\Communicator\Program\Netscape.exe"           ;location for netscape. make sure location is right
+WP                  "C:\Program Files\Corel\WordPerfect Office 2000\programs\WPWin9.exe"    ;location for your word processor. again, make sure location is correct
+FTP                 "C:\Program Files\GlobalSCAPE\CuteFTP\CutFTP32.exe"                     ;location for your ftp client/terminal. make sure location is correct
+NotePad             "Notepad.exe"                                                           ;location for notepad/editor... make sure location is correct
+Photo               "C:\Program Files\Paint Shop Pro 6\Psp.exe"                             ;photo editing program... defaults to paint shop pro.. make sure location is correct
+MailClient          "C:\Program Files\Eudora Mail\Eudora.exe"                               ;e-mail program... check to make sure location is correct
+IE                  "iexplore.exe"                                                          ;internet explorer... make sur elocation is correct
 
 WindowsDir          "c:\Windows\"
 StartMenuDir        "$WindowsDir$start menu\"
