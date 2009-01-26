@@ -77,4 +77,17 @@ SUITE(RCFile)
 		CHECK(rc.isTrue("settingTrue"));
 		CHECK(rc.isSet(";EOF") == false);
 	}
+
+	TEST(ExpandEvars)
+	{
+		RCFile rc("TestFiles//RCFiles//advanced.rc");
+
+		CHECK(rc.get("TestEvar") == "testing");
+		CHECK(rc.get("EvarValue") == "testing");
+		CHECK(rc.get("EvarValue2") == "testingtesting");
+		CHECK(rc.get("EvarValue3") == "Testing testing");
+		CHECK(rc.get("EvarValue4") == "Foo Bar");
+		CHECK(rc.get("EvarValue5") == "Foo Bar Foo");
+		CHECK(rc.get("EvarValue6") == "Test testingTestEvar Test");
+	}
 }

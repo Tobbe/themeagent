@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <map>
 #include <string>
+#include <sstream>
 #include <iostream>
 
 using namespace std;
@@ -76,7 +77,50 @@ string RCFile::getValue(const string &line) const
 		val = "";
 	}
 
+	val = parseForEvars(val);
+
 	return val;
+}
+
+string RCFile::parseForEvars(string line) const
+{
+	ostringstream oss;
+	ostringstream buffer;
+	bool evar = false;
+
+	for (size_t i = 0; i < line.length(); ++i)
+	{
+		if (!evar && line[i] != '$')
+		{
+			oss << line[i];
+		}
+		else if (line[i] != '$')
+		{
+			buffer << line[i];
+		}
+		else if (line[i] == '$')
+		{
+			if (evar)
+			{
+				// found end of evar
+				oss << get(trim(buffer.str()));
+				evar = false;
+				buffer.clear();
+				buffer.str("");
+			}
+			else
+			{
+				evar = true;
+			}
+		}
+	}
+
+	if (evar)
+	{
+		oss << buffer.str();
+	}
+
+	return oss.str();
 }
 
 int RCFile::lines() const

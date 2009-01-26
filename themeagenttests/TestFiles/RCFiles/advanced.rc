@@ -1,0 +1,9 @@
+TestEvar testing
+Bar asdf
+
+EvarValue $TestEvar$
+EvarValue2 testing$TestEvar$
+EvarValue3 "Testing $EvarValue$"
+EvarValue4 "Foo $$Bar$$"
+EvarValue5 "Foo $Bar Foo"
+EvarValue6 "Test $TestEvar $TestEvar$ Test"

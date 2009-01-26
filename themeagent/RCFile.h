@@ -13,6 +13,7 @@ private:
 	std::string getSetting(const std::string &line) const;
 	std::string getValue(const std::string &line) const;
 	std::multimap<std::string, std::string>::const_iterator lastValue;
+	std::string parseForEvars(std::string line) const;
 
 public:
 	RCFile(const std::string &path);
