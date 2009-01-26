@@ -1,0 +1,20 @@
+ThemeName "Theme - TestTwo"
+ThemeAuthor MrGnome
+ThemeVersion 1.0
+
+OtsMajorVersion 2
+OtsMinorVersion 0
+
+jDeskVersion 0.711
+xTaskbarVersion 1.1.5
+vTrayVersion 1.10
+popup2Version 2.1.7
+lsxCommandVersion 1.9.3
+iconDeskVersion 0.68
+
+*NetLoadModule jdesk-$jDeskVersion$
+*NetLoadModule xtaskbar-$xtaskbarversion$
+*NetLoadModule vtray-$vtrayversion$
+*NetLoadModule popup2-$Popup2Version$
+*NetLoadModule lsxcommand-$LSXCommandVersion$
+*NetLoadModule icondesk-$IconDeskVersion$

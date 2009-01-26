@@ -296,6 +296,23 @@
 					</FileConfiguration>
 				</File>
 			</Filter>
+			<Filter
+				Name="ThemeTestTwo"
+				>
+				<File
+					RelativePath=".\TestFiles\ThemeTestTwo\theme.rc"
+					FileType="5"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCResourceCompilerTool"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
 		</Filter>
 	</Files>
 	<Globals>
