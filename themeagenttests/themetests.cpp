@@ -62,8 +62,8 @@ SUITE(Theme)
 		CHECK(t2.getVersion() == "");
 
 		RCFile rc3("testfiles\\themetesttwo\\theme.rc");
-		Theme t4("testfiles\\themetesttwo", rc3);
+		Theme t3("testfiles\\themetesttwo", rc3);
 
-		CHECK(t4.getVersion() == "1.0");
+		CHECK(t3.getVersion() == "1.0");
 	}
 }
