@@ -1,16 +1,32 @@
 #include "Theme.h"
+#include <windows.h>
 
 using namespace std;
 
-Theme::Theme(string path, RCFile rc)
+Theme::Theme(const string &path, const RCFile &rc)
 {
-	this->path = path;
+	this->path = cleanUpPath(path);
 	this->name = parseName(rc);
 	this->author = parseAuthor(rc);
 	this->version = parseVersion(rc);
+	this->preview = lookForPreview();
 }
 
-string Theme::parseName(RCFile rc) const
+string Theme::cleanUpPath(string path) const
+{
+	TCHAR buffer[MAX_PATH];
+	TCHAR **lpPart = NULL;
+	GetFullPathName(path.c_str(), MAX_PATH, buffer, lpPart);
+	path = buffer;
+	if (path[path.length() - 1] == '\\')
+	{
+		path = path.substr(0, path.length() - 1);
+	}
+
+	return path;
+}
+
+string Theme::parseName(const RCFile &rc) const
 {
 	string name = rc.get("ThemeName");
 	if (name == "")
@@ -31,14 +47,32 @@ string Theme::parseName(RCFile rc) const
 	return name;
 }
 
-string Theme::parseAuthor(RCFile rc) const
+string Theme::parseAuthor(const RCFile &rc) const
 {
 	return rc.get("ThemeAuthor");
 }
 
-string Theme::parseVersion(RCFile rc) const
+string Theme::parseVersion(const RCFile &rc) const
 {
 	return rc.get("ThemeVersion");
+}
+
+string Theme::lookForPreview() const
+{
+	string preview("");
+	string pngPath(path + "\\preview.png");
+	string bmpPath(path + "\\preview.bmp");
+
+	if (GetFileAttributes(pngPath.c_str()) != INVALID_FILE_ATTRIBUTES)
+	{
+		preview = "preview.png";
+	}
+	else if (GetFileAttributes(bmpPath.c_str()) != INVALID_FILE_ATTRIBUTES)
+	{
+		preview = "preview.bmp";
+	}
+
+	return preview;
 }
 
 string Theme::getName() const
@@ -54,4 +88,9 @@ string Theme::getAuthor() const
 string Theme::getVersion() const
 {
 	return version;
+}
+
+string Theme::getPreview() const
+{
+	return preview;
 }

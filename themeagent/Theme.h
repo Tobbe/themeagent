@@ -16,14 +16,15 @@ private:
 	std::string otsVersion;
 	bool enabled;
 
-	std::string parseName(RCFile rc) const;
-	std::string parseAuthor(RCFile rc) const;
-	std::string parseVersion(RCFile rc) const;
-	std::string lookForPreview(std::string path) const;
-	ModuleList parseNeededModules(RCFile rc) const;
+	std::string cleanUpPath(std::string path) const;
+	std::string parseName(const RCFile &rc) const;
+	std::string parseAuthor(const RCFile &rc) const;
+	std::string parseVersion(const RCFile &rc) const;
+	std::string lookForPreview() const;
+	ModuleList parseNeededModules(const RCFile &rc) const;
 
 public:
-	Theme(std::string path, RCFile rc);
+	Theme(const std::string &path, const RCFile &rc);
 	std::string getName() const;
 	std::string getAuthor() const;
 	std::string getVersion() const;

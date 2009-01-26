@@ -260,10 +260,34 @@
 			<Filter
 				Name="ThemePreviewOne"
 				>
+				<File
+					RelativePath=".\TestFiles\ThemePreviewOne\preview.bmp"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+						/>
+					</FileConfiguration>
+				</File>
 			</Filter>
 			<Filter
 				Name="ThemePreviewTwo"
 				>
+				<File
+					RelativePath=".\TestFiles\ThemePreviewTwo\PreView.PNG"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+						/>
+					</FileConfiguration>
+				</File>
 			</Filter>
 			<Filter
 				Name="RCFiles"
