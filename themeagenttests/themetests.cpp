@@ -24,6 +24,11 @@ SUITE(Theme)
 		Theme t3("TestFiles\\Turtle Soup II\\", rc2);
 
 		CHECK(t3.getName() == "Turtle Soup II");
+
+		RCFile rc3("testfiles\\themetesttwo\\theme.rc");
+		Theme t4("testfiles\\themetesttwo", rc3);
+
+		CHECK(t4.getName() == "Theme - TestTwo");
 	}
 
 	TEST(GetAuthor)
@@ -37,6 +42,11 @@ SUITE(Theme)
 		Theme t2("TestFiles\\Turtle Soup II", rc2);
 
 		CHECK(t2.getAuthor() == "");
+
+		RCFile rc3("testfiles\\themetesttwo\\theme.rc");
+		Theme t3("testfiles\\themetesttwo", rc3);
+
+		CHECK(t3.getAuthor() == "MrGnome");
 	}
 
 	TEST(GetVersion)
@@ -50,5 +60,10 @@ SUITE(Theme)
 		Theme t2("TestFiles\\Turtle Soup II", rc2);
 
 		CHECK(t2.getVersion() == "");
+
+		RCFile rc3("testfiles\\themetesttwo\\theme.rc");
+		Theme t4("testfiles\\themetesttwo", rc3);
+
+		CHECK(t4.getVersion() == "1.0");
 	}
 }
