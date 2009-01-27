@@ -5,6 +5,8 @@ using namespace std;
 
 Theme::Theme(const string &path, const RCFile &rc)
 {
+	enabled = false;
+
 	this->path = cleanUpPath(path);
 	this->name = parseName(rc);
 	this->author = parseAuthor(rc);
@@ -146,4 +148,14 @@ string Theme::getOTSVersion() const
 ModuleList Theme::getNeededModules() const
 {
 	return neededModules;
+}
+
+bool Theme::getEnabled() const
+{
+	return enabled;
+}
+
+void Theme::setEnabled(bool enabled)
+{
+	this->enabled = enabled;
 }

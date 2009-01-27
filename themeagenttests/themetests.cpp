@@ -161,4 +161,16 @@ SUITE(Theme)
 		CHECK(neededModules.contains(Module("lsxcommand-1.9.3")));
 		CHECK(neededModules.contains(Module("icondesk-0.68")));
 	}
+
+	TEST(GetSetEnabled)
+	{
+		RCFile rc("TestFiles\\ThemeTestOne\\theme.rc");
+		Theme t("TestFiles\\ThemeTestOne", rc);
+
+		CHECK(t.getEnabled() == false);
+
+		t.setEnabled(true);
+
+		CHECK(t.getEnabled() == true);
+	}
 }

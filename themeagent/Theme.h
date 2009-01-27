@@ -34,6 +34,7 @@ public:
 	std::string getPath() const;
 	std::string getOTSVersion() const;
 	ModuleList getNeededModules() const;
+	bool getEnabled() const;
 	void setEnabled(bool enabled);
 };
 
