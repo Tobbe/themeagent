@@ -3,6 +3,11 @@
 
 using namespace std;
 
+Theme::Theme()
+{
+	enabled = false;
+}
+
 Theme::Theme(const string &path, const RCFile &rc)
 {
 	enabled = false;

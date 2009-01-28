@@ -26,6 +26,7 @@ private:
 	ModuleList parseNeededModules(RCFile rc) const;
 
 public:
+	Theme();
 	Theme(const std::string &path, const RCFile &rc);
 	std::string getName() const;
 	std::string getAuthor() const;
