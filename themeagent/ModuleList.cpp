@@ -4,9 +4,10 @@ using namespace std;
 
 bool ModuleList::add(Module m)
 {
-	if (contains(m))
+	if (contains(m) || m.getName() == "")
 	{
 		// Return false if the module already is in the list
+		// or if it doesn't have a name.
 		return false;
 	}
 

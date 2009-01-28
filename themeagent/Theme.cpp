@@ -109,11 +109,7 @@ ModuleList Theme::parseNeededModules(RCFile rc) const
 	do
 	{
 		module = rc.getMultiple("*NetLoadModule");
-
-		if (module != "")
-		{
-			mList.add(Module(module));
-		}
+		mList.add(Module(module));
 	}
 	while (module != "");
 
