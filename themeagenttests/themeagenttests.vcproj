@@ -197,6 +197,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\themelisttests.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\themetests.cpp"
 				>
 			</File>

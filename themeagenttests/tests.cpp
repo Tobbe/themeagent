@@ -2,6 +2,7 @@
 #include "ModuleList.cpp"
 #include "RCFile.cpp"
 #include "Theme.cpp"
+#include "ThemeList.cpp"
 #include <UnitTest++.h>
 
 int main()

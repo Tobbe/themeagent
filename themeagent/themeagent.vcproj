@@ -193,6 +193,10 @@
 				RelativePath=".\Theme.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\ThemeList.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -213,6 +217,10 @@
 			</File>
 			<File
 				RelativePath=".\Theme.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ThemeList.h"
 				>
 			</File>
 		</Filter>
