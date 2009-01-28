@@ -8,9 +8,11 @@ size_t ThemeList::size() const
 	return themeList.size();
 }
 
-void ThemeList::addTheme(Theme t)
+size_t ThemeList::addTheme(Theme t)
 {
-	themeList.push_back(t);
+	vector<Theme>::iterator pos = themeList.insert(themeList.end(), t);
+
+	return pos - themeList.begin();
 }
 
 Theme ThemeList::operator [](size_t index) const

@@ -10,7 +10,7 @@ class ThemeList
 private:
 	std::vector<Theme> themeList;
 public:
-	void addTheme(Theme t);
+	size_t addTheme(Theme t);
 	void writeToFile(std::string path) const;
 	size_t size() const;
 	Theme operator[](size_t index) const;
