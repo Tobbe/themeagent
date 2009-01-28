@@ -36,7 +36,7 @@ public:
 	std::string getOTSVersion() const;
 	ModuleList getNeededModules() const;
 	bool getEnabled() const;
-	void setEnabled(bool enabled);
+	virtual void setEnabled(bool enabled);
 };
 
 #endif

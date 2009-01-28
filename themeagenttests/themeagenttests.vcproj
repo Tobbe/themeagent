@@ -189,6 +189,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\nullthemetests.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\rcfiletests.cpp"
 				>
 			</File>

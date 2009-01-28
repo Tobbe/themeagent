@@ -186,6 +186,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\NullTheme.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\RCFile.cpp"
 				>
 			</File>
@@ -209,6 +213,10 @@
 			</File>
 			<File
 				RelativePath=".\ModuleList.h"
+				>
+			</File>
+			<File
+				RelativePath=".\NullTheme.h"
 				>
 			</File>
 			<File
