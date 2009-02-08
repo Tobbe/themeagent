@@ -2,6 +2,14 @@
 
 URLDownloadCallback::URLDownloadCallback()
 {
+	timeouttime = 0;
+	useTimeout = false;
+}
+
+URLDownloadCallback::URLDownloadCallback(int timeout)
+{
+	useTimeout = true;
+	this->timeouttime = GetTickCount() + timeout * 1000;
 }
 
 HRESULT URLDownloadCallback::GetBindInfo(DWORD *grfBINDF, BINDINFO *pbindinfo)
@@ -31,7 +39,18 @@ HRESULT URLDownloadCallback::OnObjectAvailable(REFIID riid, IUnknown *punk)
 
 HRESULT URLDownloadCallback::OnProgress(ULONG ulProgress, ULONG ulProgressMax, ULONG ulStatusCode, LPCWSTR szStatusText)
 {
-	return S_OK;
+	progress = (ulProgress / ulProgressMax) * 100;
+
+	notifyObservers(this);
+
+	if (useTimeout && GetTickCount() >= timeouttime)
+	{
+		return E_ABORT;
+	}
+	else
+	{
+		return S_OK;
+	}
 }
 
 HRESULT URLDownloadCallback::OnStartBinding(DWORD dwReserved, IBinding *pib)
@@ -57,4 +76,9 @@ ULONG URLDownloadCallback::AddRef()
 ULONG URLDownloadCallback::Release()
 {
 	return 0;
+}
+
+int URLDownloadCallback::getProgress()
+{
+	return progress;
 }
