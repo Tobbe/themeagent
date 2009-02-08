@@ -5,6 +5,8 @@
 #include "ThemeList.cpp"
 #include "NullTheme.cpp"
 #include "Observable.cpp"
+#include "FileDownloader.cpp"
+#include "URLDownloadCallback.cpp"
 #include <UnitTest++.h>
 
 int main()

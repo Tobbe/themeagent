@@ -24,7 +24,7 @@ public:
 	STDMETHOD(QueryInterface)(const IID &, void **);
 	STDMETHOD_(ULONG, AddRef)();
 	STDMETHOD_(ULONG, Release)();
-	int getProgress();
+	int getProgress() const;
 };
 
 #endif

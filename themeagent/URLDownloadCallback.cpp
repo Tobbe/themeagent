@@ -39,7 +39,14 @@ HRESULT URLDownloadCallback::OnObjectAvailable(REFIID riid, IUnknown *punk)
 
 HRESULT URLDownloadCallback::OnProgress(ULONG ulProgress, ULONG ulProgressMax, ULONG ulStatusCode, LPCWSTR szStatusText)
 {
-	progress = (ulProgress / ulProgressMax) * 100;
+	if (ulProgressMax)
+	{
+		progress = (ulProgress / ulProgressMax) * 100;
+	}
+	else
+	{
+		progress = 0;
+	}
 
 	notifyObservers(this);
 
@@ -78,7 +85,7 @@ ULONG URLDownloadCallback::Release()
 	return 0;
 }
 
-int URLDownloadCallback::getProgress()
+int URLDownloadCallback::getProgress() const
 {
 	return progress;
 }

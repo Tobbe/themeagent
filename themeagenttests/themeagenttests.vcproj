@@ -62,7 +62,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="UnitTest++d.lib"
+				AdditionalDependencies="UnitTest++d.lib Urlmon.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=".\Debug;..\Debug;..\themeagent\Debug"
@@ -141,6 +141,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="Urlmon.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\$(ConfigurationName)"
 				GenerateDebugInformation="true"
@@ -180,6 +181,10 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
+			<File
+				RelativePath=".\filedownloadertests.cpp"
+				>
+			</File>
 			<File
 				RelativePath=".\modulelisttests.cpp"
 				>
