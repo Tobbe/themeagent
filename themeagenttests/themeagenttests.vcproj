@@ -193,6 +193,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\observertests.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\rcfiletests.cpp"
 				>
 			</File>
