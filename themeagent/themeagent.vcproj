@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="UnitTest++d.lib"
+				AdditionalDependencies="UnitTest++d.lib Urlmon.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
@@ -135,6 +135,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="Urlmon.lib"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="1"
@@ -174,6 +175,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\FileDownloader.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\main.cpp"
 				>
 			</File>
@@ -201,12 +206,20 @@
 				RelativePath=".\ThemeList.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\URLDownloadCallback.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\FileDownloader.h"
+				>
+			</File>
 			<File
 				RelativePath=".\Module.h"
 				>
@@ -229,6 +242,10 @@
 			</File>
 			<File
 				RelativePath=".\ThemeList.h"
+				>
+			</File>
+			<File
+				RelativePath=".\URLDownloadCallback.h"
 				>
 			</File>
 		</Filter>
