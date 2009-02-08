@@ -4,6 +4,7 @@
 #include "Theme.cpp"
 #include "ThemeList.cpp"
 #include "NullTheme.cpp"
+#include "Observable.cpp"
 #include <UnitTest++.h>
 
 int main()

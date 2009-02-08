@@ -190,6 +190,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Observable.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\RCFile.cpp"
 				>
 			</File>
@@ -217,6 +221,14 @@
 			</File>
 			<File
 				RelativePath=".\NullTheme.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Observable.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Observer.h"
 				>
 			</File>
 			<File
