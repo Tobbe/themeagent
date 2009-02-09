@@ -10,12 +10,6 @@ FileDownloader::FileDownloader()
 	timeout = 0;
 }
 
-FileDownloader::~FileDownloader()
-{
-	WaitForSingleObject(threadHandle, 60*1000);
-	CloseHandle(threadHandle);
-}
-
 void FileDownloader::downloadFile(const string &url, const string &destPath)
 {
 	string tmpPath = destPath.substr(0, destPath.find_last_of("\\/"));
@@ -39,6 +33,9 @@ void FileDownloader::downloadFile(const string &url, const string &destPath)
 	this->destPath = destPath;
 
 	threadHandle = CreateThread(NULL, NULL, &FileDownloader::threadRunnerTrampoline, this, 0, NULL);
+
+	WaitForSingleObject(threadHandle, 60*1000);
+	CloseHandle(threadHandle);
 }
 
 DWORD FileDownloader::threadRunnerTrampoline(LPVOID lpParameters)

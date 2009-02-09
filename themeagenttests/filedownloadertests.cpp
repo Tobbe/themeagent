@@ -22,20 +22,13 @@ SUITE(FileDownloader)
 
 	TEST(DownloadFile)
 	{
-		{
-			FileDownloader fd;
+		FileDownloader fd;
 
-			fd.downloadFile("http://www.does.not.exist.com/archive.zip", "TestFiles\\FileDownloaderTest\\archive.zip");
+		fd.downloadFile("http://www.does.not.exist.com/archive.zip", "TestFiles\\FileDownloaderTest\\archive.zip");
 
-			CHECK(GetFileAttributes("TestFiles\\FileDownloaderTest\\archive.zip") == INVALID_FILE_ATTRIBUTES);
+		CHECK(GetFileAttributes("TestFiles\\FileDownloaderTest\\archive.zip") == INVALID_FILE_ATTRIBUTES);
 
-			fd.downloadFile("http://google.com/index.html", "TestFiles\\FileDownloaderTest\\webpage.html");
-		}
-
-		// The scope I used above guarantees that the thread FileDownloader
-		// creates has terminated (the download is complete or aborted).
-		// The FileDownloader destructor doesn't return until the thread is
-		// done (or a minute has passed).
+		fd.downloadFile("http://google.com/index.html", "TestFiles\\FileDownloaderTest\\webpage.html");
 
 		CHECK(GetFileAttributes("TestFiles\\FileDownloaderTest\\webpage.html") != INVALID_FILE_ATTRIBUTES);
 
@@ -45,11 +38,9 @@ SUITE(FileDownloader)
 
 	TEST(DownloadFileTimeout)
 	{
-		{
-			FileDownloader fd;
-			fd.setTimeout(1);
-			fd.downloadFile("http://shellfront.org/Modules/Rainlendar-0.22.zip", "TestFiles\\FileDownloaderTest\\module.zip");
-		}
+		FileDownloader fd;
+		fd.setTimeout(1);
+		fd.downloadFile("http://shellfront.org/Modules/Rainlendar-0.22.zip", "TestFiles\\FileDownloaderTest\\module.zip");
 
 		CHECK(GetFileAttributes("TestFiles\\FileDownloaderTest\\module.zip") == INVALID_FILE_ATTRIBUTES);
 

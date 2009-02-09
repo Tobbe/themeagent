@@ -19,7 +19,6 @@ private:
 	DWORD __stdcall run();
 public:
 	FileDownloader();
-	~FileDownloader();
 	void downloadFile(const std::string &url, const std::string &destPath);
 	void update(const Observable *o);
 	int getProgress() const;
