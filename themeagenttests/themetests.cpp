@@ -9,7 +9,7 @@ using namespace std;
 
 class SetupFixtureTheme {
 public:
-	string testFilesPath;
+	string themesPath;
 
 	SetupFixtureTheme()
 	{
@@ -20,15 +20,15 @@ public:
 			assert(false);
 		}
 
-		testFilesPath = buffer;
-		int index = testFilesPath.find_last_of('\\');
+		themesPath = buffer;
+		int index = themesPath.find_last_of('\\');
 
 		if (index == string::npos)
 		{
 			assert(false);
 		}
 
-		testFilesPath = testFilesPath.substr(0, index) + "\\..\\themeagenttests\\TestFiles";
+		themesPath = themesPath.substr(0, index) + "\\..\\themeagenttests\\TestFiles\\Themes";
 	}
 };
 
@@ -36,76 +36,76 @@ SUITE(Theme)
 {
 	TEST_FIXTURE(SetupFixtureTheme, GetName)
 	{
-		RCFile rc("TestFiles\\ThemeTestOne\\theme.rc");
-		Theme t("TestFiles\\ThemeTestOne", rc);
+		RCFile rc("TestFiles\\Themes\\ThemeTestOne\\theme.rc");
+		Theme t("TestFiles\\Themes\\ThemeTestOne", rc);
 
 		CHECK(t.getName() == "ThemeTestOne");
 
-		RCFile rc2(testFilesPath + "\\Turtle Soup II\\theme.rc");
-		Theme t2(testFilesPath + "\\Turtle Soup II", rc2);
+		RCFile rc2(themesPath + "\\Turtle Soup II\\theme.rc");
+		Theme t2(themesPath + "\\Turtle Soup II", rc2);
 
 		CHECK(t2.getName() == "Turtle Soup II");
 
-		Theme t3("TestFiles\\Turtle Soup II\\", rc2);
+		Theme t3("TestFiles\\Themes\\Turtle Soup II\\", rc2);
 
 		CHECK(t3.getName() == "Turtle Soup II");
 
-		RCFile rc3("testfiles\\themetesttwo\\theme.rc");
-		Theme t4("testfiles\\themetesttwo", rc3);
+		RCFile rc3("testfiles\\themes\\themetesttwo\\theme.rc");
+		Theme t4("testfiles\\themes\\themetesttwo", rc3);
 
 		CHECK(t4.getName() == "Theme - TestTwo");
 	}
 
 	TEST(GetAuthor)
 	{
-		RCFile rc("TestFiles\\ThemeTestOne\\theme.rc");
-		Theme t("TestFiles\\ThemeTestOne", rc);
+		RCFile rc("TestFiles\\Themes\\ThemeTestOne\\theme.rc");
+		Theme t("TestFiles\\Themes\\ThemeTestOne", rc);
 
 		CHECK(t.getAuthor() == "Test Author");
 
-		RCFile rc2("TestFiles\\Turtle Soup II\\theme.rc");
-		Theme t2("TestFiles\\Turtle Soup II", rc2);
+		RCFile rc2("TestFiles\\Themes\\Turtle Soup II\\theme.rc");
+		Theme t2("TestFiles\\Themes\\Turtle Soup II", rc2);
 
 		CHECK(t2.getAuthor() == "");
 
-		RCFile rc3("testfiles\\themetesttwo\\theme.rc");
-		Theme t3("testfiles\\themetesttwo", rc3);
+		RCFile rc3("testfiles\\themes\\themetesttwo\\theme.rc");
+		Theme t3("testfiles\\themes\\themetesttwo", rc3);
 
 		CHECK(t3.getAuthor() == "MrGnome");
 	}
 
 	TEST(GetVersion)
 	{
-		RCFile rc("TestFiles\\ThemeTestOne\\theme.rc");
-		Theme t("TestFiles\\ThemeTestOne", rc);
+		RCFile rc("TestFiles\\Themes\\ThemeTestOne\\theme.rc");
+		Theme t("TestFiles\\Themes\\ThemeTestOne", rc);
 
 		CHECK(t.getVersion() == "One.5");
 
-		RCFile rc2("TestFiles\\Turtle Soup II\\theme.rc");
-		Theme t2("TestFiles\\Turtle Soup II", rc2);
+		RCFile rc2("TestFiles\\Themes\\Turtle Soup II\\theme.rc");
+		Theme t2("TestFiles\\Themes\\Turtle Soup II", rc2);
 
 		CHECK(t2.getVersion() == "");
 
-		RCFile rc3("testfiles\\themetesttwo\\theme.rc");
-		Theme t3("testfiles\\themetesttwo", rc3);
+		RCFile rc3("testfiles\\themes\\themetesttwo\\theme.rc");
+		Theme t3("testfiles\\themes\\themetesttwo", rc3);
 
 		CHECK(t3.getVersion() == "1.0");
 	}
 
 	TEST_FIXTURE(SetupFixtureTheme, GetPreview)
 	{
-		RCFile rc(testFilesPath + "\\ThemeTestOne\\theme.rc");
-		Theme t(testFilesPath + "\\ThemeTestOne\\", rc);
+		RCFile rc(themesPath + "\\ThemeTestOne\\theme.rc");
+		Theme t(themesPath + "\\ThemeTestOne\\", rc);
 
 		CHECK(t.getPreview() == "");
 
-		RCFile rc2(testFilesPath + "\\ThemePreviewOne\\theme.rc");
-		Theme t2(testFilesPath + "\\ThemePreviewOne", rc2);
+		RCFile rc2(themesPath + "\\ThemePreviewOne\\theme.rc");
+		Theme t2(themesPath + "\\ThemePreviewOne", rc2);
 
 		CHECK(t2.getPreview() == "preview.bmp");
 
-		RCFile rc3(testFilesPath + "\\ThemePreviewTwo\\theme.rc");
-		Theme t3(testFilesPath + "\\ThemePreviewTwo", rc3);
+		RCFile rc3(themesPath + "\\ThemePreviewTwo\\theme.rc");
+		Theme t3(themesPath + "\\ThemePreviewTwo", rc3);
 
 		CHECK(t3.getPreview() == "preview.png");
 	}
@@ -130,26 +130,26 @@ SUITE(Theme)
 
 	TEST(GetOTSVersion)
 	{
-		RCFile rc("TestFiles\\ThemeTestOne\\theme.rc");
-		Theme t("TestFiles\\ThemeTestOne", rc);
+		RCFile rc("TestFiles\\Themes\\ThemeTestOne\\theme.rc");
+		Theme t("TestFiles\\Themes\\ThemeTestOne", rc);
 
 		CHECK(t.getOTSVersion() == "2.0");
 
-		RCFile rc2("TestFiles\\Turtle Soup II\\theme.rc");
-		Theme t2("TestFiles\\Turtle Soup II", rc2);
+		RCFile rc2("TestFiles\\Themes\\Turtle Soup II\\theme.rc");
+		Theme t2("TestFiles\\Themes\\Turtle Soup II", rc2);
 
 		CHECK(t2.getOTSVersion() == "");
 
-		RCFile rc3("testfiles\\themetesttwo\\theme.rc");
-		Theme t3("testfiles\\themetesttwo", rc3);
+		RCFile rc3("testfiles\\themes\\themetesttwo\\theme.rc");
+		Theme t3("testfiles\\themes\\themetesttwo", rc3);
 
 		CHECK(t3.getOTSVersion() == "2");
 	}
 
 	TEST(GetNeededModules)
 	{
-		RCFile rc("TestFiles\\ThemeTestOne\\theme.rc");
-		Theme t("TestFiles\\ThemeTestOne", rc);
+		RCFile rc("TestFiles\\Themes\\ThemeTestOne\\theme.rc");
+		Theme t("TestFiles\\Themes\\ThemeTestOne", rc);
 
 		ModuleList neededModules = t.getNeededModules();
 
@@ -164,8 +164,8 @@ SUITE(Theme)
 
 	TEST(GetSetEnabled)
 	{
-		RCFile rc("TestFiles\\ThemeTestOne\\theme.rc");
-		Theme t("TestFiles\\ThemeTestOne", rc);
+		RCFile rc("TestFiles\\Themes\\ThemeTestOne\\theme.rc");
+		Theme t("TestFiles\\Themes\\ThemeTestOne", rc);
 
 		CHECK(t.getEnabled() == false);
 
