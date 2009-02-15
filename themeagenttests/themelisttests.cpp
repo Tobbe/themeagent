@@ -12,7 +12,7 @@ SUITE(ThemeList)
 {
 	TEST(Size)
 	{
-		ThemeList tl;
+		ThemeList tl("");
 		CHECK(tl.size() == 0);
 
 		RCFile rc("");
@@ -25,7 +25,7 @@ SUITE(ThemeList)
 
 	TEST(IndexingOperator)
 	{
-		ThemeList tl;
+		ThemeList tl("");
 		RCFile rc("");
 		tl.addTheme(Theme("Test1", rc));
 		tl.addTheme(Theme("Test2", rc));
@@ -39,7 +39,7 @@ SUITE(ThemeList)
 
 	TEST(AddTheme)
 	{
-		ThemeList tl;
+		ThemeList tl("");
 		RCFile rc("");
 		size_t index;
 
@@ -61,7 +61,7 @@ SUITE(ThemeList)
 	{
 		string line;
 		ifstream infile;
-		ThemeList tl;
+		ThemeList tl("");
 		RCFile rc("");
 		string filename = "TestFiles\\themelisttest.rc";
 
@@ -109,5 +109,12 @@ SUITE(ThemeList)
 		infile.close();
 
 		DeleteFile(filename.c_str());
+	}
+
+	TEST(Constructor)
+	{
+		ThemeList tl("TestFiles\\Themes");
+		CHECK(tl.size() == 3);
+		CHECK(tl[1].getName() == "Theme - TestTwo");
 	}
 }

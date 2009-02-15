@@ -5,6 +5,47 @@
 
 using namespace std;
 
+ThemeList::ThemeList(string themesDir)
+{
+	string searchDir = themesDir + "\\*";
+	string searchFile;
+
+	WIN32_FIND_DATA wfd;
+	HANDLE hFind = INVALID_HANDLE_VALUE;
+	HANDLE hFindFile = INVALID_HANDLE_VALUE;
+
+	hFind = FindFirstFile(searchDir.c_str(), &wfd);
+
+	if (hFind != INVALID_HANDLE_VALUE) {
+		//Loop through all subfolders to the themes dir
+		while (FindNextFile(hFind, &wfd) != 0) {
+			if (isDir(wfd)) {
+				string fullThemePath = themesDir + "\\" + wfd.cFileName;
+
+				//Check if the folder contains a theme.rc
+				if (fileExists(fullThemePath + "\\theme.rc")) {
+					//This is most likely a themes dir
+
+					RCFile rc(fullThemePath + "\\theme.rc");
+					themeList.push_back(Theme(fullThemePath, rc));
+				}
+			}
+		}
+	}
+}
+
+bool ThemeList::isDir(const WIN32_FIND_DATA &wfd) const
+{
+	return wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY &&
+		strcmp(wfd.cFileName, ".") != 0 &&
+		strcmp(wfd.cFileName, "..") != 0;
+}
+
+bool ThemeList::fileExists(const string &path) const
+{
+	return (GetFileAttributes(path.c_str()) != INVALID_FILE_ATTRIBUTES);
+}
+
 size_t ThemeList::size() const
 {
 	return themeList.size();
