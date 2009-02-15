@@ -235,78 +235,6 @@
 			ParseFiles="false"
 			>
 			<Filter
-				Name="ThemeTestOne"
-				ParseFiles="false"
-				>
-				<File
-					RelativePath=".\TestFiles\ThemeTestOne\theme.rc"
-					FileType="5"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCResourceCompilerTool"
-						/>
-					</FileConfiguration>
-				</File>
-			</Filter>
-			<Filter
-				Name="Turtle Soup II"
-				ParseFiles="false"
-				>
-				<File
-					RelativePath=".\TestFiles\Turtle Soup II\theme.rc"
-					FileType="5"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCResourceCompilerTool"
-						/>
-					</FileConfiguration>
-				</File>
-			</Filter>
-			<Filter
-				Name="ThemeMissingModule"
-				>
-			</Filter>
-			<Filter
-				Name="ThemePreviewOne"
-				>
-				<File
-					RelativePath=".\TestFiles\ThemePreviewOne\preview.bmp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-						/>
-					</FileConfiguration>
-				</File>
-			</Filter>
-			<Filter
-				Name="ThemePreviewTwo"
-				>
-				<File
-					RelativePath=".\TestFiles\ThemePreviewTwo\PreView.PNG"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-						/>
-					</FileConfiguration>
-				</File>
-			</Filter>
-			<Filter
 				Name="RCFiles"
 				ParseFiles="false"
 				>
@@ -351,21 +279,97 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="ThemeTestTwo"
+				Name="Themes"
 				>
-				<File
-					RelativePath=".\TestFiles\ThemeTestTwo\theme.rc"
-					FileType="5"
+				<Filter
+					Name="ThemeMissingModule"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						ExcludedFromBuild="true"
+				</Filter>
+				<Filter
+					Name="Turtle Soup II"
+					ParseFiles="false"
+					>
+					<File
+						RelativePath=".\TestFiles\Themes\Turtle Soup II\theme.rc"
+						FileType="5"
 						>
-						<Tool
-							Name="VCResourceCompilerTool"
-						/>
-					</FileConfiguration>
-				</File>
+						<FileConfiguration
+							Name="Debug|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCResourceCompilerTool"
+							/>
+						</FileConfiguration>
+					</File>
+				</Filter>
+				<Filter
+					Name="ThemePreviewOne"
+					>
+					<File
+						RelativePath=".\TestFiles\Themes\ThemePreviewOne\preview.bmp"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCustomBuildTool"
+							/>
+						</FileConfiguration>
+					</File>
+				</Filter>
+				<Filter
+					Name="ThemePreviewTwo"
+					>
+					<File
+						RelativePath=".\TestFiles\Themes\ThemePreviewTwo\PreView.PNG"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCustomBuildTool"
+							/>
+						</FileConfiguration>
+					</File>
+				</Filter>
+				<Filter
+					Name="ThemeTestOne"
+					ParseFiles="false"
+					>
+					<File
+						RelativePath=".\TestFiles\Themes\ThemeTestOne\theme.rc"
+						FileType="5"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCResourceCompilerTool"
+							/>
+						</FileConfiguration>
+					</File>
+				</Filter>
+				<Filter
+					Name="ThemeTestTwo"
+					>
+					<File
+						RelativePath=".\TestFiles\Themes\ThemeTestTwo\theme.rc"
+						FileType="5"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCResourceCompilerTool"
+							/>
+						</FileConfiguration>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 	</Files>
