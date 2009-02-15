@@ -13,7 +13,7 @@ ModuleManager::ModuleManager(string modulesDir, vector<std::string> downloadSite
 
 void ModuleManager::findModulesInModulesDir()
 {
-	string searchDir = modulesDir;
+	string searchDir = modulesDir + "\\*";
 	string searchFile;
 
 	WIN32_FIND_DATA wfd;

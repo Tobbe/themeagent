@@ -7,4 +7,13 @@ using namespace std;
 
 SUITE(ModuleManager)
 {
+	TEST(Constructor)
+	{
+		vector<string> dlSites;
+		ModuleManager mm("TestFiles\\Modules", dlSites);
+		ModuleList ml = mm.getModuleList();
+		CHECK(ml.size() == 4);
+		CHECK(ml.contains(Module("dynamp-0.51.dll")));
+		CHECK(ml.contains(Module("lsres.dll")));
+	}
 }
