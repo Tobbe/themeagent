@@ -1,12 +1,5 @@
 #include "RCFile.h"
 #include <UnitTest++.h>
-#include <windows.h>
-#include <cassert>
-#include <string>
-#include <fstream>
-#include <iostream>
-
-using namespace std;
 
 SUITE(RCFile)
 {
