@@ -7,6 +7,7 @@
 #include "Observable.cpp"
 #include "FileDownloader.cpp"
 #include "URLDownloadCallback.cpp"
+#include "ModuleManager.cpp"
 #include <UnitTest++.h>
 
 int main()

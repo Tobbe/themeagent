@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="UnitTest++d.lib Urlmon.lib"
+				AdditionalDependencies="UnitTest++d.lib Urlmon.lib shlwapi.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
@@ -135,7 +135,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Urlmon.lib"
+				AdditionalDependencies="Urlmon.lib shlwapi.lib"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="1"
@@ -191,6 +191,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ModuleManager.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\NullTheme.cpp"
 				>
 			</File>
@@ -230,6 +234,10 @@
 			</File>
 			<File
 				RelativePath=".\ModuleList.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ModuleManager.h"
 				>
 			</File>
 			<File

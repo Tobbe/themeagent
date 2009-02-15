@@ -62,7 +62,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="UnitTest++d.lib Urlmon.lib"
+				AdditionalDependencies="UnitTest++d.lib Urlmon.lib shlwapi.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=".\Debug;..\Debug;..\themeagent\Debug"
@@ -187,6 +187,10 @@
 			</File>
 			<File
 				RelativePath=".\modulelisttests.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\modulemanagertests.cpp"
 				>
 			</File>
 			<File
