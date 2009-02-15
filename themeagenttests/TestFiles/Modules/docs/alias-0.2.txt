@@ -1,0 +1,137 @@
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+                                    Alias 0.2
+                               created by ilmcuts
+                            Last Modified: 2009-01-06
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+
+-- TABLE OF CONTENTS -----------------------------------------------------------
+
+ 1. About
+ 2. Installation
+ 3. Step.rc command
+ 4. Bang command
+ 5. Escape codes
+ 6. Examples
+ 7. Version History
+ 8. Contact Information
+
+
+-- 1. ABOUT --------------------------------------------------------------------
+
+ alias.dll is a LiteStep module to make quick alias !bangs for longer !bang
+ calls or !bang sequences. Features also include parameter reordering and
+ alias creation/reassignment "at runtime".
+
+ Compatible with LiteStep 0.24.6 and up.
+
+ Full !refresh support, all settings are re-read.
+ No known problems if run "threaded".
+
+
+-- 2. INSTALLATION -------------------------------------------------------------
+
+ - Classic Setup:
+
+     Put alias.dll in a directory of your choice, e.g.
+     C:\Litestep\Modules\. Open your step.rc and add a LoadModule line pointing
+     to the DLL, for example:
+
+     LoadModule "C:\Litestep\Modules\alias.dll"
+
+
+ - NetLoadModule (OTS2) Setup:
+
+     Add the following line to your step.rc/theme.rc/personal.rc/whatever:
+
+     *NetLoadModule alias-0.2
+
+
+ Use the step.rc commands described in this file to configure alias.dll.
+ Then save the file and recycle.
+
+
+-- 3. STEP.RC COMMAND ----------------------------------------------------------
+
+ *Alias <defaults> <alias> <action>
+
+     <alias> is the name of the new !bang, including the '!'.
+     <action> is a !bang or executable (with parameters if necessary).
+     <defaults> is a list of values for parameters if they are omited.
+     
+     (Also see 'Examples' section below.)
+
+     If <action> includes %1, %2, %3, etc., these escape codes will be expanded
+     to the n-th parameter that the alias was invoked with. You can specify
+     these in any order and as often as you wish.
+     
+     If a default isn't specified for a parameter it will default to "". Defaults
+     can not start with a !. " !bang" is fine, "!bang" isnt.
+
+     You can add as many such *Alias lines as you wish (the limitation probably
+     being the available memory). If the same alias name appears multiple times,
+     the last line will take effect.
+
+
+-- 4. BANG COMMAND -------------------------------------------------------------
+
+ !Alias <defaults> <alias> <action>
+
+    Run-time version of the *Alias step.rc command. If an alias with the
+    specified !bang name already exists it is overwritten.
+
+
+-- 5. ESCAPE CODES -------------------------------------------------------------
+
+ %# - Where # is an integer >= 1. Expands to the #-th parameter passed to the
+      alias.
+
+ %% - Expands to a single percent sign (%).
+
+ %n - Expands to a new-line character (\n).
+
+ %! - Expands to an exclamation mark (!). You only need this if you want to use
+      an exclamation mark immediately after another escape code (such as %1).
+      This means that "%1 !" is fine, but "%1!" (notice the lack of whitespace)
+      becomes "%1%!"
+
+
+-- 6. EXAMPLES -----------------------------------------------------------------
+
+ *Alias !fileman explorer /e,%1
+     Call: !fileman C:\
+     Opens explorer in file manager mode.
+
+ *Alias !hello !alert "Hello %1, how are you?"
+     Call: !hello world
+     Displays: Hello world, how are you?
+
+ *Alias !foo !alert %1 %2 %3 %2 %1
+     Call: !foo one two three
+     Displays: one two three two one
+     
+ *Alias one two three !count !alert %1 %2 %3
+     Call: !count five four
+     Displays: five four three
+
+
+-- 7. VERSION HISTORY ----------------------------------------------------------
+
+ 0.2    2009-01-06  ilmcuts and alurcard2
+  - Added support for default parameter values
+  - Fixed crash bug with incomplete *Alias lines
+  - Fixed crash bug with mismatched parameters and inserts (%1 and such)
+  - More minor robustness improvements
+  - Executing an alias consumes slightly less memory
+  - Documentation tweaks
+  - Minor source code tweaks
+
+ 0.1    2004-01-06  ilmcuts
+  - Initial Release
+
+
+-- 8. CONTACT ------------------------------------------------------------------
+
+ ilmcuts
+ ilmcuts_AT_gmx_DOT_net
+ ilmcuts in #litestep, #lsdev on irc.freenode.net

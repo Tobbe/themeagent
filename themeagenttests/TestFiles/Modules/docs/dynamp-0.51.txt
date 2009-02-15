@@ -1,0 +1,278 @@
+DynAmp (0.51)
+by Vendicator (http://pimpin.info/vendicator | vendicator@mail.com)
+updated by Sci (http://www.alphafish.com | erik@alphafish.com)
+
+Bang module for controlling Winamp2, Winamp3 and Foobar2000.
+Bangs check for a running copy of a plyer, if none found then if a force is
+defined in step.rc, and last it analyzes DynAmpPath for either winamp.exe,
+studio.exe or foobar2000.exe (WA2/WA3/FB2k). This is done to allow dynamic
+configurations, where DynAmp handles either WA2, WA3 or FB2k without the user
+having to go through any configuration process. It also makes replacing geekamp
+easy, as all commands are named the same.
+
+Winamp2 and Foobar2000 is handled through messages and Winamp3 by sending
+keystrokes, which on rare occations might make WA3 not respond sometimes to
+commands.
+
+Based on the 1.9.666 Geekamp source code by Azathoth, which was originally
+based on GeekMASTER's GEEKAmp.dll source (1.4).
+
+Released under the GPL. Read that document for info.
+
+
+Config:
+
+DynAmpPath [path to winamp2/3/FooBar2k]:
+	Defines the location of Winamp/Foobar so DynAmp can load it when starting
+	play.
+
+DynAmpPlayer [winamp2 / winamp3 / Foobar2k]:
+	Set this to force which control to load.
+
+DynAmpOnFooBar !bang
+	Bang to be run when a control is loaded for FooBar2k version 0.8 and newer.
+	E.g. use this to set a label text such as:
+	!AmpLabelSetText "[windowTitle('{DA7CD0DE-1602-45e6-89A1-C2CA151E008E}')]"
+
+DynAmpOnOldFooBar !bang
+	Bang to be run when a control is loaded for FooBar2k older then 0.8.
+	E.g. use this to set a label text such as:
+	!AmpLabelSetText "[windowTitle('FOOBAR2000_CLASS')]"
+
+DynAmpOnWA2 !bang
+	Bang to be run when a control is loaded for Winamp2.
+	E.g. use this to set a label text such as:
+	!AmpLabelSetText "[winampSong]"
+
+DynAmpOnWA3 !bang
+	Bang to be run when a control is loaded for Winamp3.
+	E.g. use this to set a label text such as:
+	!AmpLabelSetText "[windowTitle('Studio')]"
+
+DynAmpWinampStartNormal
+	Default = false
+	On opening, the player will remain on screen. If this is not set, the
+	player defaults to minimizing when run. (This works only with DynAmp bang
+	commands, not running the player through any other method.)
+
+DynAmpStartNormal
+	Default = false
+	If this is not set, DynAmp defaults to minimize the player when run.
+	(This works only with DynAmp bang commands, not running the player through any other method)
+
+DynAmpPlayNotOpen
+	Default = false
+	Use this if you don't want DynAmp to start the player when the !amp_play
+	command is used.
+
+DynAmpShowNotOpen
+	Default = false
+	Use this if you don't want DynAmp to start the player when the !amp_show
+	command is used.
+
+DynAmpLoadFileNotOpen
+	Default = false
+	Use this if you don't want DynAmp to start the player when the
+	!amp_loadfile command is used.
+
+DynAmpPrefsNotOpen
+	Default = false
+	Use this if you don't want DynAmp to start the player when the !amp_prefs
+	command is used.
+
+DynAmpPlayPauseNotOpen
+	Default = false
+	Use this if you don't want DynAmp to start the player when the
+	!amp_playpause command is used.
+
+DynAmpPlaylistNotOpen
+	Default = false
+	Use this if you don't want DynAmp to start the player when the
+	!amp_playlist command is used.
+
+
+Bangs:
+(all these automatically try to identify which player to use)
+
+	!Amp_ScanPlayer			Scans for which player to use wa2/wa3 (is done
+							automatically)
+
+	!Amp_OnTop				Toggles ontop setting
+	!Amp_Power				Toggles winamp on/off
+	!Amp_PowerOn			Starts winamp/set forground window
+	!Amp_PowerOff			Shutdown winamp
+
+	!Amp_Show				Toggles winamp window
+	!Amp_Hide				Hides Winamp if already open
+	!Amp_Display			Shows Winamp if hidden
+
+	!Amp_Repeat				Toggle repeat
+	!Amp_Shuffle			Toggle Shuffle
+
+	!Amp_VolumeDown			Increase volume
+	!Amp_VolumeUp			Decrease volume
+	!Amp_Rewd5s				Rewind 5s in song
+	!Amp_Ffwd5s				Forward 5s in song
+
+	!Amp_Prev				Plays the previous song in playlist
+	!Amp_Play				Play, opens winamp if PlayNotOpen hasn't been set
+	!Amp_Pause				Pause
+	!Amp_Stop				Stop
+	!Amp_Next				Plays the next song in playlist
+	!Amp_LoadFile			Opens the load file dialog box, opens winamp if
+							FileLoadNotOpen hasn't been set
+
+	!Amp_Prefs				Toggles Preferences window
+	!Amp_LoadDir			Shows the dialog to add a directory to the playlist
+
+
+Specific Player commands / does not scan for running player:
+
+Winamp3:
+
+	!Amp_OpenLoc			Opens the Open Location dialog box
+	!Amp_CrossFade			Toggle crossfade on/off
+	!Amp_ListStart			Moves to the start of the playlist
+	!Amp_ListEnd			Moves to the end of the playlist
+	!Amp_ReloadSkin			Reloads current skin
+	!Amp_DoubleSize			Toggles DoubleSize mode, for some reason wa3
+							doesn't respond to this
+	!Amp_EditID3			Shows dialog so you can add / view the ID3 tags
+	!Amp_JumpToFile			Shows the jump to file, if the JWinamp3 plug in is
+							installed
+
+Winamp2:
+
+	!Amp_OpenLoc			Opens the Open Location dialog box
+	!Amp_StopAfterTrack		Stops playback once the current track is finished
+	!Amp_PlayCD				Plays an audio CD
+	!Amp_AddToPlaylist		Opens the add to playlist dialog
+
+	!Amp_ReloadSkin			Reloads current skin
+	!Amp_EditID3			Shows dialog so you can add / view the ID3 tags
+	!Amp_Rewd10s			Rewind currently playing song by 10 seconds
+	!Amp_Rewd20s			Rewind currently playing song by 20 seconds
+	!Amp_Ffwd10s			Fast forward currently playing song by 10 seconds
+	!Amp_Ffwd20s			Fast forward currently playing song by 20 seconds
+	!Amp_Eq					Toggles Equaliser window
+	!Amp_PlayList			Toggles Playlist editor
+	!Amp_Rew				Rewind currently playing track
+	!Amp_About				Displays the About dialog for Winamp
+	!Amp_StopFade			Stops with fadeout
+	!Amp_Repeat				Toggles the Repeat status
+	!Amp_Shuffle			Toggles the Shuffle status
+	!Amp_MainMenuPopup		Popup the main Winamp Menu
+	!Amp_EasyMove			This toggles Easymove mode
+	!Amp_JumpToTime			Shows the Jump to Time dialog
+	!Amp_JumpToFile			Shows the Jump to File box
+	!Amp_Jump10Forward		Move 10 songs forward in the playlist
+	!Amp_Jump10Back			Move 10 songs backward in playlist
+	!Amp_WindowShade 		This toggles Windowshade mode
+	!Amp_StartPlugin		Toggle plugin
+	!Amp_PluginSetup		Shows the plugin config dialog
+	!Amp_VisSetup			Shows Visualisations Setup
+	!Amp_SetVolume <amount>	Set Volume to a number between 0 and 255, 0 being
+							the lowest volume
+	!Amp_SetPanning <amount>	Set Panning to a number between 0 and 255, 0
+								being all left and 255 being all right
+	!Amp_ShadePlaylist		Toggle Shade the Playlist
+	!Amp_ShadeBoth			Toggle Shade both the main window and the playlist
+	!Amp_ToggleBrowser		Toggle the MiniBrowser
+	!Amp_SelectSkin			Opens the Skin Selector Dialog
+	!Amp_ReloadSkin			Reload the current skin
+	!Amp_DoubleSize			Toggles DoubleSize mode
+	!Amp_Restart			Restarts Winamp
+	!Amp_LoadEQPreset		Show the list of eq presets so that you can change
+							them on the fly
+	!Amp_PlayPause			Toggles playing status of Winamp
+	!Amp_AddSong <song_title>	Appends song to current playlist
+	!Amp_TimeElapsed		Sets Winamp to display the time elapsed on a song
+	!Amp_TimeRemaining		Sets Winamp to display the time remaining on a song
+	!Amp_ListStart			Moves to the start of the playlist
+	!Amp_ListEnd			Moves to the end of the playlist
+
+
+Not implemented:
+!Amp_FileInfo				Displays a box with the currently playing song in
+							the title, with bitrate, samplerate and channel
+							info shown.
+!Amp_MovePosition <modifier> <amount>	This moves the current song position
+										forwards or backwards
+Examples: 
+!Amp_MovePosition + 100		This will move the current song position forwards
+							100 seconds
+!Amp_MovePosition - 100		This will move the current song position backwards
+							100 seconds
+
+
+ToDo:
+	- Add coolplayer, kjofol, sonique1/2, wmp6, wmp7+, musicmatch?
+	- Split winamp specific commands from player to wa2/3 to be more dynamic
+	- Load a stub (nothing) when defaulting? then how to start player like
+	  geekamp?
+	- !amp_rew seems to be the same as !amp_prev?
+
+
+Changelog:
+
+2004-04-28, release 0.51 by Sci:
+	- Added support for Foobar2000 versions above 0.8
+	- Added setting DynAmpOnOldFoobar for Foobar versions older then 0.8
+	- Removed settings WinampPath and WinampStartNormal
+	- Prepended settings PlayNotOpen, ShowNotOpen, LoadFileNotOpen,
+	  PrefsNotOpen, PlayPauseNotOpen, PlaylistNotOpen with "DynAmp" (sans
+	  quotes). They are now called DynAmpPlayNotOpen etc.
+
+2003-08-09, release 0.50:
+	- Code restructuring & cleaning.
+
+2003-08-07:
+	- Added basic support for FooBar2000, thanks to FooBang alpha 1 by Russell Norberg (aka ranor),
+	  for supplying the WM_COMMAND nrs.
+
+2003-08-06:
+	- Added support for !Amp_JumpToFile if the JWinamp3 plugin is installed.
+	- Changed to BangManager class.
+	- Using Api loader for loading on old LS builds.
+
+2002-11-27:
+	- Fixed open location/dir switch in wa3
+	- Fixed not quoted '3' causing !Amp_EditID3 not to work with wa3
+	- Also detects winamp3.exe as a valid filename for loading wa3 controls
+
+2002-09-24:
+	- Fixed WA2 !Amp_Rewd5s, !Amp_Ffwd5s doing the same thing and mistype.
+	- Code moving again, bit cleaner
+	- Tweaked !Amp_Display to set focus to winamp if it's already visible
+	- Added commands for Winamp2:
+	!Amp_StopAfterTrack, !Amp_PlayCD, !Amp_AddToPlaylist
+
+2002-09-23:
+	- Source code released
+	- Moved some commands from the general section to specific wa2/3 to allow for other players to be added afterwards
+	(and not require them to also have things like doublesize etc).
+	also these now "player specific" don't scan for which player is loaded
+	- Added bang running depending whether the wa2/3 controller is loaded:
+	Use DynAmpOnWA2 !bang / DynAmpOnWA3 !bang in step.rc
+
+2002-09-22:
+	- Most Winamp3 keys have been done
+	- Merged most commands from GeekAmp, only !Amp_FileInfo & !Amp_MovePosition haven't been added
+
+2002-09-21:
+	- Started recoding in an OOP layout to support both wa2 & wa3 (and others?)
+	- Added bangs first batch of bangs
+
+Misc:
+
+	These are commands for use with label when using in conjunction with wa3
+	to get varius title & other info from it:
+
+With Tracknr, Time & Status:
+	AmpLabelText		"[windowTitle('Studio')]"
+With Tracknr, Time:
+	AmpLabelText		"[beforelast(windowTitle('Studio'),'(')]"
+With Tracknr:
+	AmpLabelText		"[beforelast(beforelast(windowTitle('Studio'),'('),'(')]"
+Only Title:
+	AmpLabelText		"[after(beforelast(beforelast(windowTitle('Studio'),'('),'('),'.')]"

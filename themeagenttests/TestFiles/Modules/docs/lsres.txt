@@ -1,0 +1,26 @@
+This module was created by MrJukes, the readme
+created by geekMASTER, which is why it won't be very
+well done.
+
+Install:
+
+Loadmodule c:\litestep\lsres.dll
+
+Usage:
+
+!ChangeResolution 800x600
+!ChangeResolution 1024x768
+!ChangeResolution 1152x864
+!ChangeResolution 1280x1024
+!ChangeResolution 1600x1200
+
+Example, ripped directly from AznRomeo's excellent port of
+BlueSteel to Litestep. You can get the theme from litestep.net.
+
+*Shortcut "800x600"   57   301  config-off.bmp   config-on.bmp       config-on.bmp      #1h  !ChangeResolution 800x600 !recycle
+*Shortcut "1024x768"  131  301  config-off.bmp   config-on.bmp       config-on.bmp      #1h  !ChangeResolution 1024x768 !recycle
+*Shortcut "1152x864"  57   315  config-off.bmp   config-on.bmp       config-on.bmp      #1h  !ChangeResolution 1152x864 !recycle
+*Shortcut "1280x1024" 131  315  config-off.bmp   config-on.bmp       config-on.bmp      #1h  !ChangeResolution 1280x1024 !recycle
+*shortcut "1600x1200" 57   328  config-off.bmp   config-on.bmp       config-on.bmp      #1h  !ChangeResolution 1600x1200 !recycle
+
+
