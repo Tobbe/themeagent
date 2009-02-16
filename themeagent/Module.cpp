@@ -5,7 +5,7 @@
 
 using namespace std;
 
-Module::Module(const string path)
+Module::Module(const string &path)
 {
 	WIN32_FIND_DATA findData;
 	if (FindFirstFile(path.c_str(), &findData) != INVALID_HANDLE_VALUE)

@@ -6,8 +6,9 @@
 class Module {
 private:
 	std::string name;
+	std::string location;
 public:
-	Module(const std::string path);
+	Module(const std::string &path);
 	std::string getName() const;
 	bool operator==(const Module &rhs) const;
 	bool operator<(const Module &rhs) const;
