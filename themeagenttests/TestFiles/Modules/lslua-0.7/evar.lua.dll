@@ -1,0 +1,31 @@
+-- original evar.lua, just fixed so the "magik nil" actually works ...
+
+local get_evar = lslua.get_evar
+local get_line = lslua.get_line
+local set_evar = lslua.set_evar
+local setmetatable = setmetatable
+local tostring = tostring
+
+module 'evar'
+
+local NIL = ';MAJIK\002'
+
+local function get( key )
+    local raw = get_line( key )
+    return raw and raw~= NIL and get_evar( key ) or nil
+end
+
+function toboolean( key )
+    local s = tostring( get( key ) or false):lower()
+    return not ( s == 'false' or s == '0' or s == 'no' or s == 'off' )
+end
+
+setmetatable( _M, {
+    __index = function( table, key )
+            return get( key )
+        end;
+    __newindex = function( table, key, value )
+            if value == nil then value = NIL end
+            set_evar( tostring( key ), tostring( value ) )
+        end
+    } )

@@ -1,0 +1,324 @@
+require "evar"
+require "evarutils"
+
+--[[      helper function for shorter bangs generation ]]--
+
+
+--//this shouldnt be here i guess ( thou it is nice )
+function string:join( list )
+    local len = #list
+    if len == 0 then 
+        return ''
+    end
+    local string = tostring(list[ 1 ])
+    for i = 2, len do
+        string = string .. self .. tostring(list[ i ])
+    end
+    return string
+end
+
+local lsexec = function(...) -- better way to call lslua.exec with varargs
+    local list = {...}
+    local len = #list
+    if len == 0 then 
+        return ""
+    end
+    local string = tostring(list[ 1 ])
+    for i = 2, len do
+      if list[i] ~= nil then
+        string = string .. " " .. tostring(list[ i ])
+      end
+    end
+    lslua.exec(string)
+end
+
+local function getversion( name ) 
+  local path = evar['pathto' .. name]
+  if path then
+    return  string.match(path, name ..'%-(.*)%.dll') or '0'
+  else
+    return '0'
+  end
+end 
+
+
+--[[ Object wrapper code starts here ]]--
+lsmodule = {_NAME = 'lsmodule'}           -- the module table
+lsmodule.__meta = { 
+    dockto = function (t,other, side,offset,step,tim)
+      if t.move then
+        offset = offset or 0
+        if side == "left" then t:move(other.x-t.width-offset,other.y,step,tim)
+        elseif side == "right" then t:move(other.x+other.width+offset,other.y,step,tim) 
+        elseif side == "top" then t:move(other.x,other.y-t.height-offset,step,tim) 
+        elseif side == "bottom" then t:move(other.x,other.y+other.height+offset,step,tim) 
+        end
+      end
+    end,
+    covers = function( self, x, y ) 
+      if (self.x and self.y and self.width and self.height) then
+          return  x >= self.x and  x <= self.x+self.width and y >= self.y and  y <= self.y+self.height
+      end
+      return nil
+    end,
+    serialize = function( self ) 
+    return ("lsmodule.%s.%s"):format(self.__type, self.__name)
+   end
+}
+
+lsmodule.unserialize = function( s )
+    return loadstring('return ' .. s )()
+end
+
+-- bangs of the modules
+lsmodule.__bangs = {}
+lsmodule.__bangs.XLABEL = {    --complete
+    infoexport = function (t,varname, text) if text==nil then lsexec("!LabelInfoExport", t, varname) else lsexec("!LabelInfoExport", varname, text) end end,
+    refresh = function (t,setting, ... ) local value=string.join(' ', {...}) t[setting]=value lsexec("!labelrefresh",t,t..setting, value) end,
+    createoverlay = function (t, x, y, width, height, overlay, flags) lsexec( '!LabelCreateOverlay', t, x, y, width, height, overlay , flags ) end,
+    destroyoverlay = function (t, overlay) lsexec( '!LabelDestroyOverlay', t, overlay ) end,
+    modifyoverlay = function (t,overlay,x,y,width,height) lsexec("!LabelModifyOverlay",t, overlay, x,y,width, height)
+                                evar[overlay..'x']=x evar[overlay..'y']=y evar[overlay..'width']=width evar[overlay..'height']=height end,
+    refreshoverlay = function (t,overlay,setting, ... ) local value=string.join(' ', {...}) evar[overlay .. setting]=value lsexec("!labelrefresh",t,overlay..setting, value) end,
+    setalwaysontop = function (t,extra) lsexec("!LabelAlwaysontop",t,extra) t.alwaysontop=extra end,
+    
+    clipboardcopy = function (t,text) lsexec("!LabelClipboardCopy",t) end,
+    clipboardpaste = function (t,text) lsexec("!LabelClipboardPaste",t) end,
+    create = function (t) lsexec("!LabelCreate",t) return t end,
+    destroy = function (t) lsexec("!Labeldestroy",t) end,
+    dock = function (t, label2, b, mods) lsexec("!LabelDock", t, label2, b, mods) end,
+    focus = function( t ) lsexec('!LabelFocus', t) end,
+    hide = function (t,overlay) lsexec("!LabelHide",t,overlay) end,
+    move = function (t,x,y,steps,tim) t.x=x; t.y=y; lsexec("!Labelmove",t,x,y,steps,tim) end,
+    moveby = function (t,x,y,steps,tim) t.x=x + (t.x or 0); t.y=y + (t.y or 0);  lsexec("!Labelmoveby",t,x,y,steps,tim) end,
+    next = function( t ) lsexec("!LabelNext",t) end,
+    previous = function( t ) lsexec("!LabelPrevious",t) end,
+    reposition = function (t,x,y,width,height,steps,tim) t.x=x; t.y=y; lsexec("!Labelreposition",t,x,y,width,height,steps,tim) end,
+    repositionby = function (t,x,y,width,height,steps,tim) t.x=t.x+x; t.y=t.y+y; lsexec("!Labelrepositionby",t,x,y,width,height,steps,tim ) end,
+    resize = function (t,width,height,steps,tim) lsexec("!LabelResize",t,width,height,steps,tim) end,
+    resizeby = function (t,width,height,steps,tim) lsexec("!LabelResizeby",t,width,height,steps,tim) end,
+    scroll = function(t, number, mode) lsexec("!LabelScroll",t, number, mode) end,
+    setalpha = function (t,num,step,tim) lsexec("!LabelSetAlpha",t,num,step,tim) t.alphatransparency=num end,
+    setanimation = function( t,b,loops ) lsexec("!LabelSetAnimation",t,b,loops) end,
+    settext = function (t, text, overlay ) t.text=text lsexec("!LabelSetText",t, overlay or '', text) end,
+    show = function (t,overlay) lsexec("!LabelShow",t,overlay) end,
+    showhide = function( t, mili ) lsexec("!LabelShowHide",t,mili) end,
+    toggle = function (t,extra) lsexec("!Labeltoggle",t,extra) end,
+    update = function (t) lsexec ('!LabelUpdate',t ) end
+}
+
+lsmodule.__bangs.XTASKBAR = { --complete
+    setalwaysontop = function (t,extra) lsexec("!xTaskbarAlwaysOnTop",t,extra) t.alwaysontop=extra end,
+    create = function (t) lsexec("!xTaskbarCreate",t) return t end,
+    destroy = function (t) lsexec("!xTaskbardestroy",t) end,
+    display = function(t, values) lsexec("!xTaskbarDisplay",t, values) end,
+    hide = function (t, extra) lsexec("!xTaskbarHide",t, extra) end,
+    move = function (t,x,y,steps,tim) t.x=x; t.y=y; lsexec("!xTaskbarmove",t,x,y,steps,tim) end,
+    moveby = function (t,x,y,steps,tim) t.x=t.x+x; t.y=t.y+y;  lsexec("!xTaskbarmoveby",t,x,y,steps,tim) end,
+    refresh = function (t,setting,...) local value=string.join(' ', {...}) t[setting]=value; lsexec("!xTaskbarrefresh",t,t..setting, value) end,
+    reposition = function (t,x,y,width,height,steps,tim) t.x=x; t.y=y; lsexec("!xTaskbarreposition",t,x,y,width,height,steps,tim) end,
+    repositionby = function (t,x,y,width,height,steps,tim) t.x=t.x+x; t.y=t.y+y; lsexec("!xTaskbarrepositionby",t,x,y,width,height,steps,tim) end,
+    resize = function (t,width,height,steps,tim) lsexec("!xTaskbarResize",t,width,height,steps,tim) end,
+    resizeby = function (t,width,height,steps,tim) lsexec("!xTaskbarResizeby",t,width,height,steps,tim) end,
+    scrollbuttons = function(t, dir, amount) lsexec("!xTaskbarScrollButtons",t, dir, amount) end,
+    setalpha = function (t,num,step,tim) t.alphatransparency=num lsexec("!xTaskbarSetalpha",t,num,step,tim) end,
+    show = function (t) lsexec("!xTaskbarShow",t,extra) end,
+    switch = function(t, dir) lsexec("!xTaskbarSwitch",t,dir) end,
+    toggle = function (t,extra) lsexec("!xTaskbartoggle",t,extra) end  
+}
+
+lsmodule.__bangs.XTRAY = {          -- complete
+    setalwaysontop = function (t,extra) lsexec("!xTrayAlwaysOnTop",extra) t.alwaysontop=extra end,
+    hide = function (t, extra) lsexec("!xTrayHide") end,
+    move = function (t,x,y,steps,tim) t.x=x; t.y=y; lsexec("!xTraymove",x,y,steps,tim) end,
+    moveby = function (t,x,y,steps,tim) t.x=t.x+x; t.y=t.y+y;  lsexec("!xTraymoveby",x,y,steps,tim) end,
+    refresh = function (t,setting, ...) local value=string.join(' ', {...})  t[setting]=value; lsexec("!xTrayRefresh", t..setting, value) end,
+    reposition = function (t,x,y,width,height,steps,tim) t.x=x; t.y=y; lsexec("!xTrayreposition",x,y,width,height,steps,tim) end,
+    repositionby = function (t,x,y,width,height,steps,tim) t.x=t.x+x; t.y=t.y+y; lsexec("!xTrayrepositionby",x,y,width,height,steps,tim) end,
+    resize = function (t,width,height,steps,tim) lsexec("!xTrayResize",width,height,steps,tim) end,
+    resizeby = function (t,width,height,steps,tim) lsexec("!xTrayResizeby",width,height,steps,tim) end,
+    scrollicons = function (t, dir, amount) lsexec("!xTrayScrollIcons", dir, amount) end,
+    setalpha = function (t,num,step,tim) t.alphatransparency=num lsexec("!xTraySetalpha",num,step,tim) end,
+    show = function (t) lsexec("!xTrayShow",t,extra) end,
+    toggle = function (t) lsexec("!xTrayToggle",t) end,
+    togglehiddenicons = function (t,extra) lsexec("!xTrayToggleHiddenIcons") end
+}
+
+lsmodule.__bangs.XSTATSGRAPH = { --docs are crap, i guess this should be ok ^^
+    move = function (t,x,y,steps,tim) t.x=x; t.y=y; lsexec("!xStatsGraphmove",t,x,y,steps,tim) end,
+    moveby = function (t,x,y,steps,tim) t.x=t.x+x; t.y=t.y+y;  lsexec("!xStatsGraphmoveby",t,x,y,steps,tim) end,
+    reposition = function (t,x,y,width,height,steps,tim) t.x=x; t.y=y; lsexec("!xStatsGraphreposition",t,x,y,width,height,steps,tim) end,
+    repositionby = function (t,x,y,width,height,steps,tim) t.x=t.x+x; t.y=t.y+y; lsexec("!xStatsGraphrepositionby",t,x,y,width,height,steps,tim ) end,
+    resize = function (t,width,height,steps,tim) lsexec("!xStatsGraphResize",t,width,height,steps,tim) end,
+    resizeby = function (t,width,height,steps,tim) lsexec("!xStatsGraphResizeby",t,width,height,steps,tim) end,
+    infoexport = function (t,varname) lsexec("!xStatsGraphInfoExport",t,"%@"..varname.."%@") end,
+    refresh = function (t,setting, ...) local value=string.join(' ', {...}) t[setting]=value; lsexec("!labelrefresh",t,t..setting, value) end,
+    create = function (t) lsexec("!xStatsGraphCreate",t) return t end,
+    destroy = function (t) lsexec("!xStatsGraphdestroy",t) end,
+    hide = function (t, extra) lsexec("!xStatsGraphHide",t, extra) end,
+    show = function (t) lsexec("!xStatsGraphShow",t,extra) end,
+    setalpha = function (t,num,step,tim) lsexec("!xStatsGraphSetAlpha",t,num,step,tim) t.alphatransparency=num end,
+    settext = function (t,text,extra) t.text=text lsexec("!xStatsGraphSetText",t,extra,text)  end,
+    setalwaysontop = function (t,extra) lsexec("!xStatsGraphAlwaysontop",t,extra) t.alwaysontop=extra end,
+    toggle = function (t,extra) lsexec("!xStatsGraphtoggle",t,extra) end
+}
+
+--xpopup cant do much, but at least we can use it to hold icon info and stuff like that with multiple popups.
+lsmodule.__bangs.XPOPUP = {
+    open = function (t) lsexec ( "!"..self) end
+}
+
+lsmodule.__bangs.TIMER = {
+  start = function (t) lsexec("!Timerstart",t) end,
+  stop = function (t) lsexec("!Timerstop",t) end,
+  reset = function (t) lsexec("!Timerreset",t)  end,
+  kill = function (t) lsexec("!Timerkill",t) end,
+  create = function (t,timeout,command, flags, group) lsexec("!TimerAdd",t, flags or '#', (group or ""), timeout, command) return t end,
+  update = function (t,timeout, command, group) lsexec("!TimerUpdate", t, group or "", timeout, command) end,
+}
+
+
+--[[      compare function factory
+          used with table.sort since modules obviously have no natural sort order
+          ie:
+          t = {label1, label2, label3}    -- where label* is any lsmodule.* object
+          table.sort(t, lsmodule.sortby('x') )
+]]--
+
+lsmodule.sortby = function(attr)
+    return (function (self,other) return self[attr] < other[attr] end)
+end
+lsmodule.revsortby = function(attr)
+    return (function (self,other) return self[attr] > other[attr] end)
+end
+
+--[[ name factory for unique names ]]--
+
+lsmodule.getname = setmetatable({
+    _NAME = '_lsmodule%i_', 
+    _LAST = 0}, {
+    __call = function(self) 
+                    self._LAST = self._LAST+1
+                    return self._NAME:format(self._LAST)
+                end
+    })
+
+lsmodule.getName = lsmodule.getname -- i should stick to a naming scheme
+
+
+--[[ simple callbacks ... store the lua code in lua, call it from ls ]]--
+
+lsmodule.callback = setmetatable({_LAST = 0}, {
+    __call = function(self, func, ...) -- return a callback object
+                    self._LAST = self._LAST+1
+                    local i = self._LAST
+                    local arg = {...}
+                    self[i] = function() func( unpack(arg)) end
+                    return ("!LuaExec lsmodule.callback[%i]()"):format(i), i
+    end})
+
+--[[ simple timer helpers ]]--
+lsmodule.after = function( timeout, func, ... ) -- call a function after a timeout
+    local timer = lsmodule.timer[lsmodule.getname()]
+    local callback, index = lsmodule.callback(func, ...)
+    callback = callback .. " lsmodule.callback["..index.."]=nil" -- remove the function after we are done    
+    timer:create( timeout, callback )
+    return timer
+end
+
+lsmodule.every = function( timeout, func, ... ) -- call a function every timeout
+    local timer = lsmodule.timer[ lsmodule.getname() ]
+    local callback = lsmodule.callback( func, ... )
+    timer:create( timeout, callback, "#l" )
+    return timer
+end
+
+
+--[[  the "maze of clever metatables", don't get lost :-)  ]]--
+
+lsmodule.__cache = {}     -- holds previosly created objects
+--- This defines how to find actuall function calls, like (module.xlabel.test):move(100)
+local bang_mt = {
+  __index = function (self, key)
+        local ret = self.__bangs[key] or lsmodule.__meta[key]
+        if ret then  -- its a bang call
+            return ret
+        else -- we want a evar, lets look for a 'current' value
+            ret = evar[self .. "current"..key] or evar[self .. key]
+            return tonumber(ret) or ret
+        end
+    end,
+  __newindex = function (self,key,value)
+        if type(value) == 'function' then 
+            return rawset(self, key, value) 
+        elseif value=="toggle" then 
+            value = not evarutils.toboolean(evar[self .. key])     -- get the current value and invert
+        end
+        evar[self..key] = value     --assign it in memory
+        local varfile = evar[self.."varfile"]
+        if varfile then 
+                evarutils.savevar(varfile,self..key,value) 
+        end
+    end,
+  __tostring = function (self) return self.__name or '' end,
+  __concat = function(self, other) return tostring(self) .. tostring(other) end
+  }
+
+  
+-- this find instances of modules by their name, like in lsmodule.xlabel.test or module.xtray.test
+local module_mt = {
+  __index = function(t, key) 
+      local cache = rawget(t,'__cache')           -- look inside the cache
+      local obj = cache[string.lower(key)]        -- is the obj in the cache?
+      if obj then
+        return obj
+      else
+        -- create a new wrapper for the key
+        local t = {__name = key,
+                  __bangs = rawget(t, '__bangs'),
+                  __type = rawget(t, '__type')
+                  }
+        local newobj = setmetatable(t, bang_mt)
+        rawset(cache, string.lower(key), newobj )
+        return newobj
+      end
+  end,
+  __newindex = function(t,k,v) error() end          --no adding stuff 
+}
+
+
+-- metatable for the module, controlls modulule access like lsmodule.xlabel or module.xtray
+local main_mt = {
+   __index= function(t, key)
+      local cache = rawget(t,'__cache')           -- look inside the cache
+      local obj = cache[string.lower(key)]        -- is the obj in the cache?
+      if obj then
+        return obj
+      else 
+        -- Either the key is invalid or we dont have the module yet
+        local bangs = rawget(t,'__bangs')[string.upper(key)]
+         -- create a new module object
+        local t = { __bangs = bangs, 
+            __cache = {},
+            __type = string.lower(key),
+            
+            -- module attributes
+            version = getversion( key ),
+            
+            --module methods
+            load = function( self, version ) return lslua.exec( ("!NetReloadmodule %s-%s"):format( self.__type,self.version ) ) end,
+            unload = function( self ) return lslua.exec( ("!NetUnloadmodule %s-%s"):format( self.__type,self.version ) ) end
+              }
+        local newobj = setmetatable( t , module_mt )
+        --  and add it to the cache
+        rawset(cache, string.lower(key), newobj )
+        return newobj
+      end
+    end,
+   __newindex = function(t,k,v) error('Adding to this table makes no sense') end          --no adding stuff 
+}
+
+setmetatable(lsmodule, main_mt)
+
+-- and now its a module with a nice metatable.
+module "lsmodule"

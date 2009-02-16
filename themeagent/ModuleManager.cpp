@@ -33,9 +33,10 @@ void ModuleManager::findModulesInModulesDir()
 			}
 			else if (isDir(wfd))
 			{
-				string searchString = wfd.cFileName;
+				WIN32_FIND_DATA wfd2;
+				string searchString = modulesDir + "\\" + wfd.cFileName;
 				searchString += "\\*.dll";
-				if (FindFirstFile(searchString.c_str(), NULL) != INVALID_HANDLE_VALUE)
+				if (FindFirstFile(searchString.c_str(), &wfd2) != INVALID_HANDLE_VALUE)
 				{
 					modules.add(Module(wfd.cFileName));
 				}

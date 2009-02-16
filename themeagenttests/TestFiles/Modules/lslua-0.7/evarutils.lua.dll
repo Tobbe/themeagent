@@ -1,0 +1,200 @@
+--[[
+
+Module Evarutils:
+functions to handle evars and bang parameters at a slightly higher level
+
+
+toboolean( value ) 
+    :: returns value as a boolean like litestep would
+    
+toggle( evar )
+    :: evar = !evar  ...
+    
+savevar( file, var, value ) 
+    :: saves var to file
+    
+getvalue( file, var ) 
+    :: retrieves the value of var in files
+    
+deletevar( file, var ) 
+    :: removes var from file
+
+
+]]--
+local print = print 
+local evar = require"evar"
+local io, string, table, tostring, setmetatable, error, assert  = io, string, table, tostring, setmetatable, error, assert
+
+--[[ private helper functions ]] --
+
+local function tokenize( line )
+    -- new parser for evars, maybe this works better
+    local start = 0
+    local values, comment, commentindex
+    while start < #line do
+        -- there might be a comment somewhere, lets look
+        commentindex = string.find (line, ';',start, true )
+        if commentindex ~= nil then
+            -- there is a comment, lets see if there are quotes around:
+            local startsq, stopsq = string.find (line, '"[^"]*"', start)
+            local startdq, stopdq = string.find (line, "'[^']*'", start)
+            if (startsq or commentindex) < commentindex and stopsq > commentindex then
+                -- its in double quotes so ignore it
+                start = stopsq+1
+            elseif (startdq or commentindex) < commentindex and stopdq > commentindex then
+                -- its in single quotes so ignore it
+                start = stopdq+1
+            else
+                -- no quotes around it, so a comment starts at commentindex!
+                values = string.sub(line, 0, commentindex-1)
+                comment = string.sub(line, commentindex+1, -1)
+                break
+            end
+        else
+            -- no comments, we are done
+            break
+        end
+    end
+    -- now that we know where the comment stats, we can split the rest
+    local evar, value = string.match(values or line, "(%S+)%s*(%S*)" ) -- word whitespace word
+    return evar or '', value or '', comment
+end
+
+local function appendline( file, line )
+    -- appends a single line to a file
+    local fp, err = io.open(file,"a+") --append mode
+    assert(fp, err)
+    fp:write( line )
+    return fp:close()
+end
+
+local function writelines( file, tlines )
+    -- write a table of lines in to a file
+    local fp, err = io.open(file,"w+")
+    assert(fp, err)
+    fp:write( table.concat( tlines, "\n" ) )
+    return fp:close() 
+end
+
+local simpleline = "%s    %s"
+local linewithcomment = simpleline .. " ;; %s"
+module "evarutils"
+
+--[[ public functions ]]--
+
+function toboolean( value )
+    local value = tostring( value ):lower()
+    return not ( value == 'false' or value == '0' or value == 'no' or value == 'off' )
+end
+
+function toggle( key )  -- toggles a key in memory
+    evar[key] = not evar.toboolean(key)
+end
+
+function savevar( file, var, value, comment ) -- set ALL occurences of var in file to value
+    assert( var~=nil, "Given evarname is nil")
+    assert( value~=nil, "Given value is nil")
+    local var, value = tostring(var), tostring(value)
+    local fp = io.open(file,"r")
+    if not fp then  --file didnt exist, create write close
+        if comment then
+            return appendline( file, linewithcomment:format(var, value, comment) )
+        else 
+            return appendline( file, simpleline:format(var, value) )
+        end
+    else
+        -- we could do it simple and ( sometimes ) incorrect with patterns like you would with textedit
+        -- or nice and cool and always correct
+        -- now guess which i do
+        local changed = false
+        local new = {}
+        local e,v,c  -- evar, value, comment
+        for line in fp:lines() do
+                e, v, c = tokenize( line )
+                if string.lower(e) == string.lower(var) then
+                    if comment then
+                        table.insert( new, linewithcomment:format(var, value, comment ) )
+                    elseif c then
+                        table.insert( new, (simpleline .. " %s"):format(var, value, c))
+                    else 
+                        table.insert( new, simpleline:format(var, value) )
+                    end
+                    -- something changed on that line, so we have to rewrite the file
+                    changed = true    
+                else
+                    -- nothing happend, just keep the line in case something changes later.
+                    table.insert( new, line )
+                end
+        end
+        fp:close()  --finished reading and processing the stuff
+        -- time to check if something changed
+        if changed then
+            -- we replaced some value, so replace the file with the new content
+            return writelines( file, new )
+        else    -- nothing changed, just append the new value
+            if comment then
+                return appendline( file, "\n" .. linewithcomment:format(var, value, comment) )
+            else 
+                return appendline( file, "\n" .. simpleline:format(var, value) )
+            end
+        end
+    end
+ end
+
+function getvalue(file,var) -- returns the value, first match
+    assert( var~=nil, "Given evarname is nil")
+    local fp,err = io.open(file,"r")
+    assert(fp, err)
+    local var = string.lower(var)
+    local e, v, c
+    for line in fp:lines() do
+        e, v, c = tokenize( line )
+        if string.lower(e) == var  then 
+            fp:close()
+            return v 
+        end
+    end
+    fp:close()
+    return nil
+end
+
+
+function deletevar(file,var) -- deletes var from file
+    assert( var~=nil, "Given evarname is nil")
+    local fp,err = io.open(file,"r")
+    assert(fp, err)
+    local new, var, changed = {}, string.lower(var), false
+    local e, v, c
+    for line in fp:lines() do
+        e, v, c = tokenize( line )
+        if string.lower(e) ~= var then 
+            table.insert( new, line )
+        else
+            changed = true
+        end
+    end
+    if changed then
+        return writelines( file, new )
+    end
+end
+
+--[[      a simple way to store evars
+          lsmodule.config.<name>.<key> = <value> means
+          1. file = $<name>$ or $themedir$<name>.rc
+          2. open the file and add literaly "<key> <value>"
+--]] 
+config = setmetatable( {}, {
+        __index = function(self, key) 
+            local t = { __path = evar.ThemeDir .. key}
+            function t:get( key ) return getvalue(tostring(self), key) end
+            function t:delete( key ) return deletevar(tostring(self), key) end
+	    function t:toggle( key ) local x=not evar.toboolean(key) evar[key]=x savevar(tostring(self) , key, x) end
+            local mt = { 
+                    __index = function(self, key) self.__path = self.__path  .. "/".. key return self end,
+                    __newindex = function(self, key, value) evar[key]=value savevar(tostring(self) , key, value)  end,
+                    __tostring = function(self) return self.__path .. '.rc'  end
+            }
+            return setmetatable(t, mt)
+        end,
+          __newindex = function(self, key, value) error('Assigning to the config table makes no sense') end,
+})

@@ -1,0 +1,678 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!--
+
+Lua License
+===========
+
+Lua is licensed under the terms of the MIT license reproduced below.
+This means that Lua is free software and can be used for both academic
+and commercial purposes at absolutely no cost.
+
+For details and rationale, see http://www.lua.org/license.html .
+
+===============================================================================
+
+Copyright (C) 1994-2006 Lua.org, PUC-Rio.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+===============================================================================
+
+^^ because these docs are simply and plainly styled like the Lua manual's
+
+//-->
+<html><head>
+<title>LSLua-0.7 Documentation</title>
+<style type="text/css">
+<!--
+body {
+	background: #fff;
+	color: #000;
+	font-family: sans-serif;
+}
+
+a:link { color:#008; }
+
+a:link:hover, a:visited:hover {
+	color: #008;
+	background-color: #E0E0FF;
+}
+
+h1 a:link, h1 a:visited { color: #000000; text-decoration: none;}
+code { color: #800 }
+code.ls { color: #080 }
+code.lsapi { color: #088 }
+//-->
+</style>
+</head><body>
+<a name="top">
+<h1>LSLua 0.7</h1>
+<p>by doy (jluehrs2 at uiuc dot edu)<br>
+  updated by THC4k (http://www.ls-themes.org)</p>
+  <h1>TOC</h1>
+  <ol>
+  <li><a href="#intro">Intro</a></li>
+  <li><a href="#settings">Settings and Bang Commands</a></li>
+  <li><a href="#lslua">LsLua functions</a></li>
+  <li><a href="#modules">Lua modules</a>
+  <ol><li><a href="#args">args</a></li>
+  <li><a href="#evar">evar</a></li>
+  <li><a href="#evarutils">evarutils</a></li>
+  <li><a href="#evarutils">textedit</a></li>
+  <li><a href="#lsmodule">lsmodule</a></li>
+  </ol>
+  </li>
+  </ol>
+  
+<h1>Introduction <a name="intro" href="#top">&uArr;</a></h1>
+<p>
+LSLua is a scripting interface to LiteStep using the <a href=
+"http://lua.org">Lua</a> scripting language. Lua is a cross platform,
+open source, embeddable scripting language. This module provides an
+interface to the LSAPI through Lua scripts.
+</p>
+<p>
+This document explains what LSLua as a module provides;
+for convenience, each of <code>lua code</code>,
+<code class="ls">litestep config code</code>, and
+<code class="lsapi">LSAPI code</code> are highlighted.
+</p>
+<p>
+See <a href="history.txt">history.txt</a> for a list of bugs and changes
+in LSLua.
+</p>
+<p>
+To see
+how LSLua may be used, with examples, see
+<a href="http://wiki.litestep.com/Modules:LSLua">
+http://wiki.litestep.com.ar/Modules:LSLua</a></p>
+<p><b><a href="http://www.microsoft.com/downloads/details.aspx?FamilyID=9b2da534-3e03-4391-8a4d-074b9f2bc1bf">Visual C++ 2008 runtimes are required. If Litestep cannot load the module, click here.</a></b></p>
+<h2>Information about Lua</h2>
+<p>
+See the <a href="http://lua.org/manual/5.1/">Lua 5.1 manual</a> for a
+quick reference on using Lua. See also the book <i><a href=
+"http://lua.org/pil/">Programming in Lua</a></i>. Code snippets and
+general information can be found at the <a href=
+"http://lua-users.org/wiki/">lua-users wiki</a>. Finally, for more specific
+questions not covered by those resources, feel free to ask for help in
+<a href="irc://irc.freenode.net/#lua">#lua on irc.freenode.net</a>
+</p>
+
+<h1>Settings and Bang Commands <a name="settings" href="#top">&uArr;</a></h1>
+<p>
+To load LSLua, put a line resembling <code class="ls">*NetLoadModule lslua-0.7
+load lslua.dll</code> in your theme.rc. The
+<code class="ls">load lslua.dll</code> part is important, since,
+due to restrictions in NetLoadModule, all of the modules that come with
+LSLua must have a .dll extension for NetLoadModule to unpack them to the
+correct place. 
+<p>LSLua can be loaded threaded, but be aware that this can produce strange behavior. Litestep has no means of syncronisation between modules and you will most likely use lslua to interact with other modules. In most cases lua's coroutines will be the better choice over loading the module threaded.
+</p>
+<!-- ======================= --><hr>
+<h3><code class="ls">*LuaFile &lt;filename&gt;</code></h3>
+<p>
+Executes the given file. This registers any functions that are declared,
+and executes any statements not declared in a function. Any function
+whose name begins with <code>bang_</code> is also registered as a bang
+command, named with the rest of the function name. For example, the
+function <code>bang_test</code> would be registered as
+<code class="ls">!test</code>. Bang functions take one optional string
+argument consisting of the entire argument string passed to them.
+</p>
+<!-- ======================= --><hr>
+<h3><code class="ls">*LuaBinaryModuleDir &lt;directory&gt;</code></h3>
+<p>
+Declares a directory to be added to the search path for binary modules
+(<code>package.cpath</code>). Uses an extension of .dll.
+</p>
+<!-- ======================= --><hr>
+<h3><code class="ls">*LuaScriptModuleDir &lt;directory&gt;</code></h3>
+<p>
+Declares a directory to be added to the search path for Lua script
+modules (<code>package.path</code>). Uses an extension of .lua or
+.lua.dll.
+</p>
+<!-- ======================= --><hr>
+<h3><code class="ls">*LuaModuleDir &lt;directory&gt;</code></h3>
+<p>
+Equivalent to both of <code class="ls">*LuaBinaryModuleDir</code> and
+<code class="ls">*LuaScriptModuleDir.</code>
+</p>
+<!-- ======================= --><hr>
+
+<h3><code class="ls">LSLuaErrorFile &lt;file&gt;</code></h3>
+<p>
+If set errors in lua scripts will be dumped to the &lt;file&gt; instead of shown via MessageBox.
+</p>
+<!-- ======================= --><hr>
+<h3><code class="ls">!LuaExec &lt;lua chunk&gt;</code></h3>
+<p>
+Executes the argument as a Lua chunk.
+</p>
+
+
+<h1>LsLua Functions <a name="lslua" href="#top">&uArr;</a></h1>
+<p>
+LSLua defines the global table <code>lslua</code> which contains some
+important functions and variables.
+</p>
+<!-- ======================= --><hr>
+<h3><code>lslua.message_box (text, title)</code></h3>
+<p>
+Creates a message box with text of text and optional title of title.
+Quotes do work correctly, unlike <code class="ls">!alert</code>.
+</p>
+<!-- ======================= --><hr>
+<h3><code>lslua.exec (str)</code></h3>
+<p>
+Executes <code>str</code> as a command, like LSXCommand or
+<code class="ls">!execute []</code>.
+</p>
+<p>
+Uses <code class="lsapi">LSExecute()</code>.
+</p>
+<!-- ======================= --><hr>
+<h3><code>lslua.res ()</code></h3>
+<p>
+Returns a table such that <code>lslua.res().x</code> is the x resolution,
+<code>lslua.res().y</code> is the y resolution, and
+<code>lslua.res().bpp</code> is the bits per pixel.
+</p>
+<!-- ======================= --><hr>
+<h3><code>lslua.mouse ()</code></h3>
+<p>
+Returns <code>x,y</code>such that <code>x</code> is the x
+coordinate of the mouse and <code>y</code> is the y
+coordinate of the mouse.
+</p>
+<!-- ======================= --><hr>
+<h3><code>lslua.milli ()</code></h3>
+<p>
+Returns the current number of milliseconds since the last second (use
+<code>os.date</code> to get the rest of the time information).
+</p>
+<!-- ======================= --><hr>
+<h3><code>lslua.version</code></h3>
+<p>
+a string containing the lslua version.
+</p>
+<!-- ======================= --><hr>
+<h3><code>lslua.get_evar (name)</code></h3>
+<p>
+Get an evar's value in memory, not file. Returns a string, or
+<code>nil</code> if evar is not defined. Similar to what you expect
+<code class="ls">$name$</code> would give.
+</p>
+<p>
+Uses <code class="lsapi">GetRCString()</code>.
+</p>
+<p>
+<strong>Note</strong>: the preferred way to use this function is through
+the <a href="#evar">evar module</a>.
+</p>
+<!-- ======================= --><hr>
+<h3><code>lslua.get_line (evar_name)</code></h3>
+<p>
+Get an evar's raw value in memory, not file. Returns a string, or
+<code>nil</code> if evar is not defined. Similar to get_evar but does not
+return first token.
+</p>
+<p>
+Uses <code class="lsapi">GetRCLine()</code>.
+</p>
+<!-- ======================= --><hr>
+<h3><code>lslua.set_evar (name, value)</code></h3>
+<p>
+Set an evar's value in memory, not file.
+</p>
+<p>
+Uses <code class="lsapi">LSSetVariable()</code>.
+</p>
+<p>
+<strong>Note</strong>: the preferred way to use this function is through
+the <a href="#evar">evar module</a>.
+</p>
+<!-- ======================= --><hr>
+<h3><code>lslua.rc_lines (prefix, file)</code></h3>
+<p>
+Get lines with given prefix from rc file. Use empty string for prefix to
+return all lines. If file not specified, defaults to settings already
+loaded in memory. Returns a table of strings.
+</p>
+<p>
+Uses <code class="lsapi">LCReadNextCommand()</code>.
+</p>
+<!-- ======================= --><hr>
+<a name="lslua_init" id="lslua_init"></a>
+<h3><code>lslua.init</code></h3>
+<p>
+A user defined value that is called at the very end of module load, so
+that bangs are registered. It is also executed in a coroutine, so timers
+should work.
+</p>
+<!-- ======================= --><hr>
+<a name="lslua_quit" id="lslua_quit"></a>
+<h3><code>lslua.quit</code></h3>
+<p>
+Similar to <a href="#lslua_init"><code>lslua.init</code></a>,
+but is called when lslua is unloaded.
+</p>
+<!-- ======================= --><hr>
+<p>
+</li>
+
+<h1>Lua Modules <a name="modules" href="#top">&uArr;</a></h1>
+<p>
+LSLua comes with eight modules designed to make certain tasks easier. To
+use one, include the line <code>require "&lt;modulename&gt;"</code> at
+the top of your Lua script.</p>
+<a name="args" id="args"></a>
+<h2>4.1 - args module</h2>
+<p>
+The args module defines some useful argument parsing functions.
+</p>
+<!-- ======================= --><hr>
+<h3><code>args.strjoin (table, sep)</code></h3>
+<p>
+Takes two arguments: a table of strings, and a string to use as the
+separator. Returns a string containing all of the elements of the table
+concatenated together, with elements separated by the separator string
+passed as the second argument. For example, <code>args.strjoin( { "this",
+"is", "a", "test" }, " " ) == "this is a test"</code>
+</p>
+<!-- ======================= --><hr>
+<a name="args_strsplit" id="args_strsplit"></a>
+<h3><code>args.strsplit (string, sep)</code></h3>
+<p>
+Takes two arguments: a string, and a delimiter (a separator). It splits
+the string up into a table of substrings based on the delimiter, and
+returns that table. For example, <code>args.strsplit( "this is a test", "
+" ) == { "this", "is", "a", "test" }</code>
+</p>
+<!-- ======================= --><hr>
+<a name="args_mstrsplit" id="args_mstrsplit"></a>
+<h3><code>args.mstrsplit (string, sep)</code></h3>
+<p>
+The same as <a href="#args_strsplit"><code>args.strsplit</code></a>,
+except it returns the results as multiple return values rather
+than as a table.
+</p>
+<!-- ======================= --><hr>
+<a name="args_qsplit" id="args_qsplit"></a>
+<h3><code>args.qsplit (string [, delimiters [, leftquotes [, rightquotes
+]]])</code></h3>
+<p>
+Takes between 1 and 4 arguments, some of them optional. first argument is
+a string, the second is a table of strings to use as delimiters, and the
+third and fourth are tables of strings to use as left and right quotes,
+respectively. If the fourth argument is omitted, it defaults to the same
+as the third, and if they are both omitted, they default to <code>{ "\"",
+"'" }</code>. If the second argument is omitted, it defaults to <code>{ "
+" }</code>. If any of the second, third, or fourth arguments are strings,
+they are automatically converted to tables holding those strings. This
+function splits the string into substrings based on the delimiter like
+<a href="#args_strsplit"><code>args.strsplit</code></a> does,
+but it takes into account quote characters as well. For example,
+</p>
+<pre>
+args.qsplit( "this is a 'string with quotes'" ) ==
+    { "this", "is", "a", "string with quotes" }
+args.qsplit( "%{hello},%{world}", ",", "%{", "}" ) == { "hello", "world" }
+args.qsplit( "[this is][a test]", "", "[", "]" ) == { "this is", "a test" }
+</pre>
+<!-- ======================= --><hr>
+<h3><code>args.mqsplit (string [, delimiters [, leftquotes [, rightquotes
+]]])</code></h3>
+<p>
+The same as <a href="#args_qsplit"><code>args.qsplit</code></a>,
+except it returns the results as multiple return values rather than
+as a table.
+</p>
+<a name="evar" id="evar"></a>
+<h2>4.2 - evar module</h2>
+<p>
+The evar module allows access to and (re)assignment of LiteStep evars.
+  <!-- ======================= -->
+</p>
+<hr>
+<a name="evar_toboolean" id="evar_toboolean"></a>
+<h3><code>evar.toboolean (evar)</code></h3>
+<p>
+Takes one argument, a string for an evar's name. It returns a boolean
+evaluating the given evar as a boolean as how LiteStep core would in RC
+'scripting'/preprocessing: It returns <code>false</code> for an evar
+whose value is one of these strings: <code>"0"</code>,
+<code>"false"</code>, <code>"off"</code>, or <code>"no"</code>. Otherwise
+it returns <code>true</code>.
+</p>
+<p>
+If for some reason you need to access the evar named "toboolean", access
+it with a different casing, like "ToBoolean".
+</p>
+<!-- ======================= --><hr>
+<h3>Evar Access</h3>
+<p>
+The evar table itself can be indexed to access the values of evars. For
+example, <code>evar.LiteStepDir == evar[ "LiteStep&quot; .. &quot;Dir" ] --is
+"C:\LiteStep\" (on my system)</code>.
+</p>
+<p>
+The result is <code>nil</code> for both undefined evars and those evars
+previously set to <code>nil</code> through the evar table (a magic value
+is replaced with <code>nil</code>).
+</p>
+<h3>Evar Assignment</h3>
+<p>
+Keys of the evar table can be assigned to; doing so will set an evar's
+value. <code>tostring()</code> is applied to this value. For example,
+<code>evar.nameOfEvar = 13</code>.
+</p>
+<p>
+Setting an evar to <code>nil</code> this way will actually set the evar
+to a magic value.
+</p>
+<p>
+<strong>Notes</strong> on evar access and assignment and why a magic
+value for <code>nil</code>:
+</p>
+<p>
+There is no way (aside from <code class="ls">!reload</code> or
+<code class="ls">!recycle</code> or restarting LS) to undefine an evar,
+so the evar module has its own notion of 'undefined'; It does so using
+its own magic value.
+</p>
+<p>
+So it makes no sense to set an evar to <code>nil</code>, because evars
+are just key-value pairs where both key and value are strings --omitting
+one or the other or both makes no sense.
+</p>
+<p>
+The choice to handle <code>nil</code> specially is because of the
+addition of <a href="#evar_toboolean"><code>evar.toboolean()</code></a>;
+<code>nil</code> should be recognized as <code>false</code>;
+why not handle <code>nil</code> in assignment as well?
+</p>
+<p>
+To avoid this issue, don't associate the idea that an evar can hold
+<code>nil</code>.
+</p>
+
+<a name="evarutils" id="evarutils"></a>
+<h2>4.3 - evarutils module</h2>
+<p> The evarutil module provides functions to handle evars. You can use this module to save evars to a file.</p>
+<!-- ======================= --><hr>
+
+<h3><code>evarutils.savevar(filename, varname, value [, comment])</code></h3>
+<p>
+Sets all occurances of <code>varname</code> in file <code>filename</code> to <code>value</code> and appends the specified comment if it is provided.</p>
+<!-- ======================= --><hr>
+
+<h3><code>evarutils.getvalue(filename, varname)</code></h3>
+<p>
+Reads file <code>filename</code> and tries to find <code>varname</code>. Returns the var's value or <code>nil</code></p>
+<!-- ======================= --><hr>
+
+<h3><code>evarutils.deletevar(filename,varname)</code></h3>
+<p>
+Removes all occurances of <code>varname</code> from file <code>filename</code>.</p>
+<!-- ======================= --><hr>
+
+<h3><code>evarutils.config</code></h3>
+<p>
+<code>evarutils.config</code> provides simple shortcuts for reading and writing config files. You can handle your Theme's settings in a very simple way with this.
+<p> The syntax for working with the config object is <br>
+  <code>evarutils.config.[&lt;relative folders&gt;.*]&lt;filename&gt;.&lt;evarname&gt; = &lt;value&gt;</code>
+<p>The file path is constructed from <code>evar.ThemeDir .. &lt;relative folders&gt; .. &lt;filename&gt; .. &quot;.rc&quot;</code>.
+<p>Example:<p>First, create a config object for the file you want to save your theme's settings to:<br>
+<code>cfg = evarutils.config.Settings.themevars</code>
+<p>You can get the full path by calling tostring on the object:<br>
+<code>path = tostring( cfg ) ---> path = "C:\Litestep\Themes\Mytheme\Settings\themevars.rc"</code>
+<p>Now, If you want to save a evar, simply index the config object: <br>
+<code>cfg.MySettingOne = "'Hello file!'" ---> Writes "MySettingOne  'Hello file!'" to xx\Settings\themevars.rc.</code>
+<p>To read a setting from the file use<br>
+<code>setting = cfg:get('Setting') ---> Looks for a line like "Setting	value" in the file and returns value</code>
+<p>Delete a settings from the file:<br>
+<code>cfg:delete('Setting') ---> Removes Setting from the file</code>
+<p>Toggle a boolean evar in the file:<br>
+  <code> cfg:toggle('Setting') ---> interprets Setting as a boolean and inverts it.</code>
+<!-- ======================= --><hr>
+
+<a name="textedit" id="textedit"></a>
+<h2>4.4 - textedit module</h2>
+<p>
+This is designed to emulate the textedit.dll/xTextedit.dll modules in
+Lua. It can search through files, replace lines, insert lines, delete
+lines, etc. The main difference is that this module uses Lua pattern
+matching instead of standard regexes like textedit.dll does.
+<p><b>If you just want to read/write evars in a file, use the <a href="#evarutils">evarutils</a> module instead!</b></p>
+<!-- ======================= --><hr>
+<h3><code>textedit.append (filename, str)</code></h3>
+<p>
+Adds <code>str</code> as a line at the end of the file
+</p><code>filename</code>.
+<!-- ======================= --><hr>
+<a name="textedit_insert" id="textedit_insert"></a>
+<h3><code>textedit.insert (filename, pattern, str, mode)</code></h3>
+<p>
+Searches through the file <code>filename</code> for lines matching
+<code>pattern</code>, and inserts <code>str</code> there. 'There' is
+determined by part of the string <code>mode</code>. The <code>mode</code>
+string can be any combination of the letters <code>g</code>,
+<code>i</code>, <code>b</code>, and <code>G</code>. <code>g</code> means
+'global', and means that the function will be applied to every matching
+line in the file. <code>i</code> means case insensitive, which should be
+self-explanitory. <code>b</code> means before, and only applies to
+insert. If <code>b</code> is given, <code>str</code> will be inserted
+before the matching line, otherwise it will be inserted after.
+<code>G</code> means line global, and only applies for
+<a href="#textedit_replace"><code>textedit.replace()</code></a>.
+It means that
+<a href="#textedit_replace"><code>textedit.replace()</code></a>
+should replace each match on a given line, instead of the first.
+</p>
+<p>
+Returns the number of insertions made.
+</p>
+<!-- ======================= --><hr>
+<h3><code>textedit.delete (filename, pattern, mode)</code></h3>
+<p>
+Deletes lines in <code>filename</code> that match <code>pattern</code>,
+following the mode rules from
+<a href="#textedit_insert"><code>textedit.insert()</code></a>. Returns the
+number of deletions made.
+</p>
+<!-- ======================= --><hr>
+<a name="textedit_replace" id="textedit_replace"></a>
+<h3><code>textedit.replace (filename, pattern, replace_pattern, mode)</code></h3>
+<p>
+Searches the file <code>filename</code> for lines that match
+<code>pattern</code> and replaces <code>pattern</code> with
+<code>replace_pattern</code> on those lines. Captures and stuff like that
+from <code>string.gsub()</code> are all valid here. Returns the number of
+times it replaced <code>pattern</code>.
+</p>
+<!-- ======================= --><hr>
+<h3><code>textedit.find (filename, pattern, mode)</code></h3>
+<p>
+Searches <code>filename</code> for <code>pattern</code>, and returns
+either the number of the first line that matches, or a table containing
+all lines that match if the mode string contains <code>g</code>.
+</p>
+<!-- ======================= --><hr>
+<h3><code>textedit.delete_line (filename, line_num)</code></h3>
+<p>
+Deletes line number <code>line_num</code> from the file
+<code>filename</code>. It returns <code>true</code> if the line was
+successfully deleted and <code>false</code> otherwise.
+</p>
+<!-- ======================= --><hr>
+<h3><code>textedit.insert_line (filename, str, line_num, before)</code></h3>
+<p>
+Inserts <code>str</code> into the file <code>filename</code> either
+before <code>line_num</code> if <code>before</code> is <code>true</code>,
+or after <code>line_num</code> if <code>before</code> is
+<code>false</code>. Returns <code>true</code> if the insertion was
+successful and <code>false</code> otherwise.
+</p>
+<!-- ======================= --><hr>
+<h3><code>textedit.get_line (filename, line_num)</code></h3>
+<p>
+Returns a string containing the contents of line <code>line_num</code> in
+file <code>filename</code>.
+</p>
+<a name="lsmodule" id="lsmodule"></a>
+<h2>4.5 - lsmodule module</h2>
+<p>This module can abstracts Litestep modules as Lua objects, bringing all the greatness of OOP to scripting in litestep. It currently supports Andymon's xModules and Timers, but can be extended very easily.<br>
+Basically this means that evars are mapped to class attributes and bangs are mapped to class methods, providing simple and direct access to them, without having to construct bangs manually from strings and running them with lslua.exec.  The concrete wappers for modules are construced by a maze of clever metatables on access and are cached. Don't worry, there are examples below :-)
+<h2>Basics</h2>
+A wrapper class for a supported module can be created like this: 
+<p><code>myObject = lsmodule.&lt;module name&gt;.&lt;module instance name&gt;</code>
+<p>You always have to give a instance name, even for modules that can only exists once ( like xtray ).</p>
+<p><code>traymodule= lsmodule.xtray --represents the xtray module ( which you can :unload() for example)<br>
+mytray= lsmodule.xtray.xtray --represents the xtray ( which you can :move() for example)</code>
+<p>
+  Now any of the wrapped module's bangs can be accessed with simple names ( "&lt;module name&gt;&lt;bang&gt;" becomes "&lt;bang&gt;" ). If the called method has side effects (i.e. &quot;!Move&quot; changes the x and y position) all changed attributes are set accordingly.
+<p><code>myObject:&lt;simple bang name&gt;( &lt;bang parameter1&gt; , &lt; more bangparameters&gt;, .. )</code>
+<p>Evars are also accessible directly through the wrapper with simple names ( &quot;&lt;module instance&gt;&lt;evar&gt;&quot; becomes &quot;&lt;evar&gt;&quot; ).
+<p><code>value = myObject.&lt;simple evar name&gt;</code>
+<p>&quot;Current&quot; Evars are used first, so <code>myxLabel.x</code> tries to return $labelCurrentX$ before looking for $labelx$</p>
+<h2>Module API</h2>
+For a complete list of all implemented bangs see <a href="lsmodule.api.html">this list</a> or open lsmodule.lua.dll in a text editor.<br>
+Almost all xModule methods have the same name and argument order as their bang equivalent, so often your first guess will work.
+<h2>Examples</h2>
+<p>Now that the modules are wrapped in lua objects it is easy ( and short!) to do pretty much anything with them. <br>
+<pre><code>require "lsmodule" -- load the module
+function bang_hello()
+    -- our object ... it doesnt matter that the label does not exists, it doesn't even have a name we know!
+    local hellolabel = lsmodule.xlabel[lsmodule.getname()]
+    
+    -- but it has to look somehow:
+    hellolabel.paintingmode = ".singlecolor" 
+    hellolabel.colors = "#ff3322" -- i hope its not ugly
+    hellolabel.fontheight = 22
+    hellolabel.alwaysontop = true
+    hellolabel.starthidden = "True" --so it doesnt show immidiatly after we created it
+    hellolabel.text = '"Hello world of Litestep!"' -- setting evars with spaces takes extra quotes!
+    hellolabel.width = 400
+    hellolabel.height = 80
+    
+    -- lets have it do stuff ... like ... count up when clicked!
+    local x = 0                
+    local count = function( y )  -- a short lua function that counts how often it was called
+            x=x+1
+            if x==1 then lslua.message_box("Hello, nice to meet you!")
+            elseif x > y then lslua.message_box("Give up already!!") -- functions give up too
+            else lslua.message_box(("You can stop calling me now, you did that %i times already!"):format(x)) end
+    end
+    -- a callback is a litestep string that will run lua code! In this case it will run "count( 5 )" every time
+    hellolabel.OnLeftClick = lsmodule.callback( count, 5)
+    
+    -- the label is set up, lets create it
+    hellolabel:create() -- now it exists, but still hidden 
+    
+    -- position it
+    local xmouse, ymouse = lslua.mouse() --get the current mouse pos
+    hellolabel:move( xmouse-(hellolabel.width/2), ymouse-(hellolabel.height/2) ) -- center it under the mouse
+    hellolabel:show() -- show it
+    
+    -- lets play a bit with timers, too
+    local timer 
+    local ttl = 15
+    
+    -- calls a function every 1s
+    timer = lsmodule.every("1s", function() 
+                                            ttl = ttl-1 
+                                            hellolabel:settext(('Hello world of Litestep!<br>This label will autodestruct in %i secounds!'):format(ttl)) 
+                                          end
+    )
+    -- a 15 sec timer that will destroy the label and stop the update timer
+    lsmodule.after( "15s", function() timer:stop() hellolabel:destroy() end):start() -- start it first
+    timer:start() -- start the update timer
+end
+</code></pre>
+You can copy this code to a lua file and try it out right away. Simply run "!hello" ( more than once too!) and watch how nicely it all works together :-).
+<h2>Advanced</h2>
+<h3>Helpers</h4>
+<h3><code>lsmodule.getname()</code></h3> returns a "random" name (  for dynamic labels etc )
+<p><code>myNewObject = lsmodule.xlabel[lsmodule.getname()]<br>
+  myNewObject.addtogroup = &quot;some_basic_settings&quot;<br>
+  myNewObject:create()</code>
+
+<h3><code>lsmodule.callback(function, *args)</code></h3>
+creates callbacks to use in Litestep (for events and the like) from lua functions</p>
+<p><pre><code>local mylabel = lsmodule.xlabel.mylabel -- this shall recieve a callback
+local hellofunc = function( x ) lsmodule.message_box( "Hello from the callback\nThe event was: " .. tostring(x)" end
+mylabel.onenter = lsmodule.callback( hellofunc , "onenter")
+mylabel.onleave = lsmodule.callback( hellofunc , "onleave")
+mylabel.onclick = lsmodule.callback( mylabel.moveby , mylabel, 10, 0) -- member functions ( normally called with a ':' ) need themself as the first argument
+</code></pre>
+
+<h3><code>lsmodule.after( timeout, function, *args)</code></h3> returns a timer instance which will run the function after a timeout.
+<pre><code>local timer = lsmodule.after("10s", hellofunc, "a timer called!")
+timer:start()</code></pre>
+<h3><code>lsmodule.every( timeout, function, *args)</code></h3> returns a timer instance which will run the function after each timeout in a loop 
+<pre><code>local timer = lsmodule.after("3s", lslua.message_box, "STOP! HAMMERTIME!")
+timer:start()</code></pre>
+<p><b>NOTE: Both lsmodule.every and lsmodule.after return a *new* timer object (as in lsmodule.timer.*) every time they are called. You have to start the timer yourself! Also the timer module supports only *100* timers, and they cannot be destroyed! So make sure you store your timers somewhere and reuse them (update</b></p>
+
+<h3><code>lsmodule.unserialize( string )</code></h3>
+returns a object from a string. Instances have the reverse operation, serialize()
+<p><code>lsmodule.&lt;module name&gt;.&lt;module instance name&gt;:serialize() --&gt; &quot;lsmodule.module_name.module_instance&quot; (a string)<br>
+lsmodule.unserialize(&quot;lsmodule.module_name.module_instance&quot;) --&gt; lsmodule.&lt;module name&gt;.&lt;module instance name&gt; (a object)</code>
+
+<h3><code>lsmodule.sortby( attribute )</code> and <code>lsmodule.revsortby( attribute )</code></h3>
+returns a function which can be used to sort a table of lsmodule instances by a partiular attribute
+<p><code>myobjects = { obj1, obj2, obj2 } -- table with all object you want to sort<br>
+table.sort( myobjects, lsmodule.sortby('x') ) -- sort by x positon<br>
+table.sort( myobjects, lsmodule.revsortby('y') ) -- reverse sort by y positon </code>
+
+<h3>Module class methods</h3>
+<h3><code>&lt;module&gt;.version</code></h3>
+a string with the module's version number for loaded modules, else 0
+<h3><code>&lt;module&gt;:load()</code></h3>
+loads the module using !NetReLoadModule
+<h3><code>&lt;module&gt;:unload()</code></h3>
+unloads the module using !NetUnLoadModule
+
+<h3>Instance class methods</h3>
+<h3><code>&lt;instance&gt;.varfile</code></h3>
+<p>Changes to a instance can be automatically saved to a file if the instance has a <code class="ls">varfile</code>
+ attribute with the path to a file:
+<p><code class="ls">&lt;module instance name&gt;Varfile &quot;X:/path/to/file&quot;</code> or <code>mylabel.varfile = evar.themedir .. &quot;mylabelvarfile.rc&quot;</code><br>
+<code>mylabel.settext( &quot;save me!&quot;) -- Updates 'mylabelvarfile.rc' with SomeLabeltext &quot;Save me!&quot;<br>
+taskbar.Alwaysontop = False -- Updates 'mylabelvarfile.rc' with xTaskbarAlwaysonTop false<br></code>
+
+<h3><code>&lt;instance&gt;:dockto(other, side, offset, steps,tim)</code></h3>
+<p>Instances can dock to others ( if they can move )
+<p><code>obj:dockto(other, side, offset, steps,tim) -- other = some object, side = &quot;left&quot; / &quot;right&quot; / top&quot; / &quot;bottom&quot;</code>
+
+<h3><code>&lt;instance&gt;:covers(x,y)</code></h3>
+<p>Returns if a instance covers a specific point with</p>
+<code>mylabel:covers(100, 200) -- true/false</code>
+
+<h3>Extending lsmodule</h3>
+<p>If you want to use additional modules, all you have to do is create a new bangset. Imagine the iNsAnE module uses strange bangs, so you want nicer commands. <br>Simply create a new lua file and add something like this and even the insane module behaves just as simple as your typical xlabel</p>
+<pre><code>lsmodule.__bangs.INSANE = { -- lsmodule.__bangs[ module name in upper letters ]
+    move = function (t,x,y) t.x = x; t.y=y; lslua.exec( ("!Omgwhatastrangemovecommand %s %s %s"):format(t,x,y) )) end 
+}
+lsmodules.insane.insane:move(10,20) -- calls `!Omgwhatastrangemovecommand insane 10 20` ( but you dont have to type that anymore ) 
+</code></pre>
+
+
+</body></html>

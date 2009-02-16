@@ -1,0 +1,177 @@
+Future
+----------------------
+- popen patch? 
+- luathread library for os level threading
+
+Known Bugs
+----------------------
+- message_box()s left open over a recycle will cause ls to crash, since when
+  the function returns, the lua_State* that it was called from has already been
+  deleted.
+- crashes ls if you define an already defined bang
+- tostring required for number args to exec()
+
+
+Changelog
+----------------------
+
+0.7:
+Changes by THC4k:
+ - i rewrote one half the code and restructured the other ... so i understand it now completely ;-)
+ - added tracebacks to error messages
+ - lslua will never die! ( it wont stop working after an error anymore ) This means you will see *all* errors, but you might have to click "ok" alot too! 
+ - added LSLuaErrorFile <path>: If set, errors are dumped to the file.
+ - the older version created a new lua thread for *every call to lslua*, which is completely pointless. It also was implemented wrong ( without any syncronizing between the threads ) so the "threads" could corrupt each other, resulting in error messages like "cannot index <some global table>, a uservalue"
+ - lslua.message_box is extremely nice now and accepts 1 or 2 arguments which will be converted to strings or displayed as a type if that's not possible
+ - added: lsmodule.after, lsmodule.every, lsmodule.callback (see docs)
+ === this might break your scripts ===
+ - removed the threading module ( pointless )
+ - removed the timer module -> use lsmodule.timer
+ - lslua.mouse returns x,y directly: use "x,y = lslua.mouse()"
+
+
+0.66:
+Changes by THC4k:
+  - refresh takes now varargs
+  - lsmodule.name:new() (or so) => lsmodule.getName()
+  - functions which create things now return the thing and are all named create ( changed from 'new' in timer ):
+          ie: mynewlabel = lsmodule.xlabel.something:create() => '!Labelcreate something' & you have the reference
+  - lsmoduleObj:serialize() => A string that represends the module: 'lsmodule.Obj__type.Obj__name'
+  - lsmodule.unserialize( s ) => Get the actual object from a string
+  - lsmodule.compare.sort/revsort => lsmodule.sortby /lsmodule.revsortby
+  - evarutils.config:toggle( var ) => toggle a boolean in memory and files
+  - evar.toboolean( var ) works now
+	
+	
+	
+
+0.65:
+Changes by THC4k:
+- fixed some bugs in evarutils and lsmodule, thanks and praises to SunMoonStar for reporting and helping me to fix them.
+- added all available bangs for xlabel, xtray and xtaskbar in lsmodule
+- some speed optimizations and more debug messages.
+
+0.6:
+Changes by THC4k:
+- now using Lua 5.1.2
+- fixed setting evars to nil through the evar module
+- fixed the timer module which never worked as a module ...
+- added evarutils module: saves/deletes evars in files
+- added lsmodule module: a object oriented wrapper factory for litestep modules.
+
+
+0.5:
+changes by doy:
+- now using Lua 5.1
+- bug fixes in the textedit module (thanks to c00i90wn)
+- fixed not unloading !LuaExec on module unload
+- fixed not unloading any other bang on unload, for a different reason
+- removed animation module since it has been nonfunctional for quite a while
+- removed xevar module
+- added *LuaModuleDir, *LuaBinaryModuleDir, *LuaScriptModuleDir
+changes by tnl:
+- replaced "package" occurrences to "module" in these docs
+  (leaving older portions of the changelog intact).
+- moved most of contents in readme.txt to readme.html
+- fixed error messages upon accessing evars through evar module (see following)
+- added functions get_evar, get_line, set_evar, rc_lines.
+  these functions let lslua scripts do what ls modules can do
+  in terms of rc config.
+- removed _evar (replaced with get_evar)
+
+
+0.4.3.1:
+- fixed res().bpp
+
+0.4.3:
+- now actually testing for the existence of init() and quit() before blindly
+  calling them
+
+0.4.2:
+- fixed metatable bug in evar package (overwriting mt.__index=_G is bad)
+  for anyone out there who has already written packages that set metatables for
+  themselves (such as the xlabel wrapper), you will need to change the way you
+  access globals, since calling setmetatable makes the globals in the package
+  go away. Declaring them as locals like in evar and xevar should do the trick.
+- no one likes semicolons
+- lslua.init() and lslua.quit() work now
+- added xevar module (thanks to tnl)
+
+0.4.1:
+- recompile to fix the debug library dependency
+- email address update
+
+0.4:
+- textedit package added
+- bug with quotes in *LuaPackageDir fixed
+- reorganized code - lslua.dll is the module, luainterface.dll is the Lua class
+  which the module uses to interface with the lua engine, and lua51.dll is the
+  lua engine itself. this was to allow loadlib to work, since lua needs to be
+  its own dll for loadlib to work properly
+- upgraded to lua 5.1
+- loadlib should work, although i have done no testing of this at all
+- added mouse(), res(), and milli()
+- all global functions defined by lslua by default are now in the table lslua
+  (lslua.message_box(), lslua.mouse(), etc). feel free to open the table
+  yourself if you feel like it (for k,v in pairs( lslua ) do _G[ k ] = v end)
+- LSLUA_VERSION becomes lslua.version
+- lslua.init() and lslua.quit() added to make *script start functionality
+  actually work (both in that bangs will have been registered before this is
+  called and in that the timer package will work properly on init now)
+- !luaexec works with the timer package now
+- animation package is broken at the moment... i don't think anyone really used
+  it anyway, but i'll fix it when i have the chance
+
+0.3.1:
+- the ls table in the evar package has been removed. Also, the toString(), etc
+  functions are also removed, since they were only there for toBoolean(),
+  which never worked correctly to begin with. Access evars with evar.EvarName.
+- memory leak relating to coroutine creation fixed
+- fixed random global in timer package, and changed how the names of the timers
+  are generated
+- reordered some arguments, changed some function names, and added mqsplit in
+  the args package
+- finally finished the documentation
+
+0.3:
+- lots of new require() stuff. All require()ed global variables are now
+  namespaced, so use evar.LitestepDir or timer.pause().
+  - require( "vars" ) is now require( "evar" ). Everything else is the same.
+  - require( "args" ) has argument parsing functions
+  - require( "timer" ) has helper functions for timer-0.5 (including pause())
+  - require( "animation" ) is a method for easy concurrent animations
+  - require( "thread" ) is a way to interact with the global coroutines
+    created with each function call. It is used to implement timer.
+- access the current lslua version from the global variable LSLUA_VERSION
+- new step.rc setting: *LuaPackageDir for adding your own directories to the
+  require() search path
+- rewrote Lua.trigger() to use coroutines: manipulate them with the thread
+  package
+- runtime errors no longer disable lua
+- !LuaExec to execute arbitrary lua code
+
+0.2:
+- First public release
+- Bangs can now use arguments
+- exec now has the option of passing several arguments in that will be passed
+  as arguments to the command. For examples, see example.lua
+- Removed pause(), since it really can't work correctly without better core
+  support.
+- Moved loading of evar code out to Lua as well... 'require( "vars" )' to get
+  it.
+
+Private alphas:
+----------------------
+0.1.1:
+- Changed evar access to use the global 'ls' table. Access evars now like
+  'ls.LiteStepDir:toString()'. Yes, the first is a period, and the second is a
+  colon. In Lua, ls.var is equivalent to ls[ "var" ], and var:func is
+  equivalent to var.func( self ) (self is lua's equivalent of 'this' in c++; it
+  refers to the current object). Evar saving is coming shortly(:
+- message_box now takes two arguments, first being the messagebox text, and the
+  second being the title of the messagebox.
+- The source zip now comes with just the precompiled Lua libraries. If you
+  care, you can get the Lua source from http://lua.org/ftp/.
+
+0.1:
+- Initial release.

@@ -1,0 +1,106 @@
+<html><head><title>List of all methods</title></head><body>
+<h1>List of all methods</h1>
+The 't' parameter is always the "self ref". It is passed implicit when you use ':' to call a method (obj:show() is syntaxsugar for ojb.show(obj), see <a href="http://www.lua.org/manual/5.1/manual.html#2.5.9">http://www.lua.org/manual/5.1/manual.html#2.5.9</a> )
+<dl>
+<dt>xlabel</dt><dd><ul>
+<li>infoexport( t, varname,  text )</li>
+<li>refresh( t, setting,  ...  )</li>
+<li>createoverlay( t,  x,  y,  width,  height,  overlay,  flags )</li>
+<li>destroyoverlay( t,  overlay )</li>
+<li>modifyoverlay( t, overlay, x, y, width, height )</li>
+<li>refreshoverlay( t, overlay, setting,  ...  )</li>
+<li>setalwaysontop( t, extra )<li></li>
+<li>clipboardcopy( t, text )</li>
+<li>clipboardpaste( t, text )</li>
+<li>create( t )</li>
+<li>destroy( t )</li>
+<li>dock( t,  label2,  b,  mods )</li>
+<li>focus = function(  t  )</li>
+<li>hide( t, overlay )</li>
+<li>move( t, x, y, steps, tim )</li>
+<li>moveby( t, x, y, steps, tim )</li>
+<li>next = function(  t  )</li>
+<li>previous = function(  t  )</li>
+<li>reposition( t, x, y, width, height, steps, tim )</li>
+<li>repositionby( t, x, y, width, height, steps, tim )</li>
+<li>resize( t, width, height, steps, tim )</li>
+<li>resizeby( t, width, height, steps, tim )</li>
+<li>scroll = function( t,  number,  mode )</li>
+<li>setalpha( t, num, step, tim )</li>
+<li>setanimation(  t, b, loops  )</li>
+<li>settext( t,  text,  overlay  )</li>
+<li>show( t, overlay )</li>
+<li>showhide(  t,  mili  )</li>
+<li>toggle( t, extra )</li>
+<li>update( t )</li>
+</ul></dd>
+<dt>xtaskbar</dt><dd><ul>
+<li>setalwaysontop( t, extra )</li>
+<li>create( t )</li>
+<li>destroy( t )</li>
+<li>display( t,  values )</li>
+<li>hide( t,  extra )</li>
+<li>move( t, x, y, steps, tim )</li>
+<li>moveby( t, x, y, steps, tim )</li>
+<li>refresh( t, setting, ... )</li>
+<li>reposition( t, x, y, width, height, steps, tim )</li>
+<li>repositionby( t, x, y, width, height, steps, tim )</li>
+<li>resize( t, width, height, steps, tim )</li>
+<li>resizeby( t, width, height, steps, tim )</li>
+<li>scrollbuttons( t,  dir,  amount )</li>
+<li>setalpha( t, num, step, tim )</li>
+<li>show( t )</li>
+<li>switch( t,  dir )</li>
+<li>toggle( t, extra )</li>
+
+</ul></dd>
+<dt>xtray</dt><dd><ul>
+<li>setalwaysontop( t, extra )</li>
+<li>hide( t,  extra )</li>
+<li>move( t, x, y, steps, tim )</li>
+<li>moveby( t, x, y, steps, tim )</li>
+<li>refresh( t, setting,  ... )</li>
+<li>reposition( t, x, y, width, height, steps, tim )</li>
+<li>repositionby( t, x, y, width, height, steps, tim )</li>
+<li>resize( t, width, height, steps, tim )</li>
+<li>resizeby( t, width, height, steps, tim )</li>
+<li>scrollicons( t,  dir,  amount )</li>
+<li>setalpha( t, num, step, tim )</li>
+<li>show( t )</li>
+<li>toggle( t )</li>
+<li>togglehiddenicons( t, extra )</li>
+
+</ul></dd>
+<dt>xstatsgraph</dt><dd><ul>
+<li>move( t, x, y, steps, tim )</li>
+<li>moveby( t, x, y, steps, tim )</li>
+<li>reposition( t, x, y, width, height, steps, tim )</li>
+<li>repositionby( t, x, y, width, height, steps, tim )</li>
+<li>resize( t, width, height, steps, tim )</li>
+<li>resizeby( t, width, height, steps, tim )</li>
+<li>infoexport( t, varname )</li>
+<li>refresh( t, setting,  ... )</li>
+<li>create( t )</li>
+<li>destroy( t )</li>
+<li>hide( t,  extra )</li>
+<li>show( t )</li>
+<li>setalpha( t, num, step, tim )</li>
+<li>settext( t, text, extra )</li>
+<li>setalwaysontop( t, extra )</li>
+<li>toggle( t, extra )</li>
+
+</ul></dd>
+<dt>xpopup</dt><dd><ul>
+<li>open( t )</li>
+
+
+</ul></dd>
+<dt>timer</dt><dd><ul>
+<li>start( t )</li>
+<li>stop( t )</li>
+<li>reset( t )</li>
+<li>kill( t )</li>
+<li>create( t, timeout, command,  flags,  group )</li>
+<li>update( t, timeout,  command,  group )</li>
+
+</body></html>

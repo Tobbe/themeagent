@@ -1,0 +1,242 @@
+local io = require 'io'
+local table = require 'table'
+
+local assert = assert
+local error = error
+local io_open = io.open
+local table_insert = table.insert
+local table_remove = table.remove
+local type = type
+
+module 'textedit'
+
+local function parse_mode( mode )
+    if not mode then mode = "" end
+
+    return { global = mode:find( "g" ),
+             case_sensitive = not mode:find( "i" ),
+             before = mode:find( "b" ),
+             line_global = mode:find( "G" ),
+           }
+end
+
+local function pattern_lower( pattern )
+    local return_str = ""
+    local pos = 1
+    while true do
+        local new_pos = pattern:find( "%%", pos )
+        return_str = return_str .. pattern:sub( pos, new_pos ):lower()
+        if not new_pos or new_pos == pattern:len() then return return_str end
+        return_str = return_str .. pattern:sub( new_pos + 1, new_pos + 1 )
+        pos = new_pos + 2
+    end
+end
+
+local function find_line( file, pattern, case_sensitive )
+    if not case_sensitive then pattern = pattern_lower( pattern ) end
+    local line = ""
+    local line_num = 0
+    local found = false
+    for line in file:lines() do
+        line_num = line_num + 1
+        if not case_sensitive then line = line:lower() end
+        if line:find( pattern ) then
+            found = true
+            break
+        end
+    end
+    if found then
+        return line_num
+    else
+        return nil
+    end
+end
+
+local function replace_line( line, pattern, replace_pattern, case_sensitive, global )
+    if not case_sensitive then
+        line = line:lower()
+        pattern = pattern_lower( pattern )
+    end
+    if global then
+        return line:gsub( pattern, replace_pattern )
+    else
+        return line:gsub( pattern, replace_pattern, 1 )
+    end
+end
+
+function append( filename, str )
+    local file = assert( io_open( filename, "a+" ) )
+    if file:seek( "end" ) == 0 then
+        file:write( str )
+    else
+        file:write( "\n" .. str )
+    end
+    file:close()
+end
+
+function insert( filename, pattern, str, mode )
+    local modes = parse_mode( mode )
+    local line_nums = find( filename, pattern, mode )
+    if type( line_nums ) == "number" then line_nums = { line_nums } end
+    if not line_nums[ 1 ] then return 0 end
+    local file_contents = ""
+    local current_line = 0
+    local num_of_insertions = 0
+    local file = assert ( io_open( filename, "r" ) )
+    for line in file:lines() do
+        current_line = current_line + 1
+        if not modes.before then
+            file_contents = file_contents .. line .. "\n"
+        end
+        if line_nums[ 1 ] == current_line then
+            file_contents = file_contents .. str .. "\n"
+            table_remove( line_nums, 1 )
+            num_of_insertions = num_of_insertions + 1
+        end
+        if before then
+            file_contents = file_contents .. line .. "\n"
+        end
+    end
+    file:close()
+    if num_of_insertions == 0 then return 0 end
+    file = assert( io_open( filename, "w" ) )
+    file:write( file_contents )
+    file:close()
+    return num_of_insertions
+end
+
+function delete( filename, pattern, mode )
+    local line_nums = find( filename, pattern, mode )
+    if type( line_nums ) == "number" then line_nums = { line_nums } end
+    if not line_nums[ 1 ] then return 0 end
+    local file_contents = ""
+    local current_line = 0
+    local num_of_deletions = 0
+    local file, error_msg = io_open( filename, "r" )
+    if not file then error( error_msg ) end
+    for line in file:lines() do
+        current_line = current_line + 1
+        if line_nums[ 1 ] ~= current_line then
+            file_contents = file_contents .. line .. "\n"
+        else
+            table_remove( line_nums, 1 )
+            num_of_deletions = num_of_deletions + 1
+        end
+    end
+    file:close()
+    if num_of_deletions == 0 then return 0 end
+    file = assert( io_open( filename, "w" ) )
+    file:write( file_contents )
+    file:close()
+    return num_of_deletions
+end
+
+function replace( filename, pattern, replace_pattern, mode )
+    local modes = parse_mode( mode )
+    local line_nums = find( filename, pattern, mode )
+    if type( line_nums ) == "number" then line_nums = { line_nums } end
+    if not line_nums[ 1 ] then return 0 end
+    local file_contents = ""
+    local current_line = 0
+    local num_of_replace = 0
+    local file = assert( io_open( filename, "r" ) )
+    for line in file:lines() do
+        current_line = current_line + 1
+        if line_nums[ 1 ] == current_line then
+            local num
+            line, num = replace_line( line, pattern, replace_pattern, modes.case_sensitive, modes.line_global )
+            num_of_replace = num_of_replace + num
+            table_remove( line_nums, 1 )
+        end
+        file_contents = file_contents .. line .. "\n"
+    end
+    file:close()
+    if num_of_replace == 0 then return 0 end
+    file = assert( io_open( filename, "w" ) )
+    file:write( file_contents )
+    file:close()
+    return num_of_replace
+end
+
+function find( filename, pattern, mode )
+    local modes = parse_mode( mode )
+    local file = assert( io_open( filename, "r" ) )
+    local line_nums = {}
+    local last_line = 0
+    repeat
+        local found_line = find_line( file, pattern, modes.case_sensitive )
+        if found_line then
+            found_line = found_line + last_line
+            last_line = found_line
+            table_insert( line_nums, found_line )
+        else
+            break
+        end
+    until not modes.global
+    file:close()
+    if modes.global then
+        return line_nums
+    else
+        return line_nums[ 1 ]
+    end
+end
+
+function delete_line( filename, line_num )
+    local file = assert( io_open( filename, "r" ) )
+    local deleted = false
+    local file_contents = ""
+    local current_line = 0
+    for line in file:lines() do
+        current_line = current_line + 1
+        if line_num ~= current_line then
+            file_contents = file_contents .. line .. "\n"
+        else
+            deleted = true
+        end
+    end
+    file:close()
+    if not deleted then return end
+    file = assert( io_open( filename, "w" ) )
+    file:write( file_contents )
+    file:close()
+    return deleted
+end
+
+function insert_line( filename, str, line_num, before )
+    local file = assert( io_open( filename, "r" ) )
+    local inserted = false
+    local file_contents = ""
+    local current_line = 0
+    for line in file:lines() do
+        current_line = current_line + 1
+        if not before then
+            file_contents = file_contents .. line .. "\n"
+        end
+        if line_num == current_line then
+            file_contents = file_contents .. str .. "\n"
+            inserted = true
+        end
+        if before then
+            file_contents = file_contents .. line .. "\n"
+        end
+    end
+    file:close()
+    if not inserted then return end
+    file = assert( io_open( filename, "w" ) )
+    file:write( file_contents )
+    file:close()
+    return inserted
+end
+
+function get_line( filename, line_num )
+    local file = assert( io_open( filename, "r" ) )
+    local current_line = 0
+    for line in file:lines() do
+        current_line = current_line + 1
+        if line_num == current_line then
+            file:close()
+            return line
+        end
+    end
+    file:close()
+end

@@ -1,0 +1,116 @@
+local table = table
+local error = error
+local ipairs = ipairs
+local type = type
+local unpack = unpack
+
+module 'args'
+
+--begin PeterPrade http://lua-users.org/wiki/PeterPrade
+-- Concat the contents of the parameter list,
+-- separated by the string delimiter (just like in perl)
+-- example: strjoin( ", ", { "Anna", "Bob", "Charlie", "Dolores" } )
+function strjoin( list, delimiter )
+    local len = #list
+    if len == 0 then 
+        return ""
+    end
+    local string = list[ 1 ]
+    for i = 2, len do
+        string = string .. delimiter .. list[ i ]
+    end
+    return string
+end
+
+-- Split text into a list consisting of the strings in text,
+-- separated by strings matching delimiter (which may be a pattern).
+-- example: strsplit( ",%s*", "Anna, Bob, Charlie,Dolores" )
+function strsplit( text, delimiter )
+    local list = {}
+    local pos = 1
+    if (""):find( delimiter, 1 ) then --this would result in endless loops
+        error "delimiter matches empty string!"
+    end
+    while 1 do
+        local first, last = text:find( delimiter, pos )
+        if first then -- found?
+            table.insert( list, text:sub( pos, first - 1 ) )
+            pos = last + 1
+        else
+            table.insert( list, text:sub( pos ) )
+            break
+        end
+    end
+    return list
+end
+--end PeterPrade
+
+function mstrsplit( str, delim )
+    return unpack( strsplit( str, delim ) )
+end
+
+function qsplit( str, delim, lquotes, rquotes )
+    if delim == nil then delim = { " " } end
+    if lquotes == nil then lquotes = { '"', "'" } end
+    if rquotes == nil then rquotes = lquotes end
+
+    if type( delim ) == "string" then delim = { delim } end
+    if type( lquotes ) == "string" then lquotes = { lquotes } end
+    if type( rquotes ) == "string" then rquotes = { rquotes } end
+
+    local retval = {}
+    local instring = nil
+    local tempstr = str
+    local index = 1
+    retval[ index ] = ""
+    while true do
+        while true do
+            if not instring then
+                local should_break = false;
+                for i, v in ipairs( lquotes ) do
+                    if tempstr:sub( 1, v:len() ) == v then
+                        instring = i
+                        tempstr = tempstr:sub( v:len() + 1, -1 )
+                        should_break = true
+                        break
+                    end
+                end
+                local emptystring = false
+                for i, v in ipairs( delim ) do
+                    if v == "" then emptystring = true end
+                end
+                if emptystring then should_break = false end
+                if should_break then break end
+                for i, v in ipairs( delim ) do
+                    if tempstr:sub( 1, v:len() ) == v or v == "" then
+                        if retval[ index ] ~= "" then
+                            index = index + 1
+                            retval[ index ] = ""
+                            should_break = true
+                        end
+                        tempstr = tempstr:sub( v:len() + 1, -1 )
+                    end
+                end
+                if should_break then break end
+                if tempstr:sub( 1, 1 ) == "" then break end
+                retval[ index ] = retval[ index ] .. tempstr:sub( 1, 1 )
+                tempstr = tempstr:sub( 2, -1 )
+            else
+                if tempstr:sub( 1, rquotes[ instring ]:len() ) ~= rquotes[ instring ] then
+                    retval[ index ] = retval[ index ] .. tempstr:sub( 1, 1 )
+                    tempstr = tempstr:sub( 2, -1 )
+                else
+                    tempstr = tempstr:sub( rquotes[ instring ]:len() + 1, -1 )
+                    instring = nil
+                end
+            end
+        end
+        if tempstr:len() <= 0 then break end
+    end
+    if retval[ index ] == "" then table.remove( retval, index ) end
+    return retval
+end
+
+function mqsplit( str, delim, lquotes, rquotes )
+    return unpack( qsplit( str, delim, lquotes, rquotes ) )
+end
