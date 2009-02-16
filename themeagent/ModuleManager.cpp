@@ -62,3 +62,44 @@ ModuleList ModuleManager::getModuleList() const
 {
 	return modules;
 }
+
+bool ModuleManager::installModule(const string &moduleName)
+{
+	if (modules.contains(moduleName))
+	{
+		return true;
+	}
+
+	if (!downloadModule(moduleName))
+	{
+		return false;
+	}
+
+	return true;
+}
+
+bool ModuleManager::downloadModule(const string &moduleName)
+{
+	string path = modulesDir + "\\archive\\" + moduleName + ".zip";
+
+	if (fileExists(path))
+	{
+		return true;
+	}
+
+	string url = downloadSites[0] + "\\" + moduleName + ".zip";
+
+	fileDownloader.downloadFile(url, path);
+
+	if (!fileExists(path))
+	{
+		return false;
+	}
+
+	return true;
+}
+
+bool ModuleManager::fileExists(const string &path) const
+{
+	return (GetFileAttributes(path.c_str()) != INVALID_FILE_ATTRIBUTES);
+}
