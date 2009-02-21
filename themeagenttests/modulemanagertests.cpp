@@ -85,6 +85,7 @@ SUITE(ModuleManager)
 
 		CHECK(GetFileAttributes("TestFiles\\Modules\\one-0.7.dll") != INVALID_FILE_ATTRIBUTES);
 		CHECK(GetFileAttributes("TestFiles\\Modules\\docs\\one-0.7.html") != INVALID_FILE_ATTRIBUTES);
+		CHECK(GetFileAttributes("TestFiles\\Modules\\docs\\one-0.7") == INVALID_FILE_ATTRIBUTES);
 
 		DeleteFile("TestFiles\\Modules\\one-0.7.dll");
 		DeleteFile("TestFiles\\Modules\\docs\\one-0.7.html");

@@ -20,6 +20,14 @@ private:
 	bool fileExists(const std::string &path) const;
 	bool downloadModule(const std::string &moduleName);
 	bool unzipModule(const std::string &moduleName) const;
+	void fillUnzipVectors(const std::string &moduleName,
+		const std::string &path,
+		std::vector<std::pair<int, std::string>> &dllFiles,
+		std::vector<std::pair<int, std::string>> &docsFiles) const;
+	bool extractDlls(const std::string &moduleName, const std::string &path,
+		const std::vector<std::pair<int, std::string>> &dllFiles) const;
+	void extractDocs(const std::string &moduleName, const std::string &path,
+		const std::vector<std::pair<int, std::string>> &docsFiles) const;
 
 public:
 	ModuleManager(std::string modulesDir, std::vector<std::string> downloadSites);
