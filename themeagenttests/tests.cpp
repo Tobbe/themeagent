@@ -8,6 +8,9 @@
 #include "FileDownloader.cpp"
 #include "URLDownloadCallback.cpp"
 #include "ModuleManager.cpp"
+#define _CRT_SECURE_NO_WARNINGS 1
+#include "unzip.cpp"
+#undef _CRT_SECURE_NO_WARNINGS
 #include <UnitTest++.h>
 
 int main()

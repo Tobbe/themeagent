@@ -42,14 +42,14 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\themeagent"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="4"
-				UndefinePreprocessorDefinitions="UNICODE"
+				UndefinePreprocessorDefinitions="UNICODE;_UNICODE"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -129,6 +129,7 @@
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
+				UndefinePreprocessorDefinitions="UNICODE;_UNICODE"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

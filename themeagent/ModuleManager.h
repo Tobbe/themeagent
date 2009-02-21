@@ -19,6 +19,7 @@ private:
 	bool isDir(const WIN32_FIND_DATA &wfd) const;
 	bool fileExists(const std::string &path) const;
 	bool downloadModule(const std::string &moduleName);
+	bool unzipModule(const std::string &moduleName) const;
 
 public:
 	ModuleManager(std::string modulesDir, std::vector<std::string> downloadSites);

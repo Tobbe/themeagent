@@ -48,7 +48,7 @@
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="4"
-				UndefinePreprocessorDefinitions="UNICODE"
+				UndefinePreprocessorDefinitions="UNICODE;_UNICODE"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -123,6 +123,7 @@
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
+				UndefinePreprocessorDefinitions="UNICODE;_UNICODE"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -215,6 +216,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\unzip.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\URLDownloadCallback.cpp"
 				>
 			</File>
@@ -262,6 +267,10 @@
 			</File>
 			<File
 				RelativePath=".\ThemeList.h"
+				>
+			</File>
+			<File
+				RelativePath=".\unzip.h"
 				>
 			</File>
 			<File
