@@ -1,4 +1,3 @@
-#define _CRT_SECURE_NO_WARNINGS 1
 #ifdef ZIP_STD
 #include <stdio.h>
 #include <string.h>

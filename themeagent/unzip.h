@@ -1,4 +1,3 @@
-#define _CRT_SECURE_NO_WARNINGS 1
 #ifndef _unzip_H
 #define _unzip_H
 //

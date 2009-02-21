@@ -2,7 +2,6 @@
 #include <shlwapi.h>
 #include <string>
 #include <vector>
-#define _CRT_SECURE_NO_WARNINGS 1
 #include "unzip.h"
 
 using namespace std;
