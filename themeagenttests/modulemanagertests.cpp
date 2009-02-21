@@ -18,7 +18,7 @@ SUITE(ModuleManager)
 		CHECK(ml.contains(Module("lslua-0.7")));
 	}
 
-	TEST(InstallModule)
+	TEST(UnzipModule)
 	{
 		vector<string> dlSites;
 		ModuleManager mm("TestFiles\\Modules", dlSites);
@@ -73,5 +73,21 @@ SUITE(ModuleManager)
 		DeleteFile("TestFiles\\Modules\\manyDllsModule-8.0\\dllfour.dll");
 		DeleteFile("TestFiles\\Modules\\docs\\manyDllsModule-8.0.txt");
 		RemoveDirectory("TestFiles\\Modules\\manyDllsModule-8.0");
+	}
+
+	TEST(InstallModule)
+	{
+		vector<string> dlSites;
+		dlSites.push_back("http://shellfront.org/modules/");
+		ModuleManager mm("TestFiles\\Modules", dlSites);
+
+		mm.installModule("one-0.7");
+
+		CHECK(GetFileAttributes("TestFiles\\Modules\\one-0.7.dll") != INVALID_FILE_ATTRIBUTES);
+		CHECK(GetFileAttributes("TestFiles\\Modules\\docs\\one-0.7.html") != INVALID_FILE_ATTRIBUTES);
+
+		DeleteFile("TestFiles\\Modules\\one-0.7.dll");
+		DeleteFile("TestFiles\\Modules\\docs\\one-0.7.html");
+		DeleteFile("TestFiles\\Modules\\archive\\one-0.7.zip");
 	}
 }

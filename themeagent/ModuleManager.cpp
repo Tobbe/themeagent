@@ -95,7 +95,7 @@ bool ModuleManager::downloadModule(const string &moduleName)
 		return true;
 	}
 
-	string url = downloadSites[0] + "\\" + moduleName + ".zip";
+	string url = downloadSites[0] + moduleName + ".zip";
 
 	fileDownloader.downloadFile(url, path);
 
