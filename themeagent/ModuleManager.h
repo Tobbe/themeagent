@@ -11,6 +11,7 @@ class ModuleManager
 {
 private:
 	std::string modulesDir;
+	std::string nlmIni;
 	std::vector<std::string> downloadSites;
 	ModuleList modules;
 	FileDownloader fileDownloader;
@@ -28,9 +29,11 @@ private:
 		const std::vector<std::pair<int, std::string>> &dllFiles) const;
 	void extractDocs(const std::string &moduleName, const std::string &path,
 		const std::vector<std::pair<int, std::string>> &docsFiles) const;
+	bool updateNLMList(const std::string &moduleName) const;
 
 public:
-	ModuleManager(std::string modulesDir, std::vector<std::string> downloadSites);
+	ModuleManager(const std::string &modulesDir, const std::string &nlmIni,
+		const std::vector<std::string> &downloadSites);
 	ModuleList getModuleList() const;
 	bool installModule(const std::string &moduleName);
 };

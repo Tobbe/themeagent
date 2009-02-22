@@ -2,6 +2,7 @@
 #include <UnitTest++.h>
 #include <vector>
 #include <string>
+#include <fstream>
 
 using namespace std;
 
@@ -10,7 +11,7 @@ SUITE(ModuleManager)
 	TEST(Constructor)
 	{
 		vector<string> dlSites;
-		ModuleManager mm("TestFiles\\Modules", dlSites);
+		ModuleManager mm("TestFiles\\Modules", "", dlSites);
 		ModuleList ml = mm.getModuleList();
 		CHECK(ml.size() == 5);
 		CHECK(ml.contains(Module("dynamp-0.51.dll")));
@@ -21,7 +22,7 @@ SUITE(ModuleManager)
 	TEST(UnzipModule)
 	{
 		vector<string> dlSites;
-		ModuleManager mm("TestFiles\\Modules", dlSites);
+		ModuleManager mm("TestFiles\\Modules", "", dlSites);
 
 		mm.installModule("moduleZip-1.4.2");
 
@@ -75,11 +76,11 @@ SUITE(ModuleManager)
 		RemoveDirectory("TestFiles\\Modules\\manyDllsModule-8.0");
 	}
 
-	TEST(InstallModule)
+	TEST(DownloadAndExtractModule)
 	{
 		vector<string> dlSites;
 		dlSites.push_back("http://shellfront.org/modules/");
-		ModuleManager mm("TestFiles\\Modules", dlSites);
+		ModuleManager mm("TestFiles\\Modules", "TestFiles\\NLM\\NetLoadModule.ini", dlSites);
 
 		mm.installModule("one-0.7");
 
@@ -90,5 +91,37 @@ SUITE(ModuleManager)
 		DeleteFile("TestFiles\\Modules\\one-0.7.dll");
 		DeleteFile("TestFiles\\Modules\\docs\\one-0.7.html");
 		DeleteFile("TestFiles\\Modules\\archive\\one-0.7.zip");
+	}
+
+	TEST(UpdateNLMList)
+	{
+		vector<string> dlSites;
+		ModuleManager mm("TestFiles\\Modules", "TestFiles\\NLM\\NetLoadModule2.ini", dlSites);
+
+		CopyFile("TestFiles\\NLM\\NetLoadModule.ini", "TestFiles\\NLM\\NetLoadModule2.ini", FALSE);
+
+		mm.installModule("manyDllsModule-8.0");
+
+		ifstream ifs("TestFiles\\NLM\\NetLoadModule2.ini");
+
+		string line;
+		getline(ifs, line);
+		CHECK(line == "[NetLoadModule]");
+		getline(ifs, line);
+		CHECK(line == "lslua-0.7=$litestepdir$modules\\lslua-0.7\\lslua.dll");
+		getline(ifs, line);
+		CHECK(line == "manyDllsModule-8.0=$litestepdir$modules\\manyDllsModule-8.0\\manyDllsModule.dll");
+
+		ifs.close();
+
+		DeleteFile("TestFiles\\Modules\\manyDllsModule-8.0\\manydllsmodule.dll");
+		DeleteFile("TestFiles\\Modules\\manyDllsModule-8.0\\dllone.dll");
+		DeleteFile("TestFiles\\Modules\\manyDllsModule-8.0\\dlltwo.dll");
+		DeleteFile("TestFiles\\Modules\\manyDllsModule-8.0\\dllthree.dll");
+		DeleteFile("TestFiles\\Modules\\manyDllsModule-8.0\\dllfour.dll");
+		DeleteFile("TestFiles\\Modules\\docs\\manyDllsModule-8.0.txt");
+		RemoveDirectory("TestFiles\\Modules\\manyDllsModule-8.0");
+
+		DeleteFile("TestFiles\\NLM\\NetLoadModule2.ini");
 	}
 }

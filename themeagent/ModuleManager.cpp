@@ -2,13 +2,16 @@
 #include <shlwapi.h>
 #include <string>
 #include <vector>
+#include <fstream>
 #include "unzip.h"
 
 using namespace std;
 
-ModuleManager::ModuleManager(string modulesDir, vector<std::string> downloadSites)
+ModuleManager::ModuleManager(const string &modulesDir, const string &nlmIni,
+	const vector<string> &downloadSites)
 {
 	this->modulesDir = modulesDir;
+	this->nlmIni = nlmIni;
 	this->downloadSites = downloadSites;
 
 	findModulesInModulesDir();
@@ -79,6 +82,11 @@ bool ModuleManager::installModule(const string &moduleName)
 	}
 
 	if (!unzipModule(moduleName))
+	{
+		return false;
+	}
+
+	if (!updateNLMList(moduleName))
 	{
 		return false;
 	}
@@ -265,4 +273,34 @@ void ModuleManager::extractDocs(const string &moduleName, const string &path,
 	}
 
 	CloseZip(hz);
+}
+
+bool ModuleManager::updateNLMList(const string &moduleName) const
+{
+	string moduleDir = modulesDir + "\\" + moduleName;
+
+	if (GetFileAttributes(moduleDir.c_str()) == INVALID_FILE_ATTRIBUTES)
+	{
+		// No separate directory exists for this module, so no special
+		// handling is needed for NLM to be able to load the module
+		return true;
+	}
+
+	ofstream ofs(nlmIni.c_str(), ios_base::out | ios_base::app);
+
+	if (!ofs)
+	{
+		return false;
+	}
+
+	// find_last_of returns string::npos if nothing is found, so this works
+	// even if the module doesn't have a version
+	string moduleBaseName = moduleName.substr(0, moduleName.find_last_of("-"));
+
+	ofs << moduleName << "=$litestepdir$modules\\" << moduleName << "\\" <<
+		moduleBaseName << ".dll" << endl;
+
+	ofs.close();
+
+	return true;
 }
