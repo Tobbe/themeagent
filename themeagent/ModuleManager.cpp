@@ -186,6 +186,8 @@ void ModuleManager::fillUnzipVectors(const string &moduleName,
 			_stricmp(ext.c_str(), ".rc") == 0 ||
 			_stricmp(ze.name, "readme.txt") == 0 ||
 			_stricmp(ze.name, "readme.chm") == 0 ||
+			_stricmp(ze.name, "history.txt") == 0 ||
+			_stricmp(ze.name, "changelog.txt") == 0 ||
 			_stricmp(ze.name, moduleTxt.c_str()) == 0 ||
 			_stricmp(ze.name, moduleChm.c_str()) == 0)
 		{
