@@ -124,4 +124,59 @@ SUITE(ModuleManager)
 
 		DeleteFile("TestFiles\\NLM\\NetLoadModule2.ini");
 	}
+
+	TEST(InstallModule)
+	{
+		vector<string> dlSites;
+		dlSites.push_back("http://shellfront.org/modules/");
+		ModuleManager mm("TestFiles\\Modules", "TestFiles\\NLM\\NetLoadModule2.ini", dlSites);
+
+		CopyFile("TestFiles\\NLM\\NetLoadModule.ini", "TestFiles\\NLM\\NetLoadModule2.ini", FALSE);
+
+		CHECK(mm.installModule("lslua-0.5"));
+
+		ifstream ifs("TestFiles\\NLM\\NetLoadModule2.ini");
+
+		string line;
+		getline(ifs, line);
+		CHECK(line == "[NetLoadModule]");
+		getline(ifs, line);
+		CHECK(line == "lslua-0.7=$litestepdir$modules\\lslua-0.7\\lslua.dll");
+		getline(ifs, line);
+		CHECK(line == "lslua-0.5=$litestepdir$modules\\lslua-0.5\\lslua.dll");
+
+		ifs.close();
+
+		CHECK(GetFileAttributes("TestFiles\\Modules\\lslua-0.5\\lslua.dll") != INVALID_FILE_ATTRIBUTES);
+		CHECK(GetFileAttributes("TestFiles\\Modules\\lslua-0.5\\args.lua.dll") != INVALID_FILE_ATTRIBUTES);
+		CHECK(GetFileAttributes("TestFiles\\Modules\\lslua-0.5\\evar.lua.dll") != INVALID_FILE_ATTRIBUTES);
+		CHECK(GetFileAttributes("TestFiles\\Modules\\lslua-0.5\\lua51.dll") != INVALID_FILE_ATTRIBUTES);
+		CHECK(GetFileAttributes("TestFiles\\Modules\\lslua-0.5\\luainterface.dll") != INVALID_FILE_ATTRIBUTES);
+		CHECK(GetFileAttributes("TestFiles\\Modules\\lslua-0.5\\textedit.lua.dll") != INVALID_FILE_ATTRIBUTES);
+		CHECK(GetFileAttributes("TestFiles\\Modules\\lslua-0.5\\thread.lua.dll") != INVALID_FILE_ATTRIBUTES);
+		CHECK(GetFileAttributes("TestFiles\\Modules\\lslua-0.5\\timer.lua.dll") != INVALID_FILE_ATTRIBUTES);
+		CHECK(GetFileAttributes("TestFiles\\Modules\\lslua-0.5.dll") == INVALID_FILE_ATTRIBUTES);
+
+		CHECK(GetFileAttributes("TestFiles\\Modules\\docs\\lslua-0.5\\history.txt") != INVALID_FILE_ATTRIBUTES);
+		CHECK(GetFileAttributes("TestFiles\\Modules\\docs\\lslua-0.5\\readme.html") != INVALID_FILE_ATTRIBUTES);
+		CHECK(GetFileAttributes("TestFiles\\Modules\\docs\\lslua-0.5.html") == INVALID_FILE_ATTRIBUTES);
+
+		DeleteFile("TestFiles\\Modules\\archive\\lslua-0.5.zip");
+
+		DeleteFile("TestFiles\\Modules\\lslua-0.5\\lslua.dll");
+		DeleteFile("TestFiles\\Modules\\lslua-0.5\\args.lua.dll");
+		DeleteFile("TestFiles\\Modules\\lslua-0.5\\evar.lua.dll");
+		DeleteFile("TestFiles\\Modules\\lslua-0.5\\lua51.dll");
+		DeleteFile("TestFiles\\Modules\\lslua-0.5\\luainterface.dll");
+		DeleteFile("TestFiles\\Modules\\lslua-0.5\\textedit.lua.dll");
+		DeleteFile("TestFiles\\Modules\\lslua-0.5\\thread.lua.dll");
+		DeleteFile("TestFiles\\Modules\\lslua-0.5\\timer.lua.dll");
+		RemoveDirectory("TestFiles\\Modules\\lslua-0.5");
+
+		DeleteFile("TestFiles\\Modules\\docs\\lslua-0.5\\history.txt");
+		DeleteFile("TestFiles\\Modules\\docs\\lslua-0.5\\readme.html");
+		RemoveDirectory("TestFiles\\Modules\\docs\\lslua-0.5");
+
+		DeleteFile("TestFiles\\NLM\\NetLoadModule2.ini");
+	}
 }
