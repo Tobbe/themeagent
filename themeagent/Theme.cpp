@@ -141,6 +141,24 @@ string Theme::getPath() const
 	return path;
 }
 
+string Theme::getFolder() const
+{
+	//parse folder from path
+	string folder;
+	size_t index = path.find_last_of("\\/");
+	if (index == path.length() - 1)
+	{
+		index = path.find_last_of("\\/", path.length() - 2);
+		folder = path.substr(index + 1, path.length() - 2 - index);
+	}
+	else
+	{
+		folder = path.substr(index + 1);
+	}
+
+	return folder;
+}
+
 string Theme::getOTSVersion() const
 {
 	return otsVersion;

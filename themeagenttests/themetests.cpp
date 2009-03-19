@@ -128,6 +128,21 @@ SUITE(Theme)
 		CHECK(t3.getPath() == string(buffer) + "\\test");
 	}
 
+	TEST(GetFolder)
+	{
+		Theme t("Q:\\This\\is\\a\\test\\", RCFile(""));
+
+		CHECK(t.getFolder() == "test");
+
+		Theme t2("test", RCFile(""));
+
+		CHECK(t2.getFolder() == "test");
+
+		Theme t3("TestFiles\\Themes\\Turtle Soup II", RCFile(""));
+
+		CHECK(t3.getFolder() == "Turtle Soup II");
+	}
+
 	TEST(GetOTSVersion)
 	{
 		RCFile rc("TestFiles\\Themes\\ThemeTestOne\\theme.rc");

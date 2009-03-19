@@ -33,6 +33,7 @@ public:
 	std::string getVersion() const;
 	std::string getPreview() const;
 	std::string getPath() const;
+	std::string getFolder() const;
 	std::string getOTSVersion() const;
 	ModuleList getNeededModules() const;
 	bool getEnabled() const;
