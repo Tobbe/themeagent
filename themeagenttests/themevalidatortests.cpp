@@ -31,6 +31,6 @@ SUITE(ThemeValidator)
 		RCFile rc4("TestFiles\\Themes\\ThemeValidate\\theme.rc");
 		Theme t4("TestFiles\\Themes\\ThemeValidate", rc4);
 
-		CHECK(tv.validateTheme(t4) == true); // Wrong (no) OTS version and missing modules
+		CHECK(tv.validateTheme(t4) == true);
 	}
 }
