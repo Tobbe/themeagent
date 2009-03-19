@@ -44,9 +44,8 @@ void RCFile::readFile(const string &path)
 
 	if (fin.is_open())
 	{
-		while (!fin.eof() )
+		while (getline(fin, line))
 		{
-			getline(fin, line);
 			line = trim(line);
 			if (line.length() > 0 && line[0] != ';')
 			{
