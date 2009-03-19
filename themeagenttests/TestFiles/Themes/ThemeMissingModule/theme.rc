@@ -1,0 +1,19 @@
+ThemeName "ThemeMissingModule"
+ThemeAuthor "Test Author"
+ThemeVersion "1.0"
+
+OtsMajorVersion 2
+OtsMinorVersion 0
+
+*NetLoadModule alias-0.2
+*NetLoadModule dynamp-0.51.1
+*NetLoadModule jkey-0.39
+
+CommandX            0
+CommandY            -40
+CommandWidth        $ResolutionX-199$
+CommandHeight       21
+CommandBorderSize   1
+CommandBGColor      $ColorLight$
+CommandBorderColor  $ColorBorder$
+CommandTextColor    $ColorText$

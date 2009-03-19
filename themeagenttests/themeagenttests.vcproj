@@ -226,6 +226,10 @@
 				RelativePath=".\themetests.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\themevalidatortests.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -317,6 +321,19 @@
 				<Filter
 					Name="ThemeMissingModule"
 					>
+					<File
+						RelativePath=".\TestFiles\Themes\ThemeMissingModule\theme.rc"
+						FileType="5"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCResourceCompilerTool"
+							/>
+						</FileConfiguration>
+					</File>
 				</Filter>
 				<Filter
 					Name="Turtle Soup II"
@@ -391,6 +408,23 @@
 					>
 					<File
 						RelativePath=".\TestFiles\Themes\ThemeTestTwo\theme.rc"
+						FileType="5"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCResourceCompilerTool"
+							/>
+						</FileConfiguration>
+					</File>
+				</Filter>
+				<Filter
+					Name="ThemeValidate"
+					>
+					<File
+						RelativePath=".\TestFiles\Themes\ThemeValidate\theme.rc"
 						FileType="5"
 						>
 						<FileConfiguration

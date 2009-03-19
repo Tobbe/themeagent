@@ -114,7 +114,7 @@ SUITE(ThemeList)
 	TEST(Constructor)
 	{
 		ThemeList tl("TestFiles\\Themes");
-		CHECK(tl.size() == 3);
-		CHECK(tl[1].getName() == "Theme - TestTwo");
+		CHECK(tl.size() == 5);
+		CHECK(tl[2].getName() == "Theme - TestTwo");
 	}
 }

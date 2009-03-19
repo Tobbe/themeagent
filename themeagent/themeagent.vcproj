@@ -220,6 +220,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ThemeValidator.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\unzip.cpp"
 				>
 				<FileConfiguration
@@ -291,6 +295,10 @@
 			</File>
 			<File
 				RelativePath=".\ThemeList.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ThemeValidator.h"
 				>
 			</File>
 			<File
