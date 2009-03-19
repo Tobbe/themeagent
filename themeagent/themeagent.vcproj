@@ -212,6 +212,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ThemeInstaller.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ThemeList.cpp"
 				>
 			</File>
@@ -279,6 +283,10 @@
 			</File>
 			<File
 				RelativePath=".\Theme.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ThemeInstaller.h"
 				>
 			</File>
 			<File

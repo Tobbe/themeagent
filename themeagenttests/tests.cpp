@@ -9,6 +9,7 @@
 #include "URLDownloadCallback.cpp"
 #include "ModuleManager.cpp"
 #include "unzip.cpp"
+#include "ThemeInstaller.cpp"
 #include <UnitTest++.h>
 
 int main()

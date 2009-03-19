@@ -215,6 +215,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\themeinstallertests.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\themelisttests.cpp"
 				>
 			</File>
