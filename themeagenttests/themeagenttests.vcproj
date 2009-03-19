@@ -290,6 +290,30 @@
 			<Filter
 				Name="Themes"
 				>
+				<File
+					RelativePath=".\TestFiles\Themes\ArchivedTheme.lsz"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\TestFiles\Themes\Rock.Steady.lsz"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+						/>
+					</FileConfiguration>
+				</File>
 				<Filter
 					Name="ThemeMissingModule"
 					>
