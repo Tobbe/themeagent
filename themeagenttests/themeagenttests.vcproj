@@ -223,6 +223,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\themesettertests.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\themetests.cpp"
 				>
 			</File>

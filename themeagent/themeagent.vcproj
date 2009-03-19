@@ -220,6 +220,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ThemeSetter.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ThemeValidator.cpp"
 				>
 			</File>
@@ -295,6 +299,10 @@
 			</File>
 			<File
 				RelativePath=".\ThemeList.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ThemeSetter.h"
 				>
 			</File>
 			<File

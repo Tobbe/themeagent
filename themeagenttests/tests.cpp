@@ -11,6 +11,7 @@
 #include "unzip.cpp"
 #include "ThemeInstaller.cpp"
 #include "ThemeValidator.cpp"
+#include "ThemeSetter.cpp"
 #include <UnitTest++.h>
 
 int main()
