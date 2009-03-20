@@ -224,7 +224,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ThemeValidator.cpp"
+				RelativePath=".\ThemeUsabilityAnalizer.cpp"
 				>
 			</File>
 			<File
@@ -306,7 +306,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ThemeValidator.h"
+				RelativePath=".\ThemeUsabilityAnalizer.h"
 				>
 			</File>
 			<File

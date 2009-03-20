@@ -1,10 +1,10 @@
-#ifndef THEME_VALIDATOR_H_
-#define THEME_VALIDATOR_H_
+#ifndef THEME_USABILITY_ANALIZER_H_
+#define THEME_USABILITY_ANALIZER_H_
 
 #include "Theme.h"
 #include "ModuleList.h"
 
-class ThemeValidator
+class ThemeUsabilityAnalizer
 {
 private:
 	ModuleList installedModules;
@@ -12,7 +12,7 @@ private:
 	bool checkOTSVersion(const Theme &theme) const;
 	bool checkModuleDependencies(const Theme &theme) const;
 public:
-	ThemeValidator(ModuleList installedModules);
+	ThemeUsabilityAnalizer(ModuleList installedModules);
 	bool validateTheme(const Theme &theme);
 };
 
