@@ -13,7 +13,7 @@ private:
 	bool checkModuleDependencies(const Theme &theme) const;
 public:
 	ThemeUsabilityAnalizer(ModuleList installedModules);
-	bool validateTheme(const Theme &theme);
+	bool themeIsUsable(const Theme &theme);
 };
 
 #endif

@@ -10,7 +10,7 @@
 #include "ModuleManager.cpp"
 #include "unzip.cpp"
 #include "ThemeInstaller.cpp"
-#include "ThemeValidator.cpp"
+#include "ThemeUsabilityAnalizer.cpp"
 #include "ThemeSetter.cpp"
 #include <UnitTest++.h>
 

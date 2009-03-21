@@ -231,7 +231,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\themevalidatortests.cpp"
+				RelativePath=".\themeusabilityanalizertests.cpp"
 				>
 			</File>
 		</Filter>
