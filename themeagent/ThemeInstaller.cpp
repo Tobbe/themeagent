@@ -36,3 +36,8 @@ bool ThemeInstaller::installTheme(string pathToThemeArchive)
 
 	return true;
 }
+
+void ThemeInstaller::update(const Observable *o)
+{
+	notifyObservers(this);
+}
