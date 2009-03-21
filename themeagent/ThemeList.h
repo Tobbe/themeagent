@@ -3,11 +3,12 @@
 
 #include "Theme.h"
 #include "NullTheme.h"
+#include "Observable.h"
 #include <vector>
 #include <string>
 #include <windows.h>
 
-class ThemeList
+class ThemeList : public Observable
 {
 private:
 	std::vector<Theme> themeList;

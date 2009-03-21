@@ -55,6 +55,8 @@ size_t ThemeList::addTheme(Theme t)
 {
 	vector<Theme>::iterator pos = themeList.insert(themeList.end(), t);
 
+	notifyObservers(this);
+
 	return pos - themeList.begin();
 }
 
