@@ -1,6 +1,9 @@
 #include "ThemeInstaller.h"
+#include "ThemeList.h"
 #include <UnitTest++.h>
 #include <windows.h>
+#include <string>
+#include <vector>
 
 using namespace std;
 
@@ -8,7 +11,8 @@ SUITE(ThemeInstaller)
 {
 	TEST(InstallTheme)
 	{
-		ThemeInstaller ti("TestFiles\\Themes");
+		ThemeInstaller ti("TestFiles\\Themes", "TestFiles\\Modules", "",
+			ThemeList("TestFiles\\Themes"), vector<string>());
 		CHECK(ti.installTheme("TestFiles\\Themes\\ArchivedTheme.lsz") == true);
 		CHECK(GetFileAttributes("TestFiles\\Themes\\ArchivedTheme\\theme.rc") != INVALID_FILE_ATTRIBUTES);
 

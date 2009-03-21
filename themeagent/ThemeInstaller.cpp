@@ -5,7 +5,12 @@
 
 using namespace std;
 
-ThemeInstaller::ThemeInstaller(string pathToThemesDir) : themesDir(pathToThemesDir)
+ThemeInstaller::ThemeInstaller(string pathToThemesDir, string modulesDir,
+	string nlmIniPath, ThemeList themeList,
+	vector<string> moduleDownloadSites) :
+	themesDir(pathToThemesDir), themeList(themeList),
+	moduleManager(modulesDir, nlmIniPath, moduleDownloadSites),
+	themeUsabilityAnalizer(moduleManager.getModuleList())
 {
 }
 
