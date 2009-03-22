@@ -1,4 +1,7 @@
 #include "ThemeInstaller.h"
+#include "Theme.h"
+#include "RCFile.h"
+#include "ModuleList.h"
 #include <windows.h>
 #include "unzip.h"
 #include <string>
@@ -17,7 +20,15 @@ ThemeInstaller::ThemeInstaller(string pathToThemesDir, string modulesDir,
 
 bool ThemeInstaller::installTheme(string pathToThemeArchive)
 {
-	if (!unzipTheme(pathToThemeArchive))
+	string themeDir = unzipTheme(pathToThemeArchive);
+	if (themeDir == "")
+	{
+		return false;
+	}
+
+	RCFile rc(themesDir + "\\" + themeDir + "\\theme.rc");
+	Theme theme(themesDir + "\\" + themeDir, rc);
+	if (!installModules(theme))
 	{
 		return false;
 	}
@@ -25,7 +36,27 @@ bool ThemeInstaller::installTheme(string pathToThemeArchive)
 	return true;
 }
 
-bool ThemeInstaller::unzipTheme(const string &pathToThemeArchive) const
+bool ThemeInstaller::installModules(const Theme &theme)
+{
+	ModuleList needed = theme.getNeededModules();
+	ModuleList existing = moduleManager.getModuleList();
+	bool instModOK = true;
+
+	for (ModuleList::const_iterator itr = needed.begin(); itr != needed.end(); ++itr)
+	{
+		if (!existing.contains(*itr))
+		{
+			if (!moduleManager.installModule(*itr))
+			{
+				instModOK = false;
+			}
+		}
+	}
+
+	return instModOK;
+}
+
+string ThemeInstaller::unzipTheme(const string &pathToThemeArchive) const
 {
 	ZIPENTRY ze;
 	HZIP hz = OpenZip(pathToThemeArchive.c_str(), NULL);
@@ -37,10 +68,11 @@ bool ThemeInstaller::unzipTheme(const string &pathToThemeArchive) const
 	{
 		CloseZip(hz);
 
-		return false;
+		return "";
 	}
 
-	SetUnzipBaseDir(hz, getUnzipDirectory(pathToThemeArchive).c_str());
+	string themeDir = getUnzipDirectory(pathToThemeArchive);
+	SetUnzipBaseDir(hz, themeDir.c_str());
 
 	for (size_t i = 0; i < numitems; ++i)
 	{
@@ -50,7 +82,7 @@ bool ThemeInstaller::unzipTheme(const string &pathToThemeArchive) const
 
 	CloseZip(hz);
 
-	return true;
+	return themeDir;
 }
 
 string ThemeInstaller::getUnzipDirectory(const string &pathToThemeArchive) const

@@ -69,6 +69,11 @@ ModuleList ModuleManager::getModuleList() const
 	return modules;
 }
 
+bool ModuleManager::installModule(const Module &module)
+{
+	return installModule(module.getName());
+}
+
 bool ModuleManager::installModule(const string &moduleName)
 {
 	if (modules.contains(moduleName))

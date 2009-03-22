@@ -2,6 +2,7 @@
 #define MODULE_MANAGER_H_
 
 #include "ModuleList.h"
+#include "Module.h"
 #include "FileDownloader.h"
 #include <string>
 #include <vector>
@@ -36,6 +37,7 @@ public:
 		const std::vector<std::string> &downloadSites);
 	ModuleList getModuleList() const;
 	bool installModule(const std::string &moduleName);
+	bool installModule(const Module &module);
 };
 
 #endif
