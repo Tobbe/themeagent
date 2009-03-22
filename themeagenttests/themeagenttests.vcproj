@@ -311,6 +311,30 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath=".\TestFiles\Themes\NoExtensionTheme"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\TestFiles\Themes\NoFolderTheme.lsz"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath=".\TestFiles\Themes\Rock.Steady.lsz"
 					>
 					<FileConfiguration

@@ -16,6 +16,9 @@ private:
 	ModuleManager moduleManager;
 	ThemeList themeList;
 	ThemeUsabilityAnalizer themeUsabilityAnalizer;
+	bool unzipTheme(const std::string &pathToThemeArchive) const;
+	std::string getUnzipDirectory(const std::string &pathToThemeArchive) const;
+	std::string findAvailableDir(const std::string &basePath) const;
 public:
 	ThemeInstaller(std::string pathToThemesDir, std::string modulesDir,
 		std::string nlmIniPath, ThemeList themeList,

@@ -13,6 +13,7 @@ SUITE(ThemeInstaller)
 	{
 		ThemeInstaller ti("TestFiles\\Themes", "TestFiles\\Modules", "",
 			ThemeList("TestFiles\\Themes"), vector<string>());
+
 		CHECK(ti.installTheme("TestFiles\\Themes\\ArchivedTheme.lsz") == true);
 		CHECK(GetFileAttributes("TestFiles\\Themes\\ArchivedTheme\\theme.rc") != INVALID_FILE_ATTRIBUTES);
 
@@ -36,5 +37,22 @@ SUITE(ThemeInstaller)
 		RemoveDirectory("TestFiles\\Themes\\Rock.Steady\\config");
 		RemoveDirectory("TestFiles\\Themes\\Rock.Steady\\images");
 		RemoveDirectory("TestFiles\\Themes\\Rock.Steady");
+
+		CHECK(ti.installTheme("TestFiles\\Themes\\NoFolderTheme.lsz") == true);
+		CHECK(GetFileAttributes("TestFiles\\Themes\\NoFolderTheme\\theme.rc") != INVALID_FILE_ATTRIBUTES);
+		CHECK(GetFileAttributes("TestFiles\\Themes\\NoFolderTheme\\readme.txt") != INVALID_FILE_ATTRIBUTES);
+
+		DeleteFile("TestFiles\\Themes\\NoFolderTheme\\theme.rc");
+		DeleteFile("TestFiles\\Themes\\NoFolderTheme\\readme.txt");
+		RemoveDirectory("TestFiles\\Themes\\NoFolderTheme");
+
+		CHECK(ti.installTheme("TestFiles\\Themes\\NoExtensionTheme") == true);
+		CHECK(GetFileAttributes("TestFiles\\Themes\\NoExtensionTheme (2)\\theme.rc") != INVALID_FILE_ATTRIBUTES);
+		CHECK(GetFileAttributes("TestFiles\\Themes\\NoExtensionTheme (2)\\docs\\readme_NoExtensionTheme.txt") != INVALID_FILE_ATTRIBUTES);
+
+		DeleteFile("TestFiles\\Themes\\NoExtensionTheme (2)\\theme.rc");
+		DeleteFile("TestFiles\\Themes\\NoExtensionTheme (2)\\docs\\readme_NoExtensionTheme.txt");
+		RemoveDirectory("TestFiles\\Themes\\NoExtensionTheme (2)\\docs");
+		RemoveDirectory("TestFiles\\Themes\\NoExtensionTheme (2)");
 	}
 }
