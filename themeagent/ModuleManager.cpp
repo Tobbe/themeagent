@@ -110,6 +110,11 @@ bool ModuleManager::downloadModule(const string &moduleName)
 		return true;
 	}
 
+	if (downloadSites.size() < 1)
+	{
+		return false;
+	}
+
 	string url = downloadSites[0] + moduleName + ".zip";
 
 	fileDownloader.downloadFile(url, path);
