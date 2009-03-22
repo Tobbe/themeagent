@@ -61,6 +61,14 @@ SUITE(ThemeInstaller)
 		DeleteFile("TestFiles\\Modules\\archive\\xTray-2.0.1.zip");
 		DeleteFile("TestFiles\\Modules\\archive\\clickonic-1.0.7.zip");
 
+		DeleteFile("TestFiles\\Modules\\docs\\clickonic-1.0.7.chm");
+		DeleteFile("TestFiles\\Modules\\docs\\lsxcommand-2.0.2.chm");
+		DeleteFile("TestFiles\\Modules\\docs\\xDesk-1.0.txt");
+		DeleteFile("TestFiles\\Modules\\docs\\xLabel-4.0.9.chm");
+		DeleteFile("TestFiles\\Modules\\docs\\xPopup-2.0.1.chm");
+		DeleteFile("TestFiles\\Modules\\docs\\xTaskbar-2.2.chm");
+		DeleteFile("TestFiles\\Modules\\docs\\xTray-2.0.1.chm");
+		DeleteFile("TestFiles\\Modules\\docs\\xPaintClass-1.0.txt");
 		DeleteFile("TestFiles\\Modules\\docs\\xStatsClass-1.0\\xStatsClass.htm");
 		DeleteFile("TestFiles\\Modules\\docs\\xStatsClass-1.0\\litestep_logo.png");
 		RemoveDirectory("TestFiles\\Modules\\docs\\xStatsClass-1.0");

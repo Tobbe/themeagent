@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <algorithm>
 #include "unzip.h"
 
 using namespace std;
@@ -172,34 +173,36 @@ void ModuleManager::fillUnzipVectors(const string &moduleName,
 	GetZipItem(hz, -1, &ze); // -1 gives overall information about the zipfile
 
 	int numitems = ze.index;
+	string fileName;
 
 	for (int zi = 0; zi < numitems; zi++)
 	{
 		// Fetch individual details e.g. the item's name
 		GetZipItem(hz, zi, &ze);
+		fileName = ze.name;
+		transform(fileName.begin(), fileName.end(), fileName.begin(), tolower);
 
-		string ext = PathFindExtension(ze.name);
+		string ext = PathFindExtension(fileName.c_str());
 
-		if (_stricmp(ext.c_str(), ".dll") == 0)
+		if (ext == ".dll")
 		{
 			dllFiles.push_back(make_pair(zi, string(ze.name)));
 		}
-		else if (strlen(ze.name) >= 6 &&
-			_stricmp(string(ze.name).substr(0, 5).c_str(), "docs/") == 0)
+		else if (strlen(ze.name) >= 6 && (fileName.substr(0, 5) == "docs/"))
 		{
 			docsFiles.push_back(make_pair(zi, string(ze.name).substr(5)));
-		}	
-		else if (_stricmp(ext.c_str(), ".png") == 0 ||
-			_stricmp(ext.c_str(), ".jpg") == 0 ||
-			_stricmp(ext.c_str(), ".gif") == 0 ||
-			_stricmp(ext.c_str(), ".htm") == 0 ||
-			_stricmp(ext.c_str(), ".html") == 0 ||
-			_stricmp(ext.c_str(), ".css") == 0 ||
-			_stricmp(ext.c_str(), ".rc") == 0 ||
-			_stricmp(ze.name, "readme.txt") == 0 ||
-			_stricmp(ze.name, "readme.chm") == 0 ||
-			_stricmp(ze.name, "history.txt") == 0 ||
-			_stricmp(ze.name, "changelog.txt") == 0 ||
+		}
+		else if (ext == ".png" ||
+			ext == ".jpg" ||
+			ext == ".gif" ||
+			ext == ".htm" ||
+			ext == ".html" ||
+			ext == ".css" ||
+			ext == ".rc" ||
+			ext == ".chm" ||
+			fileName.find("readme") != string::npos ||
+			fileName.find("history") != string::npos ||
+			fileName.find("changelog") != string::npos ||
 			_stricmp(ze.name, moduleTxt.c_str()) == 0 ||
 			_stricmp(ze.name, moduleChm.c_str()) == 0)
 		{
