@@ -96,6 +96,8 @@ bool ModuleManager::installModule(const string &moduleName)
 		return false;
 	}
 
+	modules.add(Module(moduleName));
+
 	return true;
 }
 

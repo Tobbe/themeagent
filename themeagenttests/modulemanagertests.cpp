@@ -134,6 +134,7 @@ SUITE(ModuleManager)
 		CopyFile("TestFiles\\NLM\\NetLoadModule.ini", "TestFiles\\NLM\\NetLoadModule2.ini", FALSE);
 
 		CHECK(mm.installModule("lslua-0.5"));
+		CHECK(mm.getModuleList().contains(Module("lslua-0.5")));
 
 		ifstream ifs("TestFiles\\NLM\\NetLoadModule2.ini");
 
