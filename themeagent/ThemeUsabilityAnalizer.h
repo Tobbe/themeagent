@@ -2,17 +2,17 @@
 #define THEME_USABILITY_ANALIZER_H_
 
 #include "Theme.h"
-#include "ModuleList.h"
+#include "ModuleManager.h"
 
 class ThemeUsabilityAnalizer
 {
 private:
-	ModuleList installedModules;
+	const ModuleManager &moduleManager;
 
 	bool checkOTSVersion(const Theme &theme) const;
 	bool checkModuleDependencies(const Theme &theme) const;
 public:
-	ThemeUsabilityAnalizer(ModuleList installedModules);
+	ThemeUsabilityAnalizer(const ModuleManager &moduleManager);
 	bool themeIsUsable(const Theme &theme);
 };
 

@@ -11,8 +11,11 @@ SUITE(ThemeInstaller)
 {
 	TEST(InstallTheme)
 	{
+		vector<string> dlSites;
+		dlSites.push_back("http://www.ls-themes.org/modules/download/");
+		dlSites.push_back("http://shellfront.org/modules/");
 		ThemeInstaller ti("TestFiles\\Themes", "TestFiles\\Modules", "",
-			ThemeList("TestFiles\\Themes"), vector<string>());
+			ThemeList("TestFiles\\Themes"), dlSites);
 
 		CHECK(ti.installTheme("TestFiles\\Themes\\ArchivedTheme.lsz") == true);
 		CHECK(GetFileAttributes("TestFiles\\Themes\\ArchivedTheme\\theme.rc") != INVALID_FILE_ATTRIBUTES);
@@ -37,6 +40,30 @@ SUITE(ThemeInstaller)
 		RemoveDirectory("TestFiles\\Themes\\Rock.Steady\\config");
 		RemoveDirectory("TestFiles\\Themes\\Rock.Steady\\images");
 		RemoveDirectory("TestFiles\\Themes\\Rock.Steady");
+
+		DeleteFile("TestFiles\\Modules\\lsxcommand-2.0.2.dll");
+		DeleteFile("TestFiles\\Modules\\xDesk-1.0.dll");
+		DeleteFile("TestFiles\\Modules\\xLabel-4.0.9.dll");
+		DeleteFile("TestFiles\\Modules\\xPaintClass-1.0.dll");
+		DeleteFile("TestFiles\\Modules\\xPopup-2.0.1.dll");
+		DeleteFile("TestFiles\\Modules\\xStatsClass-1.0.dll");
+		DeleteFile("TestFiles\\Modules\\xTaskbar-2.2.dll");
+		DeleteFile("TestFiles\\Modules\\xTray-2.0.1.dll");
+		DeleteFile("TestFiles\\Modules\\clickonic-1.0.7.dll");
+
+		DeleteFile("TestFiles\\Modules\\archive\\lsxcommand-2.0.2.zip");
+		DeleteFile("TestFiles\\Modules\\archive\\xDesk-1.0.zip");
+		DeleteFile("TestFiles\\Modules\\archive\\xLabel-4.0.9.zip");
+		DeleteFile("TestFiles\\Modules\\archive\\xPaintClass-1.0.zip");
+		DeleteFile("TestFiles\\Modules\\archive\\xPopup-2.0.1.zip");
+		DeleteFile("TestFiles\\Modules\\archive\\xStatsClass-1.0.zip");
+		DeleteFile("TestFiles\\Modules\\archive\\xTaskbar-2.2.zip");
+		DeleteFile("TestFiles\\Modules\\archive\\xTray-2.0.1.zip");
+		DeleteFile("TestFiles\\Modules\\archive\\clickonic-1.0.7.zip");
+
+		DeleteFile("TestFiles\\Modules\\docs\\xStatsClass-1.0\\xStatsClass.htm");
+		DeleteFile("TestFiles\\Modules\\docs\\xStatsClass-1.0\\litestep_logo.png");
+		RemoveDirectory("TestFiles\\Modules\\docs\\xStatsClass-1.0");
 
 		CHECK(ti.installTheme("TestFiles\\Themes\\NoFolderTheme.lsz") == true);
 		CHECK(GetFileAttributes("TestFiles\\Themes\\NoFolderTheme\\theme.rc") != INVALID_FILE_ATTRIBUTES);

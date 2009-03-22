@@ -14,7 +14,7 @@ ThemeInstaller::ThemeInstaller(string pathToThemesDir, string modulesDir,
 	vector<string> moduleDownloadSites) :
 	themesDir(pathToThemesDir), themeList(themeList),
 	moduleManager(modulesDir, nlmIniPath, moduleDownloadSites),
-	themeUsabilityAnalizer(moduleManager.getModuleList())
+	themeUsabilityAnalizer(moduleManager)
 {
 }
 
@@ -33,7 +33,7 @@ bool ThemeInstaller::installTheme(string pathToThemeArchive)
 		return false;
 	}
 
-	return true;
+	return themeUsabilityAnalizer.themeIsUsable(theme);
 }
 
 bool ThemeInstaller::installModules(const Theme &theme)
@@ -71,8 +71,8 @@ string ThemeInstaller::unzipTheme(const string &pathToThemeArchive) const
 		return "";
 	}
 
-	string themeDir = getUnzipDirectory(pathToThemeArchive);
-	SetUnzipBaseDir(hz, themeDir.c_str());
+	string unzipDir = getUnzipDirectory(pathToThemeArchive);
+	SetUnzipBaseDir(hz, unzipDir.c_str());
 
 	for (size_t i = 0; i < numitems; ++i)
 	{
@@ -82,7 +82,33 @@ string ThemeInstaller::unzipTheme(const string &pathToThemeArchive) const
 
 	CloseZip(hz);
 
-	return themeDir;
+	return getThemeDir(pathToThemeArchive, unzipDir);
+}
+
+string ThemeInstaller::getThemeDir(const string &pathToThemeArchive,
+	const string &unzipDirectory) const
+{
+	ZIPENTRY ze;
+	HZIP hz = OpenZip(pathToThemeArchive.c_str(), NULL);
+
+	GetZipItem(hz, 0, &ze); // fetch individual details e.g. the item's name.
+	string firstItemName = ze.name;
+	string path = themesDir + "\\" + firstItemName + "\\theme.rc";
+
+	if (GetFileAttributes(path.c_str()) != INVALID_FILE_ATTRIBUTES)
+	{
+		return firstItemName.substr(0, firstItemName.length() - 1);
+	}
+
+	path = unzipDirectory + "\\theme.rc";
+
+	if (GetFileAttributes(path.c_str()) != INVALID_FILE_ATTRIBUTES)
+	{
+		size_t slashIndex = unzipDirectory.find_last_of("\\/");
+		return unzipDirectory.substr(slashIndex + 1, unzipDirectory.length() - slashIndex);
+	}
+
+	return "";
 }
 
 string ThemeInstaller::getUnzipDirectory(const string &pathToThemeArchive) const

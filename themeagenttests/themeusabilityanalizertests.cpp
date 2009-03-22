@@ -11,7 +11,7 @@ SUITE(ThemeUsabilityAnalizer)
 	TEST(ThemeIsUsable)
 	{
 		ModuleManager mm("TestFiles\\Modules", "", vector<string>());
-		ThemeUsabilityAnalizer tv(mm.getModuleList());
+		ThemeUsabilityAnalizer tv(mm);
 
 		RCFile rc("TestFiles\\Themes\\ThemeTestOne\\theme.rc");
 		Theme t("TestFiles\\Themes\\ThemeTestOne", rc);

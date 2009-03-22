@@ -18,6 +18,7 @@ private:
 	ThemeUsabilityAnalizer themeUsabilityAnalizer;
 	bool installModules(const Theme &theme);
 	std::string unzipTheme(const std::string &pathToThemeArchive) const;
+	std::string getThemeDir(const std::string &pathToThemeArchive, const std::string &unzipDirectory) const;
 	std::string getUnzipDirectory(const std::string &pathToThemeArchive) const;
 	std::string findAvailableDir(const std::string &basePath) const;
 public:

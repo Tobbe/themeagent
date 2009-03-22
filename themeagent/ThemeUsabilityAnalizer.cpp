@@ -4,7 +4,7 @@
 
 using namespace std;
 
-ThemeUsabilityAnalizer::ThemeUsabilityAnalizer(ModuleList installedModules) : installedModules(installedModules)
+ThemeUsabilityAnalizer::ThemeUsabilityAnalizer(const ModuleManager &moduleManager) : moduleManager(moduleManager)
 {
 }
 
@@ -21,11 +21,12 @@ bool ThemeUsabilityAnalizer::checkOTSVersion(const Theme &theme) const
 
 bool ThemeUsabilityAnalizer::checkModuleDependencies(const Theme &theme) const
 {
-	ModuleList ml = theme.getNeededModules();
+	ModuleList needed = theme.getNeededModules();
+	ModuleList existing = moduleManager.getModuleList();
 
-	for (ModuleList::const_iterator itr = ml.begin(); itr != ml.end(); ++itr)
+	for (ModuleList::const_iterator itr = needed.begin(); itr != needed.end(); ++itr)
 	{
-		if (!installedModules.contains(*itr))
+		if (!existing.contains(*itr))
 		{
 			return false;
 		}
