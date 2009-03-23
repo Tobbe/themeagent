@@ -92,13 +92,14 @@ SUITE(ModuleManager)
 		DeleteFile("TestFiles\\Modules\\docs\\one-0.7.html");
 		DeleteFile("TestFiles\\Modules\\archive\\one-0.7.zip");
 
-		// should fail because of "wrong" capitalization of the file name
-		CHECK(mm.installModule("lockPC-1.0") == false);
-
+		dlSites.clear();
+		for (int i = 0; i < 10; ++i)
+		{
+			dlSites.push_back("http://modules.does-not-exist.com/here/");
+		}
 		dlSites.push_back("http://www.ls-themes.org/modules/download/");
 		ModuleManager mm2("TestFiles\\Modules", "TestFiles\\NLM\\NetLoadModule.ini", dlSites);
 
-		// should try ls-themes if it isn't found at shellfront
 		CHECK(mm2.installModule("lockPC-1.0") == true);
 
 		DeleteFile("TestFiles\\Modules\\lockPC-1.0.dll");

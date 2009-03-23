@@ -14,6 +14,7 @@ ModuleManager::ModuleManager(const string &modulesDir, const string &nlmIni,
 	this->modulesDir = modulesDir;
 	this->nlmIni = nlmIni;
 	this->downloadSites = downloadSites;
+	random_shuffle(this->downloadSites.begin(), this->downloadSites.end());
 
 	findModulesInModulesDir();
 }
