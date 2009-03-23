@@ -111,18 +111,18 @@ bool ModuleManager::downloadModule(const string &moduleName)
 		return true;
 	}
 
-	if (downloadSites.size() < 1)
+	size_t siteIndex = 0;
+	while (!fileExists(path))
 	{
-		return false;
-	}
+		if (siteIndex >= downloadSites.size())
+		{
+			return false;
+		}
 
-	string url = downloadSites[0] + moduleName + ".zip";
+		string url = downloadSites[siteIndex] + moduleName + ".zip";
+		siteIndex++;
 
-	fileDownloader.downloadFile(url, path);
-
-	if (!fileExists(path))
-	{
-		return false;
+		fileDownloader.downloadFile(url, path);
 	}
 
 	return true;
