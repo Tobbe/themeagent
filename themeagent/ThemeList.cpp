@@ -2,6 +2,8 @@
 #include <string>
 #include <fstream>
 #include <vector>
+#include <algorithm>
+#include <functional>
 
 using namespace std;
 
@@ -58,6 +60,28 @@ size_t ThemeList::addTheme(Theme t)
 	notifyObservers(this);
 
 	return pos - themeList.begin();
+}
+
+bool ThemeList::removeTheme(const Theme &t)
+{
+	struct comp : public binary_function<Theme, Theme, bool>
+	{
+		bool operator() (const Theme &lhs, const Theme &rhs) const
+		{
+			return lhs.getName() == rhs.getName();
+		}
+	};
+
+	vector<Theme>::iterator pos = find_if(themeList.begin(), themeList.end(), bind1st(comp(), t));
+
+	if (pos != themeList.end())
+	{
+		themeList.erase(pos);
+		notifyObservers(this);
+		return true;
+	}
+
+	return false;
 }
 
 Theme &ThemeList::operator[](size_t index)

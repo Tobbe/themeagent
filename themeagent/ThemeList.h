@@ -19,6 +19,7 @@ private:
 public:
 	ThemeList(std::string themesDir);
 	size_t addTheme(Theme t);
+	bool removeTheme(const Theme &t);
 	void writeToFile(std::string path) const;
 	size_t size() const;
 	const Theme &operator[](size_t index) const;

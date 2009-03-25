@@ -57,6 +57,40 @@ SUITE(ThemeList)
 		CHECK(tl[index].getName() == "Test6");
 	}
 
+	TEST(RemoveTheme)
+	{
+		ThemeList tl("");
+		RCFile rc("");
+		size_t index;
+
+		tl.addTheme(Theme("Test1", rc));
+		tl.addTheme(Theme("Test2", rc));
+		tl.addTheme(Theme("Test3", rc));
+		tl.addTheme(Theme("Test4", rc));
+		tl.addTheme(Theme("Test5", rc));
+		tl.addTheme(Theme("Test6", rc));
+
+		CHECK(tl.size() == 6);
+
+		CHECK(tl.removeTheme(Theme("Test3", rc)) == true);
+		CHECK(tl.removeTheme(Theme("Test3", rc)) == false);
+
+		CHECK(tl.size() == 5);
+
+		CHECK(tl.removeTheme(Theme("Test1", rc)) == true);
+		CHECK(tl.removeTheme(Theme("Test2", rc)) == true);
+		CHECK(tl.removeTheme(Theme("Test4", rc)) == true);
+		CHECK(tl.removeTheme(Theme("Test5", rc)) == true);
+		CHECK(tl.removeTheme(Theme("Test5", rc)) == false);
+		CHECK(tl.removeTheme(Theme("Test6", rc)) == true);
+
+		CHECK(tl.size() == 0);
+
+		CHECK(tl.removeTheme(Theme("Test1", rc)) == false);
+
+		CHECK(tl.size() == 0);
+	}
+
 	TEST(WriteToFile)
 	{
 		string line;
