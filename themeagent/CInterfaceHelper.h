@@ -11,16 +11,19 @@ class CInterfaceHelper : public Observer
 private:
 	ThemeInstaller *ti;
 	ThemeList *tl;
+	int actThemeIndex;
 	void (__stdcall *tlCallback)(const char *name, int index);
+	void (__stdcall *atCallback)(int index);
 public:
 	CInterfaceHelper();
 	~CInterfaceHelper();
 	void update(const Observable *o);
 	void setThemeListCallback(void (__stdcall *func)(const char *name, int index));
 	void forceThemeListUpdate();
-	void setTheme(int index);
-	void getThemeDetails(int index, void (__stdcall *func)(char *themeName,
-		char *themeAuthor, char *themeVersion, char *themePreview));
+	void setActiveTheme(int index);
+	void setActiveThemeCallback(void (__stdcall *func)(int index));
+	void getActiveThemeDetails(char *name, char *author, char *version, 
+		char *preview);
 };
 
 #endif

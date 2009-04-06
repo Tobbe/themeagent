@@ -3,6 +3,7 @@
 #include "ThemeInstaller.h"
 #include <string>
 #include <vector>
+#include <windows.h>
 
 using namespace std;
 
@@ -17,6 +18,7 @@ CInterfaceHelper::CInterfaceHelper()
 	dlSites.push_back("http://www.ls-themes.org/modules/download/");
 	tl = new ThemeList(themesDir);
 	ti = new ThemeInstaller(themesDir, modulesDir, nlmIniPath, *tl, dlSites);
+	actThemeIndex = 0;
 	tl->addObserver(this);
 }
 
@@ -40,6 +42,7 @@ void CInterfaceHelper::update(const Observable *o)
 void CInterfaceHelper::setThemeListCallback(void (__stdcall *func)(const char *, int))
 {
 	tlCallback = func;
+	update(NULL);
 }
 
 void CInterfaceHelper::forceThemeListUpdate()
@@ -47,10 +50,25 @@ void CInterfaceHelper::forceThemeListUpdate()
 	update(NULL);
 }
 
-void CInterfaceHelper::getThemeDetails(int index, void (__stdcall *func)(char *, char *, char *, char *))
+void CInterfaceHelper::getActiveThemeDetails(char *name, char *author, char *version, char *preview)
 {
+	Theme at = (*tl)[actThemeIndex];
+	strncpy_s(name, MAX_PATH, at.getName().c_str(), _TRUNCATE);
+	strncpy_s(author, MAX_PATH, at.getAuthor().c_str(), _TRUNCATE);
+	strncpy_s(version, MAX_PATH, at.getVersion().c_str(), _TRUNCATE);
+	strncpy_s(preview, MAX_PATH, at.getPreview().c_str(), _TRUNCATE);
 }
 
-void CInterfaceHelper::setTheme(int index)
+void CInterfaceHelper::setActiveTheme(int index)
 {
+	if (index >= 0 && static_cast<unsigned int>(index) < tl->size())
+	{
+		actThemeIndex = index;
+		atCallback(index);
+	}
+}
+
+void CInterfaceHelper::setActiveThemeCallback(void (__stdcall *func)(int index))
+{
+	atCallback = func;
 }
