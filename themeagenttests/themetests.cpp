@@ -102,12 +102,18 @@ SUITE(Theme)
 		RCFile rc2(themesPath + "\\ThemePreviewOne\\theme.rc");
 		Theme t2(themesPath + "\\ThemePreviewOne", rc2);
 
-		CHECK(t2.getPreview() == "preview.bmp");
+		// Can't use the full path, because themesPath is a relative path, and
+		// the path given by getPreview is not.
+		string previewEnd = t2.getPreview().substr(t2.getPreview().length() - 28);
+
+		CHECK(previewEnd == "\\ThemePreviewOne\\preview.bmp");
 
 		RCFile rc3(themesPath + "\\ThemePreviewTwo\\theme.rc");
 		Theme t3(themesPath + "\\ThemePreviewTwo", rc3);
 
-		CHECK(t3.getPreview() == "preview.png");
+		previewEnd = t3.getPreview().substr(t3.getPreview().length() - 28);
+
+		CHECK(previewEnd == "\\ThemePreviewTwo\\preview.png");
 	}
 
 	TEST(GetPath)

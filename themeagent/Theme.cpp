@@ -68,17 +68,17 @@ string Theme::parseVersion(const RCFile &rc) const
 
 string Theme::lookForPreview() const
 {
-	string preview("");
+	string preview;
 	string pngPath(path + "\\preview.png");
 	string bmpPath(path + "\\preview.bmp");
 
 	if (GetFileAttributes(pngPath.c_str()) != INVALID_FILE_ATTRIBUTES)
 	{
-		preview = "preview.png";
+		preview = pngPath;
 	}
 	else if (GetFileAttributes(bmpPath.c_str()) != INVALID_FILE_ATTRIBUTES)
 	{
-		preview = "preview.bmp";
+		preview = bmpPath;
 	}
 
 	return preview;
