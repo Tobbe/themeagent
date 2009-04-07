@@ -71,4 +71,5 @@ void CInterfaceHelper::setActiveTheme(int index)
 void CInterfaceHelper::setActiveThemeCallback(void (__stdcall *func)(int index))
 {
 	atCallback = func;
+	atCallback(actThemeIndex);
 }
