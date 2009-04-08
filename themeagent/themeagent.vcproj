@@ -223,6 +223,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ThemeListObserver.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ThemeSwitcher.cpp"
 				>
 			</File>
@@ -306,6 +310,10 @@
 			</File>
 			<File
 				RelativePath=".\ThemeList.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ThemeListObserver.h"
 				>
 			</File>
 			<File

@@ -19,7 +19,7 @@ private:
 public:
 	CInterfaceHelper();
 	~CInterfaceHelper();
-	void update(const Observable *o);
+	void updateThemeList();
 	void setThemeListCallback(void (__stdcall *func)(const char *name, int index));
 	void forceThemeListUpdate();
 	void setActiveTheme(int index);

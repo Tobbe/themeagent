@@ -31,7 +31,7 @@ CInterfaceHelper::~CInterfaceHelper()
 	delete ts;
 }
 
-void CInterfaceHelper::update(const Observable *o)
+void CInterfaceHelper::updateThemeList()
 {
 	if (tlCallback != NULL)
 	{
