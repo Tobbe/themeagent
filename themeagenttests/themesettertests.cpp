@@ -1,4 +1,5 @@
 #include "ThemeSetter.h"
+#include "ThemeList.h"
 #include <UnitTest++.h>
 #include <fstream>
 #include <windows.h>
@@ -66,5 +67,14 @@ SUITE(ThemeSetter)
 		fin.close();
 
 		DeleteFile("TestFiles\\Themes\\themeselect.rc");
+	}
+
+	TEST(SetNullTheme)
+	{
+		ThemeList tl("TestFiles\\Themes");
+		ThemeSetter ts("TestFiles\\Themes");
+
+		CHECK(ts.setTheme(tl[99]) == false);
+		CHECK(GetFileAttributes("TestFiles\\Themes\\themeselect.rc") == INVALID_FILE_ATTRIBUTES);
 	}
 }

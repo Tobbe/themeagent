@@ -10,6 +10,11 @@ ThemeSetter::ThemeSetter(string themesDir) : themesDir(themesDir)
 
 bool ThemeSetter::setTheme(const Theme &theme) const
 {
+	if (theme.getFolder() == "")
+	{
+		return false;
+	}
+
 	string path = themesDir + "\\themeselect.rc";
 	ofstream fout(path.c_str(), std::ios_base::trunc);
 
