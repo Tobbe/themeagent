@@ -1,4 +1,5 @@
 #include "ThemeInstaller.h"
+#include "ThemeList.h"
 #include "Theme.h"
 #include "RCFile.h"
 #include "ModuleList.h"
@@ -10,7 +11,7 @@
 using namespace std;
 
 ThemeInstaller::ThemeInstaller(string pathToThemesDir, string modulesDir,
-	string nlmIniPath, ThemeList themeList,
+	string nlmIniPath, ThemeList *themeList,
 	vector<string> moduleDownloadSites) :
 	themesDir(pathToThemesDir), themeList(themeList),
 	moduleManager(modulesDir, nlmIniPath, moduleDownloadSites),
@@ -28,7 +29,12 @@ bool ThemeInstaller::installTheme(string pathToThemeArchive)
 
 	RCFile rc(themesDir + "\\" + themeDir + "\\theme.rc");
 	Theme theme(themesDir + "\\" + themeDir, rc);
-	if (!installModules(theme))
+
+	bool instMods = installModules(theme);
+
+	themeList->addTheme(theme);
+
+	if (!instMods)
 	{
 		return false;
 	}

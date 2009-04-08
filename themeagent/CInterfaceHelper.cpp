@@ -20,7 +20,7 @@ CInterfaceHelper::CInterfaceHelper()
 	dlSites.push_back("http://www.ls-themes.org/modules/download/");
 	tl = new ThemeList(themesDir);
 	tlo = new ThemeListObserver(this, tl);
-	ti = new ThemeInstaller(themesDir, modulesDir, nlmIniPath, *tl, dlSites);
+	ti = new ThemeInstaller(themesDir, modulesDir, nlmIniPath, tl, dlSites);
 	ts = new ThemeSwitcher(themesDir);
 	actThemeIndex = 0;
 }

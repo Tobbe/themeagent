@@ -14,8 +14,9 @@ SUITE(ThemeInstaller)
 		vector<string> dlSites;
 		dlSites.push_back("http://www.ls-themes.org/modules/download/");
 		dlSites.push_back("http://shellfront.org/modules/");
-		ThemeInstaller ti("TestFiles\\Themes", "TestFiles\\Modules", "",
-			ThemeList("TestFiles\\Themes"), dlSites);
+		ThemeList tl("TestFiles\\Themes");
+		ThemeInstaller ti("TestFiles\\Themes", "TestFiles\\Modules", "", &tl,
+			dlSites);
 
 		CHECK(ti.installTheme("TestFiles\\Themes\\ArchivedTheme.lsz") == true);
 		CHECK(GetFileAttributes("TestFiles\\Themes\\ArchivedTheme\\theme.rc") != INVALID_FILE_ATTRIBUTES);
@@ -89,5 +90,33 @@ SUITE(ThemeInstaller)
 		DeleteFile("TestFiles\\Themes\\NoExtensionTheme (2)\\docs\\readme_NoExtensionTheme.txt");
 		RemoveDirectory("TestFiles\\Themes\\NoExtensionTheme (2)\\docs");
 		RemoveDirectory("TestFiles\\Themes\\NoExtensionTheme (2)");
+	}
+
+	TEST(UpdateThemeList)
+	{
+		vector<string> dlSites;
+		dlSites.push_back("http://www.ls-themes.org/modules/download/");
+		dlSites.push_back("http://shellfront.org/modules/");
+		ThemeList tl("TestFiles\\Themes");
+		ThemeInstaller ti("TestFiles\\Themes", "TestFiles\\Modules", "", &tl,
+			dlSites);
+
+		size_t size = tl.size();
+		CHECK(ti.installTheme("TestFiles\\Themes\\ArchivedTheme.lsz") == true);
+		CHECK(tl.size() == size + 1);
+
+		int found = 0;
+		for (size_t i = 0; i < tl.size(); ++i)
+		{
+			if (tl[i].getName() == "ArchivedTheme")
+			{
+				++found;
+			}
+		}
+
+		CHECK(found == 1);
+
+		DeleteFile("TestFiles\\Themes\\ArchivedTheme\\theme.rc");
+		RemoveDirectory("TestFiles\\Themes\\ArchivedTheme");
 	}
 }
