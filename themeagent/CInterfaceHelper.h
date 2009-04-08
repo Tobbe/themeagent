@@ -5,6 +5,7 @@
 
 class ThemeInstaller;
 class ThemeList;
+class ThemeListObserver;
 class ThemeSwitcher;
 
 class CInterfaceHelper
@@ -13,6 +14,7 @@ private:
 	ThemeInstaller *ti;
 	ThemeList *tl;
 	ThemeSwitcher *ts;
+	ThemeListObserver *tlo;
 	int actThemeIndex;
 	void (__stdcall *tlCallback)(const char *name, int index);
 	void (__stdcall *atCallback)(int index);

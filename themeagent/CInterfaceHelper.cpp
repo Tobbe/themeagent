@@ -1,5 +1,6 @@
 #include "CInterfaceHelper.h"
 #include "ThemeList.h"
+#include "ThemeListObserver.h"
 #include "ThemeInstaller.h"
 #include "ThemeSwitcher.h"
 #include <string>
@@ -18,6 +19,7 @@ CInterfaceHelper::CInterfaceHelper()
 	dlSites.push_back("http://modules.shellfront.org");
 	dlSites.push_back("http://www.ls-themes.org/modules/download/");
 	tl = new ThemeList(themesDir);
+	tlo = new ThemeListObserver(this, tl);
 	ti = new ThemeInstaller(themesDir, modulesDir, nlmIniPath, *tl, dlSites);
 	ts = new ThemeSwitcher(themesDir);
 	actThemeIndex = 0;
@@ -25,6 +27,7 @@ CInterfaceHelper::CInterfaceHelper()
 
 CInterfaceHelper::~CInterfaceHelper()
 {
+	delete tlo;
 	delete tl;
 	delete ti;
 	delete ts;
