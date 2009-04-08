@@ -37,3 +37,8 @@ extern "C" __declspec(dllexport) void switchTheme()
 {
 	cih.switchTheme();
 }
+
+extern "C" __declspec(dllexport) void installTheme(const char *pathToArchive)
+{
+	cih.installTheme(pathToArchive);
+}

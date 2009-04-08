@@ -28,6 +28,7 @@ public:
 		char *preview);
 	void switchTheme();
 	void switchTheme(int index);
+	void installTheme(const char *pathToArchive);
 };
 
 #endif

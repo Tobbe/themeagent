@@ -85,3 +85,8 @@ void CInterfaceHelper::switchTheme(int index)
 {
 	ts->switchTheme((*tl)[index]);
 }
+
+void CInterfaceHelper::installTheme(const char *pathToArchive)
+{
+	ti->installTheme(pathToArchive);
+}
