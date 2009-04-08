@@ -27,3 +27,13 @@ extern "C" __declspec(dllexport) void getActiveThemeDetails(char *name, char *au
 {
 	cih.getActiveThemeDetails(name, author, version, preview);
 }
+
+extern "C" __declspec(dllexport) void switchThemeWithIndex(int index)
+{
+	cih.switchTheme(index);
+}
+
+extern "C" __declspec(dllexport) void switchTheme()
+{
+	cih.switchTheme();
+}
