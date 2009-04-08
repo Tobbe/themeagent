@@ -7,7 +7,7 @@ class ThemeInstaller;
 class ThemeList;
 class ThemeSwitcher;
 
-class CInterfaceHelper : public Observer
+class CInterfaceHelper
 {
 private:
 	ThemeInstaller *ti;

@@ -21,7 +21,6 @@ CInterfaceHelper::CInterfaceHelper()
 	ti = new ThemeInstaller(themesDir, modulesDir, nlmIniPath, *tl, dlSites);
 	ts = new ThemeSwitcher(themesDir);
 	actThemeIndex = 0;
-	tl->addObserver(this);
 }
 
 CInterfaceHelper::~CInterfaceHelper()
@@ -45,12 +44,12 @@ void CInterfaceHelper::updateThemeList()
 void CInterfaceHelper::setThemeListCallback(void (__stdcall *func)(const char *, int))
 {
 	tlCallback = func;
-	update(NULL);
+	updateThemeList();
 }
 
 void CInterfaceHelper::forceThemeListUpdate()
 {
-	update(NULL);
+	updateThemeList();
 }
 
 void CInterfaceHelper::getActiveThemeDetails(char *name, char *author, char *version, char *preview)
