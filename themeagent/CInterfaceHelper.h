@@ -5,12 +5,14 @@
 
 class ThemeInstaller;
 class ThemeList;
+class ThemeSetter;
 
 class CInterfaceHelper : public Observer
 {
 private:
 	ThemeInstaller *ti;
 	ThemeList *tl;
+	ThemeSetter *ts;
 	int actThemeIndex;
 	void (__stdcall *tlCallback)(const char *name, int index);
 	void (__stdcall *atCallback)(int index);
@@ -24,6 +26,8 @@ public:
 	void setActiveThemeCallback(void (__stdcall *func)(int index));
 	void getActiveThemeDetails(char *name, char *author, char *version, 
 		char *preview);
+	void setTheme();
+	void setTheme(int index);
 };
 
 #endif
