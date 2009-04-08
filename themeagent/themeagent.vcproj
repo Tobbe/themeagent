@@ -223,7 +223,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ThemeSetter.cpp"
+				RelativePath=".\ThemeSwitcher.cpp"
 				>
 			</File>
 			<File
@@ -309,7 +309,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ThemeSetter.h"
+				RelativePath=".\ThemeSwitcher.h"
 				>
 			</File>
 			<File

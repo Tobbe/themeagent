@@ -1,7 +1,7 @@
 #include "CInterfaceHelper.h"
 #include "ThemeList.h"
 #include "ThemeInstaller.h"
-#include "ThemeSetter.h"
+#include "ThemeSwitcher.h"
 #include <string>
 #include <vector>
 #include <windows.h>
@@ -19,7 +19,7 @@ CInterfaceHelper::CInterfaceHelper()
 	dlSites.push_back("http://www.ls-themes.org/modules/download/");
 	tl = new ThemeList(themesDir);
 	ti = new ThemeInstaller(themesDir, modulesDir, nlmIniPath, *tl, dlSites);
-	ts = new ThemeSetter(themesDir);
+	ts = new ThemeSwitcher(themesDir);
 	actThemeIndex = 0;
 	tl->addObserver(this);
 }
@@ -77,12 +77,12 @@ void CInterfaceHelper::setActiveThemeCallback(void (__stdcall *func)(int index))
 	atCallback(actThemeIndex);
 }
 
-void CInterfaceHelper::setTheme()
+void CInterfaceHelper::switchTheme()
 {
-	setTheme(actThemeIndex);
+	switchTheme(actThemeIndex);
 }
 
-void CInterfaceHelper::setTheme(int index)
+void CInterfaceHelper::switchTheme(int index)
 {
-	ts->setTheme((*tl)[index]);
+	ts->switchTheme((*tl)[index]);
 }

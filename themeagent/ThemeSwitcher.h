@@ -4,13 +4,13 @@
 #include "Theme.h"
 #include <string>
 
-class ThemeSetter
+class ThemeSwitcher
 {
 private:
 	std::string themesDir;
 public:
-	ThemeSetter(std::string themesDir);
-	bool setTheme(const Theme &theme) const;
+	ThemeSwitcher(std::string themesDir);
+	bool switchTheme(const Theme &theme) const;
 };
 
 #endif

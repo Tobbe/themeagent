@@ -1,14 +1,14 @@
-#include "ThemeSetter.h"
+#include "ThemeSwitcher.h"
 #include <string>
 #include <fstream>
 
 using namespace std;
 
-ThemeSetter::ThemeSetter(string themesDir) : themesDir(themesDir)
+ThemeSwitcher::ThemeSwitcher(string themesDir) : themesDir(themesDir)
 {
 }
 
-bool ThemeSetter::setTheme(const Theme &theme) const
+bool ThemeSwitcher::switchTheme(const Theme &theme) const
 {
 	if (theme.getFolder() == "")
 	{
