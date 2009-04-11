@@ -17,8 +17,11 @@ private:
 	ModuleManager moduleManager;
 	ThemeList *themeList;
 	ThemeUsabilityAnalizer themeUsabilityAnalizer;
+	int progress;
+	std::string currentFile;
+	bool installationDone;
 	bool installModules(const Theme &theme);
-	std::string unzipTheme(const std::string &pathToThemeArchive) const;
+	std::string unzipTheme(const std::string &pathToThemeArchive);
 	std::string getThemeDir(const std::string &pathToThemeArchive, const std::string &unzipDirectory) const;
 	std::string getUnzipDirectory(const std::string &pathToThemeArchive) const;
 	std::string findAvailableDir(const std::string &basePath) const;
@@ -27,6 +30,9 @@ public:
 		std::string nlmIniPath, ThemeList *themeList,
 		std::vector<std::string> moduleDownloadSites);
 	bool installTheme(std::string pathToThemeArchive);
+	int getProgress();
+	std::string getCurrentFile();
+	bool getInstallationDone();
 	virtual void update(const Observable *o);
 };
 

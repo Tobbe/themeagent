@@ -21,9 +21,15 @@ ThemeInstaller::ThemeInstaller(string pathToThemesDir, string modulesDir,
 
 bool ThemeInstaller::installTheme(string pathToThemeArchive)
 {
+	installationDone = false;
+	progress = 0;
+	currentFile = "";
+
 	string themeDir = unzipTheme(pathToThemeArchive);
 	if (themeDir == "")
 	{
+		installationDone = true;
+		notifyObservers(this);
 		return false;
 	}
 
@@ -36,9 +42,13 @@ bool ThemeInstaller::installTheme(string pathToThemeArchive)
 
 	if (!instMods)
 	{
+		installationDone = true;
+		notifyObservers(this);
 		return false;
 	}
 
+	installationDone = true;
+	notifyObservers(this);
 	return themeUsabilityAnalizer.themeIsUsable(theme);
 }
 
@@ -62,7 +72,7 @@ bool ThemeInstaller::installModules(const Theme &theme)
 	return instModOK;
 }
 
-string ThemeInstaller::unzipTheme(const string &pathToThemeArchive) const
+string ThemeInstaller::unzipTheme(const string &pathToThemeArchive)
 {
 	ZIPENTRY ze;
 	HZIP hz = OpenZip(pathToThemeArchive.c_str(), NULL);
@@ -74,6 +84,8 @@ string ThemeInstaller::unzipTheme(const string &pathToThemeArchive) const
 	{
 		CloseZip(hz);
 
+		progress = 100;
+		notifyObservers(this);
 		return "";
 	}
 
@@ -83,8 +95,14 @@ string ThemeInstaller::unzipTheme(const string &pathToThemeArchive) const
 	for (size_t i = 0; i < numitems; ++i)
 	{
 		GetZipItem(hz, i, &ze);
+		progress = (int)((i * 100.0) / numitems);
+		currentFile = ze.name;
+		notifyObservers(this);
 		UnzipItem(hz, i, ze.name);
 	}
+
+	progress = 100;
+	notifyObservers(this);
 
 	CloseZip(hz);
 
@@ -184,6 +202,21 @@ string ThemeInstaller::findAvailableDir(const string &basePath) const
 	}
 
 	return ostr.str();
+}
+
+int ThemeInstaller::getProgress()
+{
+	return progress;
+}
+
+string ThemeInstaller::getCurrentFile()
+{
+	return currentFile;
+}
+
+bool ThemeInstaller::getInstallationDone()
+{
+	return installationDone;
 }
 
 void ThemeInstaller::update(const Observable *o)

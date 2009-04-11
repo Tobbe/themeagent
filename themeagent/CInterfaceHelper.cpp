@@ -2,6 +2,7 @@
 #include "ThemeList.h"
 #include "ThemeListObserver.h"
 #include "ThemeInstaller.h"
+#include "ThemeInstallerObserver.h"
 #include "ThemeSwitcher.h"
 #include <string>
 #include <vector>
@@ -12,6 +13,7 @@ using namespace std;
 CInterfaceHelper::CInterfaceHelper()
 {
 	tlCallback = NULL;
+	tiCallback = NULL;
 	string themesDir = "C:\\Tobbe\\DevProjects\\C++\\themeagent\\themeagenttests\\TestFiles\\Themes";
 	string modulesDir = "C:\\Tobbe\\DevProjects\\C++\\themeagent\\themeagenttests\\TestFiles\\Modules";
 	string nlmIniPath = "C:\\Tobbe\\DevProjects\\C++\\themeagent\\themeagenttests\\TestFiles\\NLM\\NetLoadModule.ini";
@@ -21,6 +23,7 @@ CInterfaceHelper::CInterfaceHelper()
 	tl = new ThemeList(themesDir);
 	tlo = new ThemeListObserver(this, tl);
 	ti = new ThemeInstaller(themesDir, modulesDir, nlmIniPath, tl, dlSites);
+	tio = new ThemeInstallerObserver(this, ti);
 	ts = new ThemeSwitcher(themesDir);
 	actThemeIndex = 0;
 }
@@ -41,6 +44,14 @@ void CInterfaceHelper::updateThemeList()
 		{
 			tlCallback((*tl)[i].getName().c_str(), i);
 		}
+	}
+}
+
+void CInterfaceHelper::updateThemeInstaller()
+{
+	if (tiCallback != NULL)
+	{
+		tiCallback(ti->getProgress(), ti->getCurrentFile().c_str(), ti->getInstallationDone());
 	}
 }
 
@@ -92,4 +103,10 @@ void CInterfaceHelper::switchTheme(int index)
 void CInterfaceHelper::installTheme(const char *pathToArchive)
 {
 	ti->installTheme(pathToArchive);
+}
+
+void CInterfaceHelper::setThemeInstallerCallback(void (__stdcall *func)(int, const char *, bool))
+{
+	tiCallback = func;
+	tiCallback(ti->getProgress(), ti->getCurrentFile().c_str(), ti->getInstallationDone());
 }
