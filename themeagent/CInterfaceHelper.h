@@ -20,7 +20,10 @@ private:
 	int actThemeIndex;
 	void (__stdcall *tlCallback)(const char *name, int index);
 	void (__stdcall *atCallback)(int index);
-	void (__stdcall *tiCallback)(int progress, const char *filename, bool installationDone);
+	void (__stdcall *tiCallback)(int progress, const char *filename,
+		bool installationDone, unsigned int numModulesToInstall,
+		unsigned int curInstallingModule);
+
 public:
 	CInterfaceHelper();
 	~CInterfaceHelper();
@@ -35,7 +38,9 @@ public:
 	void switchTheme();
 	void switchTheme(int index);
 	void installTheme(const char *pathToArchive);
-	void setThemeInstallerCallback(void (__stdcall *func)(int progress, const char *filename, bool installationDone));
+	void setThemeInstallerCallback(void (__stdcall *func)(int progress,
+		const char *filename, bool installationDone,
+		unsigned int numModulesToInstall, unsigned int curInstallingModule));
 };
 
 #endif

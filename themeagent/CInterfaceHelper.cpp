@@ -51,7 +51,11 @@ void CInterfaceHelper::updateThemeInstaller()
 {
 	if (tiCallback != NULL)
 	{
-		tiCallback(ti->getProgress(), ti->getCurrentFile().c_str(), ti->getInstallationDone());
+		tiCallback(ti->getProgress(),
+			ti->getCurrentFile().c_str(),
+			ti->getInstallationDone(),
+			ti->getNumModulesToInstall(),
+			ti->getCurInstallingModule());
 	}
 }
 
@@ -105,8 +109,8 @@ void CInterfaceHelper::installTheme(const char *pathToArchive)
 	ti->installTheme(pathToArchive);
 }
 
-void CInterfaceHelper::setThemeInstallerCallback(void (__stdcall *func)(int, const char *, bool))
+void CInterfaceHelper::setThemeInstallerCallback(void (__stdcall *func)(int, const char *, bool, unsigned int, unsigned int))
 {
 	tiCallback = func;
-	tiCallback(ti->getProgress(), ti->getCurrentFile().c_str(), ti->getInstallationDone());
+	tiCallback(ti->getProgress(), ti->getCurrentFile().c_str(), ti->getInstallationDone(), ti->getNumModulesToInstall(), ti->getCurInstallingModule());
 }

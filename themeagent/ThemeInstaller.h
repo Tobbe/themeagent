@@ -20,6 +20,8 @@ private:
 	int progress;
 	std::string currentFile;
 	bool installationDone;
+	unsigned int numModulesToInstall;
+	unsigned int curInstallingModule;
 	bool installModules(const Theme &theme);
 	std::string unzipTheme(const std::string &pathToThemeArchive);
 	std::string getThemeDir(const std::string &pathToThemeArchive, const std::string &unzipDirectory) const;
@@ -33,6 +35,8 @@ public:
 	int getProgress();
 	std::string getCurrentFile();
 	bool getInstallationDone();
+	unsigned int getNumModulesToInstall() const;
+	unsigned int getCurInstallingModule() const;
 	virtual void update(const Observable *o);
 };
 

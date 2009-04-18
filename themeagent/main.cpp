@@ -43,7 +43,10 @@ extern "C" __declspec(dllexport) void installTheme(const char *pathToArchive)
 	cih.installTheme(pathToArchive);
 }
 
-extern "C" __declspec(dllexport) void setThemeInstallerCallback(void (__stdcall *func)(int progress, const char *currentFile, bool installationDone))
+extern "C" __declspec(dllexport) void setThemeInstallerCallback(
+	void (__stdcall *func)(int progress, const char *currentFile,
+	bool installationDone, unsigned int numModulesToInstall,
+	unsigned int curInstallingModule))
 {
 	cih.setThemeInstallerCallback(func);
 }

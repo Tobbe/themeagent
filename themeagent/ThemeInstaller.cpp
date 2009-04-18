@@ -24,6 +24,8 @@ bool ThemeInstaller::installTheme(string pathToThemeArchive)
 	installationDone = false;
 	progress = 0;
 	currentFile = "";
+	numModulesToInstall = 0;
+	curInstallingModule = 0;
 
 	string themeDir = unzipTheme(pathToThemeArchive);
 	if (themeDir == "")
@@ -56,18 +58,32 @@ bool ThemeInstaller::installModules(const Theme &theme)
 {
 	ModuleList needed = theme.getNeededModules();
 	ModuleList existing = moduleManager.getModuleList();
-	bool instModOK = true;
+	vector<Module> modsToInstall;
 
 	for (ModuleList::const_iterator itr = needed.begin(); itr != needed.end(); ++itr)
 	{
 		if (!existing.contains(*itr))
 		{
-			if (!moduleManager.installModule(*itr))
-			{
-				instModOK = false;
-			}
+			modsToInstall.push_back(*itr);
 		}
 	}
+
+	bool instModOK = true;
+	numModulesToInstall = modsToInstall.size();
+	curInstallingModule = 0;
+	notifyObservers(this);
+
+	for (size_t i = 0; i < modsToInstall.size(); ++i)
+	{
+		curInstallingModule = i + 1;
+		notifyObservers(this);
+
+		if (!moduleManager.installModule(modsToInstall[i]))
+		{
+			instModOK = false;
+		}
+	}
+
 
 	return instModOK;
 }
@@ -217,6 +233,16 @@ string ThemeInstaller::getCurrentFile()
 bool ThemeInstaller::getInstallationDone()
 {
 	return installationDone;
+}
+
+unsigned int ThemeInstaller::getNumModulesToInstall() const
+{
+	return numModulesToInstall;
+}
+
+unsigned int ThemeInstaller::getCurInstallingModule() const
+{
+	return curInstallingModule;
 }
 
 void ThemeInstaller::update(const Observable *o)
